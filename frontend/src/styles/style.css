@@ -392,9 +392,16 @@ li {
   font-size: 20px;
 }
 
-input[type=submit] {
+.submit-button {
+  height: 60px;
+  cursor: pointer;
+  color: #000;
+  background-color: #fe4119;
   font-size: 24px;
   font-weight: 600;
+}
+.submit-button:hover {
+  background: #fe6b4c;
 }
 
 body {
@@ -437,15 +444,6 @@ body {
   padding: 10px 20px;
   border: 2px solid #000;
   border-radius: 10px;
-}
-.connect-container .register-form .submit-button {
-  height: 60px;
-  cursor: pointer;
-  color: #000;
-  background-color: #fe4119;
-}
-.connect-container .register-form .submit-button:hover {
-  background: #fe6b4c;
 }
 
 .connect-change-form a {

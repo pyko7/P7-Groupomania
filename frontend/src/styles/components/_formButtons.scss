@@ -1,0 +1,12 @@
+.submit-button {
+  height: 60px;
+  cursor: pointer;
+  color: #000;
+  background-color: lighten($secondary-color, 5%);
+  font-size: 24px;
+  font-weight: 600;
+
+  &:hover {
+    background: lighten($secondary-color, 15%);
+  }
+}

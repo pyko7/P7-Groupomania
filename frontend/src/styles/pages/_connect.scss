@@ -1,64 +1,51 @@
 body {
-    width: 100%;
-    background-color: $main-bg-color;
+  width: 100%;
+  background-color: $main-bg-color;
 }
 
-#root{
-    width: 100%;
-    height: 100%;
+#root {
+  width: 100%;
+  height: 100%;
 }
 
 /*main section*/
-.connect-modal{
-    width: 100%;
-    height: 100vh;
-    @extend %flex-center;
+.connect-modal {
+  width: 100%;
+  height: 100vh;
+  @extend %flex-center;
 }
 
 /*Sign up container*/
 .connect-container {
-    width: 50%;
-    height: 700px;
-    padding: 25px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  width: 50%;
+  height: 700px;
+  padding: 25px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  background-color: $tertiary-color;
+  border-radius: 30px;
+
+  /*Sign up form*/
+  .register-form {
+    width: 55%;
+    @extend %flex-center;
     flex-direction: column;
-    background-color: $tertiary-color;
-    border-radius: 30px;
 
-
-
-    /*Sign up form*/
-    .register-form {
-        width: 55%;
-        @extend %flex-center;
-        flex-direction: column;
-
-        input {
-            width: 100%;
-            height: 55px;
-            margin: 15px 0;
-            padding: 10px 20px;
-            border: 2px solid #000;
-            border-radius: 10px;
-            
-        }
-
-        .submit-button{
-            height: 60px;
-            cursor: pointer;
-            color: #000;
-            background-color: lighten($secondary-color, 5%);
-            &:hover{
-                background: lighten($secondary-color, 15%);
-            }
-        }
+    input {
+      width: 100%;
+      height: 55px;
+      margin: 15px 0;
+      padding: 10px 20px;
+      border: 2px solid #000;
+      border-radius: 10px;
     }
+  }
 }
 
-.connect-change-form{
-    a{
-        color: inherit;
-    }
+.connect-change-form {
+  a {
+    color: inherit;
+  }
 }

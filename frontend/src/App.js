@@ -1,10 +1,10 @@
 // import React from 'react';
-import ConnectModal from './components/ConnectModal';
+import Connect from './pages/Connect';
 
 const App = () => {
   return (
     <div>
-      <ConnectModal/>
+      <Connect/>
     </div>
   );
 };
