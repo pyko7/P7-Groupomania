@@ -1,5 +1,6 @@
 /*submit button of login/register form*/
 @mixin submit-button {
+  width: 65%;
   height: 60px;
   margin-top: 40px;
   cursor: pointer;
@@ -7,13 +8,22 @@
   background-color: lighten($secondary-color, 5%);
   font-size: 24px;
   font-weight: 600;
+  border-radius: 40px;
 
   &:hover {
     background: lighten($secondary-color, 15%);
   }
   /*style of disabled button*/
-  &:disabled{
+  &:disabled {
     cursor: default;
     background: lighten($secondary-color, 25%);
+  }
+
+  @include medium-screen {
+    font-size: 22px;
+  }
+
+  @include small-screen {
+    font-size: 20px;
   }
 }

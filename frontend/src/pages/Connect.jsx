@@ -4,7 +4,7 @@ import Login from "../components/Login";
 
 const Connect = () => {
 /*defines which page is displayed*/
-const [login, setLogin] = useState(true);
+const [login, setLogin] = useState(false);
 return (
     <main className="connect-modal">
         {/* Login page is displayed as default */}

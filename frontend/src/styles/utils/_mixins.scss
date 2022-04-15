@@ -1,0 +1,11 @@
+//*************Breakpoints***************//
+@mixin small-screen {
+  @media screen and (max-width: map-get($breakpoints, small)) {
+    @content;
+  }
+}
+@mixin medium-screen {
+  @media screen and (min-width: map-get($breakpoints, small)) and (max-width: map-get($breakpoints, medium)) {
+    @content;
+  }
+}

@@ -22,15 +22,15 @@ const Register = () => {
             <div>
                 <h1 className="connect-title">S'inscrire</h1>
             </div>
-            <form className="register-form" onSubmit={handleSubmit(submitForm)}>
+            <form onSubmit={handleSubmit(submitForm)}>
                 <input type="text" name="pseudo" placeholder="Pseudo"{...register("pseudo")} />
-                <p>{errors.pseudo?.message}</p>
+                <p className="invalid-message">{errors.pseudo?.message}</p>
                 <input type="email" name="email" placeholder="Adresse email" {...register("email")} />
-                <p>{errors.email?.message}</p>
+                <p className="invalid-message">{errors.email?.message}</p>
                 <input type="password" name="password" placeholder="Mot de passe" {...register("password")} />
-                <p>{errors.password?.message}</p>
+                <p className="invalid-message">{errors.password?.message}</p>
                 <input type="password" className="invalid-input" name="confirmPassword" placeholder="Confirmer le mot de passe" {...register("confirmPassword")} />
-                <p>{errors.confirmPassword && "Les mots de passes doivent être similaires"}</p>
+                <p className="invalid-message">{errors.confirmPassword && "Les mots de passes doivent être similaires"}</p>
                 <input type="submit" name="submitButton" value="S'inscrire" />
             </form>
             <h2 className="connect-change-form"><a href="#">Déjà inscrit ? Connectez-vous ici</a></h2>

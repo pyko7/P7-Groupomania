@@ -23,11 +23,11 @@ const Login = () => {
             <div>
                 <h1 className="connect-title">Se connecter</h1>
             </div>
-            <form className="register-form" onSubmit={handleSubmit(submitForm)}>
+            <form onSubmit={handleSubmit(submitForm)}>
                 <input type="email" name="email" placeholder="Adresse email" {...register("email")} />
-                <p>{errors.email?.message}</p>
+                <p className="invalid-message">{errors.email?.message}</p>
                 <input type="password" name="password" placeholder="Mot de passe" {...register("password")} />
-                <p>{errors.password?.message}</p>
+                <p className="invalid-message">{errors.password?.message}</p>
                 <input type="submit" name="submitButton" value="Se connecter" />
             </form>
             <h2 className="connect-change-form"><a href="#">Vous n'avez pas de compte ? Inscrivez-vous ici</a></h2>

@@ -1,5 +1,12 @@
-//COLORS
+//BREAKPOINTS
+$breakpoints: (
+  //max-width for mobile view
+  "small": 768px,
+  //max-width for tablets view
+  "medium": 992px
+);
 
+//COLORS
 $main-bg-color: #517c96;
 $main-color: #6ab4dc;
 $main-color-light: #cbf7ff;

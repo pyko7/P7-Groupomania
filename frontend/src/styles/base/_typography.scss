@@ -1,33 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
 
-*{
-    font-family: 'Libre Franklin', sans-serif;
+* {
+  font-family: "Libre Franklin", sans-serif;
 }
 
 /*______________________________/
 /   LOGIN AND SIGN UP SECTION   /
-/______________________________*/ 
+/______________________________*/
 
 /*Connect section titles*/
-.connect-title{
-    font-size: 36px;
-    font-weight: 800;
+.connect-title {
+  font-size: 36px;
+  font-weight: 800;
+
+  @include small-screen {
+    font-size: 28px;
+  }
 }
 
 /*link to change the form (login -> sign up / signup -> login)*/
-.connect-change-form{
-    font-size: 18px;
-    font-weight: 500;
+.connect-change-form {
+  font-size: 16px;
+  font-weight: 500;
 
-    &:hover{
-        text-decoration: underline;
-        font-weight: 600;
-    }
+  &:hover {
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  @include medium-screen {
+    font-size: 16px;
+  }
+
+  @include small-screen {
+    font-size: 16px;
+  }
 }
 
 /*inputs of the login/register form*/
-.register-form{
-    input{
-        font-size: 20px;
-    }
+.register-form {
+  input {
+    font-size: 20px;
+  }
+}
+
+.invalid-message {
+  font-size: 16px;
 }
