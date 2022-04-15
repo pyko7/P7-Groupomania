@@ -1,5 +1,7 @@
-.submit-button {
+/*submit button of login/register form*/
+@mixin submit-button {
   height: 60px;
+  margin-top: 40px;
   cursor: pointer;
   color: #000;
   background-color: lighten($secondary-color, 5%);
@@ -8,5 +10,10 @@
 
   &:hover {
     background: lighten($secondary-color, 15%);
+  }
+  /*style of disabled button*/
+  &:disabled{
+    cursor: default;
+    background: lighten($secondary-color, 25%);
   }
 }

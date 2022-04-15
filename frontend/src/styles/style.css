@@ -3,6 +3,7 @@ base
 comonents
 layout
 pages*/
+/*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
 .connect-container .register-form, .connect-modal {
   display: flex;
@@ -377,7 +378,7 @@ li {
   font-weight: 800;
 }
 
-/*Change your form type (login -> sign up / signup -> login)*/
+/*link to change the form (login -> sign up / signup -> login)*/
 .connect-change-form {
   font-size: 18px;
   font-weight: 500;
@@ -387,23 +388,13 @@ li {
   font-weight: 600;
 }
 
-/*inputs*/
+/*inputs of the login/register form*/
 .register-form input {
   font-size: 20px;
 }
 
-.submit-button {
-  height: 60px;
-  cursor: pointer;
-  color: #000;
-  background-color: #fe4119;
-  font-size: 24px;
-  font-weight: 600;
-}
-.submit-button:hover {
-  background: #fe6b4c;
-}
-
+/*submit button of login/register form*/
+/*Page where you register/log to website*/
 body {
   width: 100%;
   background-color: #517c96;
@@ -423,7 +414,7 @@ body {
 /*Sign up container*/
 .connect-container {
   width: 50%;
-  height: 700px;
+  height: 750px;
   padding: 25px 0;
   display: flex;
   align-items: center;
@@ -435,6 +426,7 @@ body {
 }
 .connect-container .register-form {
   width: 55%;
+  height: auto;
   flex-direction: column;
 }
 .connect-container .register-form input {
@@ -444,6 +436,38 @@ body {
   padding: 10px 20px;
   border: 2px solid #000;
   border-radius: 10px;
+}
+.connect-container .register-form input[type=submit] {
+  height: 60px;
+  margin-top: 40px;
+  cursor: pointer;
+  color: #000;
+  background-color: #fe4119;
+  font-size: 24px;
+  font-weight: 600;
+  /*style of disabled button*/
+}
+.connect-container .register-form input[type=submit]:hover {
+  background: #fe6b4c;
+}
+.connect-container .register-form input[type=submit]:disabled {
+  cursor: default;
+  background: #fe957f;
+}
+.connect-container .register-form input .invalid-input {
+  border: 3px solid #fd2d01;
+  caret-color: #fd2d01;
+}
+.connect-container .register-form input .invalid-input:focus {
+  border: 3px solid #fd2d01;
+}
+.connect-container .register-form p {
+  width: 100%;
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #fd2d01;
+  font-style: italic;
+  text-align: end;
 }
 
 .connect-change-form a {

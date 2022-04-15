@@ -1,3 +1,4 @@
+/*Page where you register/log to website*/
 body {
   width: 100%;
   background-color: $main-bg-color;
@@ -18,7 +19,7 @@ body {
 /*Sign up container*/
 .connect-container {
   width: 50%;
-  height: 700px;
+  height: 750px;
   padding: 25px 0;
   display: flex;
   align-items: center;
@@ -30,6 +31,7 @@ body {
   /*Sign up form*/
   .register-form {
     width: 55%;
+    height: auto;
     @extend %flex-center;
     flex-direction: column;
 
@@ -40,9 +42,32 @@ body {
       padding: 10px 20px;
       border: 2px solid #000;
       border-radius: 10px;
+
+      &[type="submit"] {
+        @include submit-button;
+      }
+
+      .invalid-input{
+        border: 3px solid $secondary-color;
+        caret-color: $secondary-color;
+        &:focus{
+          border: 3px solid $secondary-color;
+        }
+      }
+    }
+
+    p {
+      width: 100%;
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: $secondary-color;
+      font-style: italic;
+      text-align: end;
     }
   }
 }
+
+
 
 .connect-change-form {
   a {

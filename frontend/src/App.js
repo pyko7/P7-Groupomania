@@ -1,4 +1,3 @@
-// import React from 'react';
 import Connect from './pages/Connect';
 
 const App = () => {
