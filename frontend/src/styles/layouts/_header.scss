@@ -1,0 +1,50 @@
+header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100px;
+  padding: 0 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  overflow: hidden;
+  z-index: 100;
+
+  @include small-screen {
+    padding: 0 20px;
+  }
+
+  .logo-container {
+    width: 280px;
+    height: 100%;
+    @extend %flex-center;
+
+    @include small-screen {
+      width: 55px;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+
+  nav {
+    margin-right: 25px;
+    @include small-screen {
+      margin-right: 10px;
+    }
+
+    .fa-user {
+      font-size: 28px;
+      color: $secondary-color;
+
+      &:hover{
+        font-weight: $weight-bold;
+        background: $secondary-color;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; 
+      }
+    }
+  }
+}

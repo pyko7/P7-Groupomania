@@ -1,0 +1,15 @@
+@mixin postDate {
+    position: absolute;
+    margin-top: 20px;
+    font-style: italic;
+    font-size: 14px;
+    background-color: #fff;
+    color: $main-bg-color;
+
+    @include medium-screen{
+        margin-top: 7px;
+    }
+    @include small-screen{
+        margin-top: 10px;
+    }
+}

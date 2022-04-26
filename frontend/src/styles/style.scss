@@ -5,9 +5,18 @@ layout
 pages*/
 
 @import "./utils/variables";
-@import "./utils/mixins";
+@import "./utils/mediaqueries";
 @import "./utils/placeholders";
 @import "./base/normalize";
 @import "./base/typography";
 @import "./components/formButtons";
+@import "./components/postTemplate";
+@import "./components/newPost";
+@import "./components/postButtons";
+@import "./components/postIcons";
+@import "./components/postDate";
+@import "./layouts/spinner";
+@import "./layouts/header";
+@import "./pages/notFound";
 @import "./pages/connect";
+@import "./pages/home";

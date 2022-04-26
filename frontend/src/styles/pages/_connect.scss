@@ -45,6 +45,23 @@ body {
     text-align: center;
   }
 
+  .logo-container {
+    width: 33%;
+    min-width: 200px;
+    height: 100px;
+    @extend %flex-center;
+    margin-bottom: 25px;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .connect-title {
+    color: $secondary-color;
+  }
+
   /*Sign up/login form*/
   form {
     width: 55%;
@@ -75,14 +92,16 @@ body {
     &[type="submit"] {
       @include submit-button;
     }
+  }
+}
 
-    .invalid-input {
-      border: 3px solid $secondary-color;
-      caret-color: $secondary-color;
-      &:focus {
-        border: 3px solid $secondary-color;
-      }
-    }
+.invalid-input {
+  border: 3px solid $secondary-color !important;
+  caret-color: $secondary-color;
+  outline: none;
+
+  &::placeholder {
+    color: $secondary-color;
   }
 }
 

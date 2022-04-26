@@ -1,0 +1,27 @@
+/*Text area to create a post*/
+@mixin post {
+    width: $textarea-desktop-width;
+    padding: $post-padding;
+    border: none;
+    border-top-right-radius: $post-border-radius;
+    border-bottom-right-radius: $post-border-radius;
+    resize: none;
+
+    @include medium-screen{
+        width: $textarea-tablet-width;
+    }
+    @include small-screen{
+        width: $textarea-mobile-width;
+    }
+
+    &:focus{
+        outline: none;
+    }
+
+    // &:invalid{
+    //     border: 2px solid $secondary-color;
+    // }
+}
+
+
+

@@ -1,0 +1,199 @@
+.main-container {
+  width: 100%;
+  @extend %flex-center;
+  flex-direction: column;
+
+  .spinner{
+    @include posts-spinner;
+  }
+}
+
+.posts-container {
+  width: 100%;
+  @extend %flex-center;
+  flex-direction: column-reverse;
+}
+
+/*Post creation section*/
+.new-user-post {
+  @include postTemplate;
+  height: $timeline-mobile-height;
+  margin-bottom: 35px;
+
+  textarea {
+    @include post;
+    height: 100%;
+  }
+
+  /*icons for post creation*/
+  .new-post-icons-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: $textarea-desktop-width;
+    padding: $post-padding;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-bottom-right-radius: $post-border-radius;
+    background-color: #fff;
+
+    @include medium-screen {
+      width: $textarea-mobile-width;
+      padding: $post-mobile-padding;
+    }
+
+    @include small-screen {
+      width: $textarea-mobile-width;
+      padding: $post-mobile-padding;
+    }
+
+    label i {
+      @include postIcons;
+      font-size: 30px;
+      @include small-screen {
+        font-size: 24px;
+      }
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    input[type="submit"] {
+      @include postButton;
+    }
+  }
+}
+
+/*existing posts*/
+.user-post {
+  position: relative;
+  @include postTemplate;
+
+  &-right {
+    position: relative;
+    width: 100%;
+    h1 {
+      margin-bottom: 14px;
+    }
+    span {
+      @include postDate;
+    }
+  }
+  /*content that user have posted*/
+  .user-post-content {
+    position: relative;
+    width: $textarea-desktop-width;
+    height: fit-content;
+    padding: $post-padding;
+    border: none;
+    border-top-right-radius: $post-border-radius;
+    background-color: #fff;
+
+    @include medium-screen {
+      width: $textarea-tablet-width;
+    }
+    @include small-screen {
+      width: $textarea-mobile-width;
+    }
+  }
+
+  .post-icons-container {
+    width: $textarea-desktop-width;
+    padding: $post-padding;
+    @extend %flex-center-between;
+    border-bottom-right-radius: $post-border-radius;
+    background-color: #fff;
+
+    @include medium-screen {
+      width: $textarea-tablet-width;
+      padding: $post-mobile-padding;
+    }
+    @include small-screen {
+      width: $textarea-mobile-width;
+      padding: $post-mobile-padding;
+    }
+
+    i {
+      @include postIcons;
+      font-size: 22px;
+
+      @include small-screen {
+        font-size: 20px;
+      }
+    }
+
+    .like-dislike-icons{
+      @include postIcons;
+      font-size: 22px;
+      &:hover{
+          font-weight: $weight-bold;
+          background: transparent;
+          color: $main-color;
+      }
+    }
+
+    .like-dislike-icons-container {
+      width: 12%;
+      max-width: 80px;
+      @extend %flex-center-between;
+
+      @include small-screen {
+        width: 25%;
+        max-width: 50px;
+      }
+    }
+  }
+  .fa-trash-can:hover {
+    animation-name: wiggle;
+    animation-duration: 0.2s;
+    animation-iteration-count: 5;
+    @keyframes wiggle {
+      0% {
+        transform: rotate(-3deg);
+      }
+      100% {
+        transform: rotate(3deg);
+      }
+    }
+  }
+}
+
+/*user comments*/
+.user-comment {
+  position: absolute;
+  right: 0;
+  @include postTemplate;
+  width: 90%;
+  min-width: 650px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -7%;
+    width: 7%;
+    height: 2px;
+    background-color: $secondary-color;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 50%;
+    left: -7%;
+    width: 2px;
+    height: 100%;
+    background-color: $secondary-color;
+    z-index: -1;
+  }
+
+  @include medium-screen {
+    width: 90%;
+  }
+  @include small-screen {
+    width: 90%;
+  }
+}
+
+/*ajouter validation form*/

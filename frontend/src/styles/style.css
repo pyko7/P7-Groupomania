@@ -5,9 +5,15 @@ layout
 pages*/
 /*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
-.connect-container .register-form, .connect-modal {
+.posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.user-post .post-icons-container .like-dislike-icons-container, .user-post .post-icons-container {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -374,18 +380,32 @@ li {
 /______________________________*/
 /*Connect section titles*/
 .connect-title {
-  font-size: 36px;
   font-weight: 800;
+}
+@media screen and (max-width: 768px) {
+  .connect-title {
+    font-size: 28px;
+  }
 }
 
 /*link to change the form (login -> sign up / signup -> login)*/
 .connect-change-form {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
 }
 .connect-change-form:hover {
   text-decoration: underline;
   font-weight: 600;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .connect-change-form {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .connect-change-form {
+    font-size: 16px;
+  }
 }
 
 /*inputs of the login/register form*/
@@ -393,7 +413,108 @@ li {
   font-size: 20px;
 }
 
+.invalid-message {
+  font-size: 16px;
+}
+
+/*______________________________/
+/           HOMEPAGE            /
+/______________________________*/
+.user-post-right h1 {
+  font-size: 22px;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-post-right h1 {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-post-right h1 {
+    font-size: 16px;
+  }
+}
+
 /*submit button of login/register form*/
+/*Text area to create a post*/
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100px;
+  padding: 0 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  overflow: hidden;
+  z-index: 100;
+}
+@media screen and (max-width: 768px) {
+  header {
+    padding: 0 20px;
+  }
+}
+header .logo-container {
+  width: 280px;
+  height: 100%;
+}
+@media screen and (max-width: 768px) {
+  header .logo-container {
+    width: 55px;
+  }
+}
+header .logo-container img {
+  width: 100%;
+}
+header nav {
+  margin-right: 25px;
+}
+@media screen and (max-width: 768px) {
+  header nav {
+    margin-right: 10px;
+  }
+}
+header nav .fa-user {
+  font-size: 28px;
+  color: #fd2d01;
+}
+header nav .fa-user:hover {
+  font-weight: 800;
+  background: #fd2d01;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.not-found-page {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #ca2401;
+}
+
+.not-found-container {
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 2em;
+  color: #fff;
+  text-shadow: 1px 1px 4px #000;
+}
+.not-found-container h1 {
+  font-size: 62px;
+}
+
 /*Page where you register/log to website*/
 body {
   width: 100%;
@@ -414,6 +535,8 @@ body {
 /*Sign up container*/
 .connect-container {
   width: 50%;
+  min-width: 600px;
+  max-width: 800px;
   height: 750px;
   padding: 25px 0;
   display: flex;
@@ -422,14 +545,57 @@ body {
   flex-direction: column;
   background-color: #f0ede3;
   border-radius: 30px;
-  /*Sign up form*/
+  /*Sign up/login form*/
+  /*Sign up/login inputs*/
 }
-.connect-container .register-form {
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .connect-container {
+    width: 85%;
+    min-width: auto;
+    max-width: 640px;
+    max-height: 650px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .connect-container {
+    width: 85%;
+    min-width: auto;
+    max-width: 540px;
+    max-height: 650px;
+    text-align: center;
+  }
+}
+.connect-container .logo-container {
+  width: 33%;
+  min-width: 200px;
+  height: 100px;
+  margin-bottom: 25px;
+}
+.connect-container .logo-container img {
+  width: 100%;
+  height: auto;
+}
+.connect-container .connect-title {
+  color: #fd2d01;
+}
+.connect-container form {
   width: 55%;
+  min-width: 475px;
   height: auto;
   flex-direction: column;
 }
-.connect-container .register-form input {
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .connect-container form {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .connect-container form {
+    min-width: auto;
+    width: 90%;
+  }
+}
+.connect-container input {
   width: 100%;
   height: 55px;
   margin: 15px 0;
@@ -437,7 +603,8 @@ body {
   border: 2px solid #000;
   border-radius: 10px;
 }
-.connect-container .register-form input[type=submit] {
+.connect-container input[type=submit] {
+  width: 65%;
   height: 60px;
   margin-top: 40px;
   cursor: pointer;
@@ -445,25 +612,45 @@ body {
   background-color: #fe4119;
   font-size: 24px;
   font-weight: 600;
+  border-radius: 40px;
   /*style of disabled button*/
 }
-.connect-container .register-form input[type=submit]:hover {
+.connect-container input[type=submit]:hover {
   background: #fe6b4c;
 }
-.connect-container .register-form input[type=submit]:disabled {
+.connect-container input[type=submit]:disabled {
   cursor: default;
   background: #fe957f;
 }
-.connect-container .register-form input .invalid-input {
-  border: 3px solid #fd2d01;
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .connect-container input[type=submit] {
+    font-size: 22px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .connect-container input[type=submit] {
+    font-size: 20px;
+  }
+}
+
+.invalid-input {
+  border: 3px solid #fd2d01 !important;
   caret-color: #fd2d01;
+  outline: none;
 }
-.connect-container .register-form input .invalid-input:focus {
-  border: 3px solid #fd2d01;
+.invalid-input::-moz-placeholder {
+  color: #fd2d01;
 }
-.connect-container .register-form p {
+.invalid-input:-ms-input-placeholder {
+  color: #fd2d01;
+}
+.invalid-input::placeholder {
+  color: #fd2d01;
+}
+
+/*error message if input is not valid*/
+.invalid-message {
   width: 100%;
-  font-size: 18px;
   margin-bottom: 5px;
   color: #fd2d01;
   font-style: italic;
@@ -472,4 +659,465 @@ body {
 
 .connect-change-form a {
   color: inherit;
-}/*# sourceMappingURL=style.css.map */
+}
+
+.main-container {
+  width: 100%;
+  flex-direction: column;
+}
+.main-container .spinner {
+  position: fixed;
+  top: 100px;
+  background-color: #517c96;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+.main-container .spinner span {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #cbf7ff;
+  border-radius: 50%;
+  border-top-color: #fd2d01;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+.posts-container {
+  width: 100%;
+  flex-direction: column-reverse;
+}
+
+/*Post creation section*/
+.new-user-post {
+  min-width: 700px;
+  width: 40%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  margin-top: 25px;
+  border-radius: 20px;
+  line-height: 1.25;
+  /*user profile picture container*/
+  /*user profile picture*/
+  height: 190px;
+  margin-bottom: 35px;
+  /*icons for post creation*/
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .new-user-post {
+    min-width: auto;
+    width: 80%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .new-user-post {
+    min-width: auto;
+    width: 95%;
+  }
+}
+.new-user-post .post-profile-picture {
+  width: 10%;
+  text-align: center;
+  background-color: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+@media screen and (max-width: 768px) {
+  .new-user-post .post-profile-picture {
+    min-width: 35px;
+  }
+}
+.new-user-post img {
+  margin: 15px 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .new-user-post img {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .new-user-post img {
+    margin: 15px 7px;
+    width: 30px;
+    height: 30px;
+  }
+}
+.new-user-post textarea {
+  width: 95%;
+  padding: 25px;
+  border: none;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  resize: none;
+  height: 100%;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .new-user-post textarea {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .new-user-post textarea {
+    width: 100%;
+  }
+}
+.new-user-post textarea:focus {
+  outline: none;
+}
+.new-user-post .new-post-icons-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 95%;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom-right-radius: 20px;
+  background-color: #fff;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .new-user-post .new-post-icons-container {
+    width: 100%;
+    padding: 10px 25px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .new-user-post .new-post-icons-container {
+    width: 100%;
+    padding: 10px 25px;
+  }
+}
+.new-user-post .new-post-icons-container label i {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 30px;
+}
+.new-user-post .new-post-icons-container label i:hover {
+  color: #fe5633;
+}
+@media screen and (max-width: 768px) {
+  .new-user-post .new-post-icons-container label i {
+    font-size: 24px;
+  }
+}
+.new-user-post .new-post-icons-container input[type=file] {
+  display: none;
+}
+.new-user-post .new-post-icons-container input[type=submit] {
+  width: 100px;
+  padding: 10px 15px;
+  margin-left: 50px;
+  border-radius: 20px;
+  background-color: #fd2d01;
+  font-weight: 600;
+  cursor: pointer;
+  /*style of disabled button*/
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .new-user-post .new-post-icons-container input[type=submit] {
+    width: 100px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .new-user-post .new-post-icons-container input[type=submit] {
+    width: 80px;
+    padding: 7px 10px;
+    margin-left: 30px;
+    font-size: 14px;
+  }
+}
+.new-user-post .new-post-icons-container input[type=submit]:hover {
+  background: #fe5633;
+}
+.new-user-post .new-post-icons-container input[type=submit]:disabled {
+  cursor: default;
+  background: #fe957f;
+}
+
+/*existing posts*/
+.user-post {
+  position: relative;
+  min-width: 700px;
+  width: 40%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  margin-top: 25px;
+  border-radius: 20px;
+  line-height: 1.25;
+  /*user profile picture container*/
+  /*user profile picture*/
+  /*content that user have posted*/
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-post {
+    min-width: auto;
+    width: 80%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-post {
+    min-width: auto;
+    width: 95%;
+  }
+}
+.user-post .post-profile-picture {
+  width: 10%;
+  text-align: center;
+  background-color: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+@media screen and (max-width: 768px) {
+  .user-post .post-profile-picture {
+    min-width: 35px;
+  }
+}
+.user-post img {
+  margin: 15px 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-post img {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-post img {
+    margin: 15px 7px;
+    width: 30px;
+    height: 30px;
+  }
+}
+.user-post-right {
+  position: relative;
+  width: 100%;
+}
+.user-post-right h1 {
+  margin-bottom: 14px;
+}
+.user-post-right span {
+  position: absolute;
+  margin-top: 20px;
+  font-style: italic;
+  font-size: 14px;
+  background-color: #fff;
+  color: #517c96;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-post-right span {
+    margin-top: 7px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-post-right span {
+    margin-top: 10px;
+  }
+}
+.user-post .user-post-content {
+  position: relative;
+  width: 95%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 25px;
+  border: none;
+  border-top-right-radius: 20px;
+  background-color: #fff;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-post .user-post-content {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-post .user-post-content {
+    width: 100%;
+  }
+}
+.user-post .post-icons-container {
+  width: 95%;
+  padding: 25px;
+  border-bottom-right-radius: 20px;
+  background-color: #fff;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-post .post-icons-container {
+    width: 100%;
+    padding: 10px 25px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-post .post-icons-container {
+    width: 100%;
+    padding: 10px 25px;
+  }
+}
+.user-post .post-icons-container i {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+}
+.user-post .post-icons-container i:hover {
+  color: #fe5633;
+}
+@media screen and (max-width: 768px) {
+  .user-post .post-icons-container i {
+    font-size: 20px;
+  }
+}
+.user-post .post-icons-container .like-dislike-icons {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+}
+.user-post .post-icons-container .like-dislike-icons:hover {
+  color: #fe5633;
+}
+.user-post .post-icons-container .like-dislike-icons:hover {
+  font-weight: 800;
+  background: transparent;
+  color: #6ab4dc;
+}
+.user-post .post-icons-container .like-dislike-icons-container {
+  width: 12%;
+  max-width: 80px;
+}
+@media screen and (max-width: 768px) {
+  .user-post .post-icons-container .like-dislike-icons-container {
+    width: 25%;
+    max-width: 50px;
+  }
+}
+.user-post .fa-trash-can:hover {
+  -webkit-animation-name: wiggle;
+          animation-name: wiggle;
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+  -webkit-animation-iteration-count: 5;
+          animation-iteration-count: 5;
+}
+@-webkit-keyframes wiggle {
+  0% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(3deg);
+  }
+}
+@keyframes wiggle {
+  0% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(3deg);
+  }
+}
+
+/*user comments*/
+.user-comment {
+  position: absolute;
+  right: 0;
+  min-width: 700px;
+  width: 40%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  margin-top: 25px;
+  border-radius: 20px;
+  line-height: 1.25;
+  /*user profile picture container*/
+  /*user profile picture*/
+  width: 90%;
+  min-width: 650px;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-comment {
+    min-width: auto;
+    width: 80%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-comment {
+    min-width: auto;
+    width: 95%;
+  }
+}
+.user-comment .post-profile-picture {
+  width: 10%;
+  text-align: center;
+  background-color: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+@media screen and (max-width: 768px) {
+  .user-comment .post-profile-picture {
+    min-width: 35px;
+  }
+}
+.user-comment img {
+  margin: 15px 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-comment img {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-comment img {
+    margin: 15px 7px;
+    width: 30px;
+    height: 30px;
+  }
+}
+.user-comment::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -7%;
+  width: 7%;
+  height: 2px;
+  background-color: #fd2d01;
+}
+.user-comment::after {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: -7%;
+  width: 2px;
+  height: 100%;
+  background-color: #fd2d01;
+  z-index: -1;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-comment {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-comment {
+    width: 90%;
+  }
+}
+
+/*ajouter validation form*//*# sourceMappingURL=style.css.map */

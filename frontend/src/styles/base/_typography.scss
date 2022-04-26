@@ -10,7 +10,6 @@
 
 /*Connect section titles*/
 .connect-title {
-  font-size: 36px;
   font-weight: 800;
 
   @include small-screen {
@@ -46,4 +45,26 @@
 
 .invalid-message {
   font-size: 16px;
+}
+
+/*______________________________/
+/           HOMEPAGE            /
+/______________________________*/
+
+
+
+.user-post {
+  &-right{
+    h1{
+      font-size: 22px;
+      @include medium-screen {
+        font-size: 18px;
+      }
+    
+      @include small-screen {
+        font-size: 16px;
+      }
+    
+    }
+  }
 }

@@ -1,0 +1,51 @@
+@mixin postTemplate {
+  min-width: 700px;
+  width: $timeline-desktop-width;
+  height: fit-content;
+  display: flex;
+  margin-top: 25px;
+  border-radius: $post-border-radius;
+  line-height: 1.25;
+
+  @include medium-screen {
+    min-width: auto;
+    width: $timeline-tablet-width;
+  }
+
+  @include small-screen {
+    min-width: auto;
+    width: $timeline-mobile-width;
+  }
+
+  /*user profile picture container*/
+  .post-profile-picture {
+    width: $pp-post-width;
+    text-align: center;
+    background-color: #fff;
+    border-top-left-radius: $post-border-radius;
+    border-bottom-left-radius: $post-border-radius;
+
+    @include small-screen {
+      min-width: 35px;
+    }
+  }
+
+  /*user profile picture*/
+  img {
+    margin: 15px 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+    @include medium-screen {
+      width: 40px;
+      height: 40px;
+    }
+
+    @include small-screen {
+      margin: 15px 7px;
+      width: 30px;
+      height: 30px;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@mixin postButton {
+  width: 100px;
+  padding: 10px 15px;
+  margin-left: 50px;
+  border-radius: $post-border-radius;
+  background-color: $secondary-color;
+  font-weight: $weight-semi-bold;
+  cursor: pointer;
+
+  @include medium-screen {
+    width: 100px;
+  }
+  @include small-screen {
+    width: 80px;
+    padding: 7px 10px;
+    margin-left: 30px;
+    font-size: 14px;
+  }
+
+  &:hover {
+    background: lighten($secondary-color, 10%);
+  }
+  /*style of disabled button*/
+  &:disabled {
+    cursor: default;
+    background: lighten($secondary-color, 25%);
+  }
+}

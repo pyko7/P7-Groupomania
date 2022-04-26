@@ -6,6 +6,11 @@ $breakpoints: (
   "medium": 992px
 );
 
+//FONT-WEIGHT
+$weight-normal: 500;
+$weight-semi-bold: 600;
+$weight-bold: 800;
+
 //COLORS
 $main-bg-color: #517c96;
 $main-color: #6ab4dc;
@@ -13,3 +18,22 @@ $main-color-light: #cbf7ff;
 $secondary-color: #fd2d01;
 $secondary-color-light: #ffd7d7;
 $tertiary-color: #f0ede3;
+
+//HOMEPAGE SIZES
+$timeline-desktop-width: 40%;
+$timeline-desktop-height: 200px;
+$textarea-desktop-height: 90%;
+$textarea-desktop-width: 95%;
+
+$timeline-mobile-width: 95%;
+$timeline-mobile-height: 190px;
+$textarea-mobile-height: 90%;
+$textarea-mobile-width: 100%;
+
+$timeline-tablet-width: 80%;
+$textarea-tablet-width: 100%;
+
+$pp-post-width: 10%;
+$post-border-radius: 20px;
+$post-padding: 25px;
+$post-mobile-padding: 10px 25px;
