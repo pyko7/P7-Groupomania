@@ -9,12 +9,15 @@ pages*/
 @import "./utils/placeholders";
 @import "./base/normalize";
 @import "./base/typography";
+
 @import "./components/formButtons";
 @import "./components/postTemplate";
 @import "./components/newPost";
 @import "./components/postButtons";
 @import "./components/postIcons";
 @import "./components/postDate";
+@import "./components/commentModal";
+
 @import "./layouts/spinner";
 @import "./layouts/header";
 @import "./pages/notFound";

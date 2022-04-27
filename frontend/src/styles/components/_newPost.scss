@@ -1,11 +1,14 @@
 /*Text area to create a post*/
-@mixin post {
+@mixin newPost {
     width: $textarea-desktop-width;
+    min-height: 120px;
     padding: $post-padding;
+
     border: none;
     border-top-right-radius: $post-border-radius;
     border-bottom-right-radius: $post-border-radius;
     resize: none;
+    overflow: auto;
 
     @include medium-screen{
         width: $textarea-tablet-width;
@@ -17,11 +20,5 @@
     &:focus{
         outline: none;
     }
-
-    // &:invalid{
-    //     border: 2px solid $secondary-color;
-    // }
 }
-
-
 

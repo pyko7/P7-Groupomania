@@ -6,6 +6,8 @@ import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import photo from "../assets/images/logo.png";
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -16,8 +18,26 @@ Moment.globalLocale = 'fr';
 
 
 const PostList = (props) => {
-
+    const { id } = useParams();
     const posts = props.posts;
+
+    /*function delete a post*/
+    const handleClick = async () => {
+        /*Get ID for posts deletion*/
+        const settings = { method: "DELETE" };
+        try {
+            const res = await fetch(
+                "https://jsonplaceholder.typicode.com/posts/" + id, settings);
+            const data = await res.json();
+            if (!res.ok) throw error;
+            console.log("ok");
+            return data;
+        } catch (error) {
+            console.log("aps bon");
+            return error;
+        }
+    }
+
 
     return (
         <div className='posts-container'>
@@ -26,21 +46,23 @@ const PostList = (props) => {
                     <div className="post-profile-picture">
                         <img src={photo} alt='photo de profil' />
                     </div>
-                    <div className='user-post-right'>
-                        <div className='user-post-content'>
-                            <h1>{post.userId + " Jean"}</h1>
-                            <p>{post.body}</p>
-                            <span>Posté <Moment fromNow></Moment> </span>
-                        </div>
-                        <div className="post-icons-container">
-                            <div className="like-dislike-icons-container">
-                                <FontAwesomeIcon icon={faThumbsUp} className="like-dislike-icons" />
-                                <FontAwesomeIcon icon={faThumbsDown} className="like-dislike-icons" />
+                    <Link to={`/posts/${post.id}`}>
+                        <div className='user-post-right'>
+                            <div className='user-post-content'>
+                                <h1>{post.userId + " Jean"}</h1>
+                                <p>{post.body}</p>
+                                <span>Posté <Moment fromNow></Moment> </span>
                             </div>
-                            <i className="fa-solid fa-message"></i>
-                            <i className="fa-solid fa-trash-can"></i>
+                            <div className="post-icons-container">
+                                <div className="like-dislike-icons-container">
+                                    <FontAwesomeIcon icon={faThumbsUp} className="like-dislike-icons" />
+                                    <FontAwesomeIcon icon={faThumbsDown} className="like-dislike-icons" />
+                                </div>
+                                <i className="fa-solid fa-message"></i>
+                                <i className="fa-solid fa-trash-can" onClick={handleClick}></i>
+                            </div>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             ))
             }

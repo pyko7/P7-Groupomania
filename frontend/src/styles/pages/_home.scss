@@ -3,7 +3,7 @@
   @extend %flex-center;
   flex-direction: column;
 
-  .spinner{
+  .spinner {
     @include posts-spinner;
   }
 }
@@ -17,12 +17,11 @@
 /*Post creation section*/
 .new-user-post {
   @include postTemplate;
-  height: $timeline-mobile-height;
+  height: 250px;
   margin-bottom: 35px;
 
   textarea {
-    @include post;
-    height: 100%;
+    @include newPost;
   }
 
   /*icons for post creation*/
@@ -59,21 +58,45 @@
     input[type="file"] {
       display: none;
     }
-
-    input[type="submit"] {
+    .send-post-button {
       @include postButton;
     }
   }
 }
 
 /*existing posts*/
+a {
+  width: 100%;
+  color: inherit;
+  @extend %flex-center;
+}
+
 .user-post {
   position: relative;
   @include postTemplate;
 
   &-right {
     position: relative;
+    // height: fit-content;
     width: 100%;
+
+    /*container of image preview*/
+    .image-preview-container {
+      position: absolute;
+      bottom: 5px;
+      left: 15px;
+      width: 80px;
+      height: auto;
+      @extend %flex-center;
+    }
+
+    /*preview of the image that the user wants to upload*/
+    .image-preview {
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+    }
+
     h1 {
       margin-bottom: 14px;
     }
@@ -85,7 +108,6 @@
   .user-post-content {
     position: relative;
     width: $textarea-desktop-width;
-    height: fit-content;
     padding: $post-padding;
     border: none;
     border-top-right-radius: $post-border-radius;
@@ -124,13 +146,13 @@
       }
     }
 
-    .like-dislike-icons{
+    .like-dislike-icons {
       @include postIcons;
       font-size: 22px;
-      &:hover{
-          font-weight: $weight-bold;
-          background: transparent;
-          color: $main-color;
+      &:hover {
+        font-weight: $weight-bold;
+        background: transparent;
+        color: $main-color;
       }
     }
 

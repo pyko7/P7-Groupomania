@@ -1,0 +1,72 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  @extend %flex-center;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  position: relative;
+  max-width: 550px;
+  width: 80%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: $post-border-radius;
+  padding: $post-padding;
+  background: #fff;
+
+  h1 {
+    text-align: center;
+    color: $secondary-color;
+    font-weight: $weight-bold;
+  }
+
+  &-body {
+    width: 100%;
+    @extend %flex-center;
+
+    textarea {
+      position: relative;
+      width: 95%;
+      //   min-height: 105px
+      height: fit-content;
+      padding: $post-padding;
+      border: none;
+      resize: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  &-footer {
+    position: absolute;
+    margin: $post-padding;
+    bottom: 0;
+    width: 100%;
+    @extend %flex-center;
+
+    button {
+      @include postButton;
+      width: fit-content;
+      background-color: $main-color-light;
+
+      @include small-screen{
+          width: fit-content;
+      }
+      @include medium-screen{
+          width: fit-content;
+      }
+    }
+
+    .button-comment:hover {
+      background: lighten($main-color, 10%);
+    }
+  }
+}

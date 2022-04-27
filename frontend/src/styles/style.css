@@ -5,7 +5,7 @@ layout
 pages*/
 /*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
-.posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container {
+.user-post-right .image-preview-container, a, .posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -436,6 +436,107 @@ li {
 
 /*submit button of login/register form*/
 /*Text area to create a post*/
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  position: relative;
+  max-width: 550px;
+  width: 80%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+  padding: 25px;
+  background: #fff;
+}
+.modal h1 {
+  text-align: center;
+  color: #fd2d01;
+  font-weight: 800;
+}
+.modal-body {
+  width: 100%;
+}
+.modal-body textarea {
+  position: relative;
+  width: 95%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 25px;
+  border: none;
+  resize: none;
+}
+.modal-body textarea:focus {
+  outline: none;
+}
+.modal-footer {
+  position: absolute;
+  margin: 25px;
+  bottom: 0;
+  width: 100%;
+}
+.modal-footer button {
+  width: 100px;
+  padding: 10px 15px;
+  margin-left: 50px;
+  border-radius: 20px;
+  background-color: #fd2d01;
+  font-weight: 600;
+  cursor: pointer;
+  /*style of disabled button*/
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: #cbf7ff;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .modal-footer button {
+    width: 100px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .modal-footer button {
+    width: 80px;
+    padding: 7px 10px;
+    margin-left: 30px;
+    font-size: 14px;
+  }
+}
+.modal-footer button:hover {
+  background: #fe5633;
+}
+.modal-footer button:disabled {
+  cursor: default;
+  background: #fe957f;
+}
+@media screen and (max-width: 768px) {
+  .modal-footer button {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .modal-footer button {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+}
+.modal-footer .button-comment:hover {
+  background: #93c9e6;
+}
+
 @keyframes spin {
   to {
     -webkit-transform: rotate(360deg);
@@ -695,17 +796,15 @@ body {
 /*Post creation section*/
 .new-user-post {
   min-width: 700px;
-  width: 40%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  width: 35%;
   display: flex;
   margin-top: 25px;
   border-radius: 20px;
   line-height: 1.25;
+  background-color: #fff;
   /*user profile picture container*/
   /*user profile picture*/
-  height: 190px;
+  height: 250px;
   margin-bottom: 35px;
   /*icons for post creation*/
 }
@@ -753,13 +852,14 @@ body {
   }
 }
 .new-user-post textarea {
-  width: 95%;
+  width: 100%;
+  min-height: 120px;
   padding: 25px;
   border: none;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   resize: none;
-  height: 100%;
+  overflow: auto;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .new-user-post textarea {
@@ -778,7 +878,7 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 95%;
+  width: 100%;
   padding: 25px;
   display: flex;
   align-items: center;
@@ -814,7 +914,7 @@ body {
 .new-user-post .new-post-icons-container input[type=file] {
   display: none;
 }
-.new-user-post .new-post-icons-container input[type=submit] {
+.new-user-post .new-post-icons-container .send-post-button {
   width: 100px;
   padding: 10px 15px;
   margin-left: 50px;
@@ -825,38 +925,41 @@ body {
   /*style of disabled button*/
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .new-user-post .new-post-icons-container input[type=submit] {
+  .new-user-post .new-post-icons-container .send-post-button {
     width: 100px;
   }
 }
 @media screen and (max-width: 768px) {
-  .new-user-post .new-post-icons-container input[type=submit] {
+  .new-user-post .new-post-icons-container .send-post-button {
     width: 80px;
     padding: 7px 10px;
     margin-left: 30px;
     font-size: 14px;
   }
 }
-.new-user-post .new-post-icons-container input[type=submit]:hover {
+.new-user-post .new-post-icons-container .send-post-button:hover {
   background: #fe5633;
 }
-.new-user-post .new-post-icons-container input[type=submit]:disabled {
+.new-user-post .new-post-icons-container .send-post-button:disabled {
   cursor: default;
   background: #fe957f;
 }
 
 /*existing posts*/
+a {
+  width: 100%;
+  color: inherit;
+}
+
 .user-post {
   position: relative;
   min-width: 700px;
-  width: 40%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  width: 35%;
   display: flex;
   margin-top: 25px;
   border-radius: 20px;
   line-height: 1.25;
+  background-color: #fff;
   /*user profile picture container*/
   /*user profile picture*/
   /*content that user have posted*/
@@ -907,6 +1010,20 @@ body {
 .user-post-right {
   position: relative;
   width: 100%;
+  /*container of image preview*/
+  /*preview of the image that the user wants to upload*/
+}
+.user-post-right .image-preview-container {
+  position: absolute;
+  bottom: 5px;
+  left: 15px;
+  width: 80px;
+  height: auto;
+}
+.user-post-right .image-preview {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
 }
 .user-post-right h1 {
   margin-bottom: 14px;
@@ -931,10 +1048,7 @@ body {
 }
 .user-post .user-post-content {
   position: relative;
-  width: 95%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  width: 100%;
   padding: 25px;
   border: none;
   border-top-right-radius: 20px;
@@ -951,7 +1065,7 @@ body {
   }
 }
 .user-post .post-icons-container {
-  width: 95%;
+  width: 100%;
   padding: 25px;
   border-bottom-right-radius: 20px;
   background-color: #fff;
@@ -1034,14 +1148,12 @@ body {
   position: absolute;
   right: 0;
   min-width: 700px;
-  width: 40%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  width: 35%;
   display: flex;
   margin-top: 25px;
   border-radius: 20px;
   line-height: 1.25;
+  background-color: #fff;
   /*user profile picture container*/
   /*user profile picture*/
   width: 90%;

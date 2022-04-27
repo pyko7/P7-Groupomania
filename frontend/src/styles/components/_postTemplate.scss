@@ -1,11 +1,11 @@
 @mixin postTemplate {
   min-width: 700px;
   width: $timeline-desktop-width;
-  height: fit-content;
   display: flex;
   margin-top: 25px;
   border-radius: $post-border-radius;
   line-height: 1.25;
+  background-color: #fff;
 
   @include medium-screen {
     min-width: auto;

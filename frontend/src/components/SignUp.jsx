@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from "../validations/UserValidation";
 import { Link } from "react-router-dom";
@@ -7,6 +8,7 @@ import logo from '../assets/images/icon-above-font-nobg.png';
 
 /*function to register to the website*/
 const Register = () => {
+    const navigate = useNavigate();
     /*
      *register: allows to register an input or select element and apply validation,
      handleSubmit: This function receives the form data if form validation is successful,
@@ -25,12 +27,12 @@ const Register = () => {
         const user = getValues();
         const settings = {
             method: 'POST',
-            body: JSON.stringify({
-                ...user
-            }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
+            body: JSON.stringify({
+                ...user
+            }),
         };
         try {
             const res = await fetch('https://jsonplaceholder.typicode.com/users', settings)
@@ -48,7 +50,7 @@ const Register = () => {
 
     const submitForm = async () => {
         await createUser();
-        // window.location = "/"
+        navigate("/");
     }
 
 

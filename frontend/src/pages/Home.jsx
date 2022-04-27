@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import PostList from '../components/PostList';
 import Spinner from '../components/Spinner';
 import useFetch from '../components/useFetch';
-import UserComment from '../components/UserComment';
+
 
 const Home = () => {
     /*get datas named as posts and pending status from API- it shows every posts*/
@@ -20,7 +20,6 @@ const Home = () => {
                     < CreatePost />
                     {isPending && <Spinner />}
                     {posts && < PostList posts={posts} />}
-                    < UserComment />
                 </div>
             </main>
         </div>
@@ -28,3 +27,4 @@ const Home = () => {
 };
 
 export default Home;
+

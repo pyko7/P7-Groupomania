@@ -5,6 +5,7 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
+import PostDetails from "./components/PostDetails";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="*" element={<NotFound />} />;
         <Route path="/" element={<Home />} />;
+        <Route path="/posts/:id" element={<PostDetails/>}/>
       </Routes>
     </BrowserRouter>
   );
