@@ -34,14 +34,14 @@ body {
     width: 85%;
     min-width: auto;
     max-width: 640px;
-    max-height: 650px;
+    height: 95vh;
   }
 
   @include small-screen {
     width: 85%;
     min-width: auto;
     max-width: 540px;
-    max-height: 650px;
+    height: 95vh;
     text-align: center;
   }
 

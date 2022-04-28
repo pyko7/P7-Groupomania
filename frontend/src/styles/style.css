@@ -5,13 +5,13 @@ layout
 pages*/
 /*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
-.user-post-right .image-preview-container, a, .posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
+.profile-modal, .profile-footer, .profile-body_buttons button, .profile-body_buttons, .profile-body, .profile-header, .user-post-right .image-preview-container, a, .posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.user-post .post-icons-container .like-dislike-icons-container, .user-post .post-icons-container {
+.like-dislike-icons-container, .post-icons-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -465,6 +465,7 @@ li {
 }
 .modal-body {
   width: 100%;
+  flex-direction: column;
 }
 .modal-body textarea {
   position: relative;
@@ -497,7 +498,6 @@ li {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  background-color: #cbf7ff;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .modal-footer button {
@@ -654,7 +654,7 @@ body {
     width: 85%;
     min-width: auto;
     max-width: 640px;
-    max-height: 650px;
+    height: 95vh;
   }
 }
 @media screen and (max-width: 768px) {
@@ -662,7 +662,7 @@ body {
     width: 85%;
     min-width: auto;
     max-width: 540px;
-    max-height: 650px;
+    height: 95vh;
     text-align: center;
   }
 }
@@ -962,7 +962,6 @@ a {
   background-color: #fff;
   /*user profile picture container*/
   /*user profile picture*/
-  /*content that user have posted*/
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .user-post {
@@ -1046,7 +1045,9 @@ a {
     margin-top: 10px;
   }
 }
-.user-post .user-post-content {
+
+/*content that user have posted*/
+.user-post-content {
   position: relative;
   width: 100%;
   padding: 25px;
@@ -1055,70 +1056,82 @@ a {
   background-color: #fff;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .user-post .user-post-content {
+  .user-post-content {
     width: 100%;
   }
 }
 @media screen and (max-width: 768px) {
-  .user-post .user-post-content {
+  .user-post-content {
     width: 100%;
   }
 }
-.user-post .post-icons-container {
+
+.post-icons-container {
   width: 100%;
   padding: 25px;
   border-bottom-right-radius: 20px;
   background-color: #fff;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .user-post .post-icons-container {
+  .post-icons-container {
     width: 100%;
     padding: 10px 25px;
   }
 }
 @media screen and (max-width: 768px) {
-  .user-post .post-icons-container {
+  .post-icons-container {
     width: 100%;
     padding: 10px 25px;
   }
 }
-.user-post .post-icons-container i {
+.post-icons-container i {
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
 }
-.user-post .post-icons-container i:hover {
+.post-icons-container i:hover {
   color: #fe5633;
 }
 @media screen and (max-width: 768px) {
-  .user-post .post-icons-container i {
+  .post-icons-container i {
     font-size: 20px;
   }
 }
-.user-post .post-icons-container .like-dislike-icons {
+
+.like-dislike-icons {
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
 }
-.user-post .post-icons-container .like-dislike-icons:hover {
+.like-dislike-icons:hover {
   color: #fe5633;
 }
-.user-post .post-icons-container .like-dislike-icons:hover {
+.like-dislike-icons:hover {
   font-weight: 800;
   background: transparent;
   color: #6ab4dc;
 }
-.user-post .post-icons-container .like-dislike-icons-container {
+
+.like-dislike-icons-container {
   width: 12%;
   max-width: 80px;
 }
-@media screen and (max-width: 768px) {
-  .user-post .post-icons-container .like-dislike-icons-container {
-    width: 25%;
-    max-width: 50px;
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .like-dislike-icons-container {
+    width: 20%;
+    min-width: 60px;
+    max-width: 80px;
   }
 }
-.user-post .fa-trash-can:hover {
+@media screen and (max-width: 768px) {
+  .like-dislike-icons-container {
+    width: 25%;
+    min-width: 75px;
+    max-width: 80px;
+  }
+}
+
+.fa-trash-can:hover {
   -webkit-animation-name: wiggle;
           animation-name: wiggle;
   -webkit-animation-duration: 0.2s;
@@ -1143,10 +1156,29 @@ a {
   }
 }
 
-/*user comments*/
-.user-comment {
-  position: absolute;
-  right: 0;
+.comments-container {
+  position: relative;
+  min-width: 700px;
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  /*user comments*/
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .comments-container {
+    min-width: auto;
+    width: 80%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .comments-container {
+    min-width: auto;
+    width: 95%;
+  }
+}
+.comments-container .user-comment {
+  position: relative;
   min-width: 700px;
   width: 35%;
   display: flex;
@@ -1156,22 +1188,21 @@ a {
   background-color: #fff;
   /*user profile picture container*/
   /*user profile picture*/
-  width: 90%;
   min-width: 650px;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .user-comment {
+  .comments-container .user-comment {
     min-width: auto;
     width: 80%;
   }
 }
 @media screen and (max-width: 768px) {
-  .user-comment {
+  .comments-container .user-comment {
     min-width: auto;
     width: 95%;
   }
 }
-.user-comment .post-profile-picture {
+.comments-container .user-comment .post-profile-picture {
   width: 10%;
   text-align: center;
   background-color: #fff;
@@ -1179,30 +1210,30 @@ a {
   border-bottom-left-radius: 20px;
 }
 @media screen and (max-width: 768px) {
-  .user-comment .post-profile-picture {
+  .comments-container .user-comment .post-profile-picture {
     min-width: 35px;
   }
 }
-.user-comment img {
+.comments-container .user-comment img {
   margin: 15px 10px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .user-comment img {
+  .comments-container .user-comment img {
     width: 40px;
     height: 40px;
   }
 }
 @media screen and (max-width: 768px) {
-  .user-comment img {
+  .comments-container .user-comment img {
     margin: 15px 7px;
     width: 30px;
     height: 30px;
   }
 }
-.user-comment::before {
+.comments-container .user-comment::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -1211,25 +1242,193 @@ a {
   height: 2px;
   background-color: #fd2d01;
 }
-.user-comment::after {
+.comments-container .user-comment::after {
   content: "";
   position: absolute;
   bottom: 50%;
   left: -7%;
   width: 2px;
-  height: 100%;
+  height: 150%;
   background-color: #fd2d01;
   z-index: -1;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .user-comment {
+  .comments-container .user-comment {
     width: 90%;
   }
 }
 @media screen and (max-width: 768px) {
-  .user-comment {
+  .comments-container .user-comment {
     width: 90%;
   }
 }
 
-/*ajouter validation form*//*# sourceMappingURL=style.css.map */
+/*ajouter validation form*/
+.profile-container {
+  width: 35%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin-top: 100px;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 20px;
+  text-align: center;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .profile-container {
+    min-width: auto;
+    max-width: 700px;
+    width: 80%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .profile-container {
+    min-width: auto;
+    max-width: 475px;
+    width: 95%;
+  }
+}
+.profile-header {
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+@media screen and (max-width: 768px) {
+  .profile-header h1 {
+    font-size: 24px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .profile-header h1 {
+    font-size: 30px;
+  }
+}
+.profile-header input {
+  display: none;
+}
+.profile-header img {
+  width: 100px;
+  margin: 10px auto;
+  border: 1px solid #fd2d01;
+  border-radius: 50%;
+}
+.profile-header .edit-profile {
+  position: absolute;
+  bottom: 0;
+  right: 40%;
+  color: #fd2d01;
+  cursor: pointer;
+  color: #ccc;
+  padding: 7px;
+  background-color: #6ab4dc;
+  border-radius: 50%;
+  font-size: 18px;
+}
+.profile-header .edit-profile:hover {
+  color: #fe5633;
+}
+@media screen and (max-width: 768px) {
+  .profile-header .edit-profile {
+    right: 35%;
+  }
+}
+.profile-body {
+  position: relative;
+  width: 100%;
+  margin: 60px auto;
+  flex-direction: column;
+}
+.profile-body h1 {
+  color: #fd2d01;
+}
+.profile-body_buttons {
+  width: 100%;
+  height: 50px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.profile-body_buttons button {
+  width: 250px;
+  height: 50px;
+  margin: 15px;
+  padding: 15px 20px;
+  border-radius: 40px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #fe4119;
+  cursor: pointer;
+  line-height: 1;
+}
+.profile-body_buttons button:hover {
+  background-color: #fe5633;
+}
+.profile-body .invalid-message {
+  width: 60%;
+  font-size: 14px;
+}
+.profile-body .invalid-message.deletion {
+  text-align: center;
+  font-style: 18px;
+}
+.profile-body .deletion-message {
+  width: 90%;
+  margin-bottom: 25px;
+  text-align: center;
+  line-height: 1.5;
+}
+.profile-body input {
+  min-width: 250px;
+  width: 60%;
+  margin-bottom: 25px;
+  border: 2px solid #000;
+  padding: 10px;
+  border-radius: 5px;
+  resize: none;
+  outline: none;
+}
+@media screen and (max-width: 768px) {
+  .profile-body input {
+    min-width: auto;
+    width: 95%;
+  }
+}
+.profile-body input:focus {
+  border-color: #517c96;
+}
+.profile-footer {
+  width: 100%;
+  margin: 0 auto;
+}
+.profile-footer button {
+  width: 250px;
+  height: 50px;
+  margin: 15px;
+  padding: 15px 20px;
+  border-radius: 40px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #fe4119;
+  cursor: pointer;
+  width: 150px;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+.profile-footer button:hover {
+  background-color: #fe5633;
+}
+
+/*modale for editing profile/password, delete account*/
+.profile-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}/*# sourceMappingURL=style.css.map */

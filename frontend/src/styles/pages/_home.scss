@@ -104,117 +104,141 @@ a {
       @include postDate;
     }
   }
-  /*content that user have posted*/
-  .user-post-content {
-    position: relative;
-    width: $textarea-desktop-width;
-    padding: $post-padding;
-    border: none;
-    border-top-right-radius: $post-border-radius;
-    background-color: #fff;
+}
 
-    @include medium-screen {
-      width: $textarea-tablet-width;
-    }
-    @include small-screen {
-      width: $textarea-mobile-width;
-    }
+/*content that user have posted*/
+.user-post-content {
+  position: relative;
+  width: $textarea-desktop-width;
+  padding: $post-padding;
+  border: none;
+  border-top-right-radius: $post-border-radius;
+  background-color: #fff;
+
+  @include medium-screen {
+    width: $textarea-tablet-width;
+  }
+  @include small-screen {
+    width: $textarea-mobile-width;
+  }
+}
+
+.post-icons-container {
+  width: $textarea-desktop-width;
+  padding: $post-padding;
+  @extend %flex-center-between;
+  border-bottom-right-radius: $post-border-radius;
+  background-color: #fff;
+
+  @include medium-screen {
+    width: $textarea-tablet-width;
+    padding: $post-mobile-padding;
+  }
+  @include small-screen {
+    width: $textarea-mobile-width;
+    padding: $post-mobile-padding;
   }
 
-  .post-icons-container {
-    width: $textarea-desktop-width;
-    padding: $post-padding;
-    @extend %flex-center-between;
-    border-bottom-right-radius: $post-border-radius;
-    background-color: #fff;
+  i {
+    @include postIcons;
+    font-size: 22px;
 
-    @include medium-screen {
-      width: $textarea-tablet-width;
-      padding: $post-mobile-padding;
-    }
     @include small-screen {
-      width: $textarea-mobile-width;
-      padding: $post-mobile-padding;
-    }
-
-    i {
-      @include postIcons;
-      font-size: 22px;
-
-      @include small-screen {
-        font-size: 20px;
-      }
-    }
-
-    .like-dislike-icons {
-      @include postIcons;
-      font-size: 22px;
-      &:hover {
-        font-weight: $weight-bold;
-        background: transparent;
-        color: $main-color;
-      }
-    }
-
-    .like-dislike-icons-container {
-      width: 12%;
-      max-width: 80px;
-      @extend %flex-center-between;
-
-      @include small-screen {
-        width: 25%;
-        max-width: 50px;
-      }
-    }
-  }
-  .fa-trash-can:hover {
-    animation-name: wiggle;
-    animation-duration: 0.2s;
-    animation-iteration-count: 5;
-    @keyframes wiggle {
-      0% {
-        transform: rotate(-3deg);
-      }
-      100% {
-        transform: rotate(3deg);
-      }
+      font-size: 20px;
     }
   }
 }
 
-/*user comments*/
-.user-comment {
-  position: absolute;
-  right: 0;
-  @include postTemplate;
-  width: 90%;
-  min-width: 650px;
+.like-dislike-icons {
+  @include postIcons;
+  font-size: 22px;
+  &:hover {
+    font-weight: $weight-bold;
+    background: transparent;
+    color: $main-color;
+  }
+}
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: -7%;
-    width: 7%;
-    height: 2px;
-    background-color: $secondary-color;
-  }
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 50%;
-    left: -7%;
-    width: 2px;
-    height: 100%;
-    background-color: $secondary-color;
-    z-index: -1;
-  }
+.like-dislike-icons-container {
+  width: 12%;
+  max-width: 80px;
+  @extend %flex-center-between;
 
   @include medium-screen {
-    width: 90%;
+    width: 20%;
+    min-width: 60px;
+    max-width: 80px;
   }
   @include small-screen {
-    width: 90%;
+    width: 25%;
+    min-width: 75px;
+    max-width: 80px;
+  }
+}
+
+.fa-trash-can:hover {
+  animation-name: wiggle;
+  animation-duration: 0.2s;
+  animation-iteration-count: 5;
+  @keyframes wiggle {
+    0% {
+      transform: rotate(-3deg);
+    }
+    100% {
+      transform: rotate(3deg);
+    }
+  }
+}
+.comments-container {
+  position: relative;
+  min-width: 700px;
+  width: $timeline-desktop-width;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  @include medium-screen {
+    min-width: auto;
+    width: $timeline-tablet-width;
+  }
+
+  @include small-screen {
+    min-width: auto;
+    width: $timeline-mobile-width;
+  }
+
+  /*user comments*/
+  .user-comment {
+    position: relative;
+    @include postTemplate;
+    min-width: 650px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -7%;
+      width: 7%;
+      height: 2px;
+      background-color: $secondary-color;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 50%;
+      left: -7%;
+      width: 2px;
+      height: 150%;
+      background-color: $secondary-color;
+      z-index: -1;
+    }
+
+    @include medium-screen {
+      width: 90%;
+    }
+    @include small-screen {
+      width: 90%;
+    }
   }
 }
 

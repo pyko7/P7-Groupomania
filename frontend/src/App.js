@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import PostDetails from "./components/PostDetails";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -16,6 +17,8 @@ const App = () => {
         <Route path="*" element={<NotFound />} />;
         <Route path="/" element={<Home />} />;
         <Route path="/posts/:id" element={<PostDetails/>}/>
+        <Route path= "/profile/:id" element={<Profile/>}/>
+
       </Routes>
     </BrowserRouter>
   );

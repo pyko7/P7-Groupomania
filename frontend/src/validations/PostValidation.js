@@ -9,6 +9,13 @@ setLocale({
 
 export const postSchema = yup
   .object({
-    post: yup.string().min(2).max(280).trim().required(),
+    post: yup.string().min(2).max(280).trim().required("Veuillez saisir au minimum 2 caractères"),
   })
   .required();
+
+export const commentSchema = yup
+  .object({
+    comment: yup.string().min(2,"Veuillez saisir au minimum 2 caractères").max(280).trim().required("Veuillez saisir au minimum 2 caractères"),
+  })
+  .required();
+

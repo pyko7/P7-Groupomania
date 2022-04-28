@@ -12,7 +12,7 @@ const Header = () => {
                 <img src={large} srcSet={`${small} 768w, ${large} 3200w`} alt='Logo' />
             </Link>
             <nav>
-                <Link to="#">
+                <Link to="/profile/:id">
                     <i className="fa-regular fa-user"></i>
                 </Link>
             </nav>

@@ -12,7 +12,8 @@ import 'moment-timezone';
 import photo from "../assets/images/logo.png";
 import Header from './Header';
 import UserComment from './UserComment';
-import CommentModal from './CommentModal';
+import CreateCommentModal from './CreateCommentModal';
+import DeletePost from './DeletePost';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -29,23 +30,8 @@ const PostDetails = () => {
 
     const navigate = useNavigate();
     /*Defines state to show/hide comment modal*/
-    const [show, setShow] = useState(false);
-
-    /*function delete a post*/
-    const deletePost = async () => {
-        /*Get ID for posts deletion*/
-        const settings = { method: "DELETE" };
-        try {
-            const res = await fetch("https://jsonplaceholder.typicode.com/posts/" + id, settings);
-            const data = await res.json();
-            if (!res.ok) throw error;
-            console.log("ok");
-            navigate("/");
-            return data;
-        } catch (error) {
-            return error;
-        }
-    }
+    const [commentModal, setCommentModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
 
     return (
         <div>
@@ -70,14 +56,19 @@ const PostDetails = () => {
                                         <FontAwesomeIcon icon={faThumbsUp} className="like-dislike-icons" />
                                         <FontAwesomeIcon icon={faThumbsDown} className="like-dislike-icons" />
                                     </div>
-                                    <i className="fa-solid fa-message" onClick={() => setShow(true)}></i>
-                                    <CommentModal onClose={() => setShow(false)} onSubmit={() => setShow(false)} show={show} />
-                                    <i className="fa-solid fa-trash-can" onClick={deletePost}></i>
+                                    <i className="fa-solid fa-message" onClick={() => setCommentModal(true)}></i>
+                                    {commentModal && <CreateCommentModal showModal={setCommentModal}/>}
+                                    <i className="fa-solid fa-trash-can" onClick={() => setDeleteModal(true)}></i>
+                                    {deleteModal && <DeletePost showModal={setDeleteModal}/>}
                                 </div>
                             </div>
                         </>}
                     </div>
-                    {/* < UserComment /> */}
+                    <div className="comments-container">
+                    < UserComment />
+                    < UserComment />
+                    < UserComment />
+                    </div>
                 </div>
             </main>
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import photo from "../assets/images/logo.png";
 import useFetch from './useFetch';
 import { useParams } from 'react-router-dom';
@@ -9,6 +9,10 @@ import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Spinner from './Spinner';
+import CreateCommentModal from './CreateCommentModal';
+import DeleteComment from './DeleteComment';
+
+
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -21,33 +25,36 @@ Moment.globalLocale = 'fr';
 /*function gets all comments of the post*/
 const UserComment = () => {
     const { id } = useParams();
+    const [commentModal, setCommentModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
     const { data: comment, isPending } = useFetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
 
     return (
-        <div className='user-post'>
-            <div className="user-comment" >
-                {isPending && <Spinner />}
-                {comment && <>
-                    <div className="post-profile-picture">
-                        <img src={photo} alt='photo de profil' />
+        <div className="user-comment" >
+            {isPending && <Spinner />}
+            {comment && <>
+                <div className="post-profile-picture">
+                    <img src={photo} alt='photo de profil' />
+                </div>
+                <div className='user-post-right'>
+                    <div className='user-post-content'>
+                        <h1>{comment.userId}Jacques</h1>
+                        <p>{comment.body}</p>
+                        <span>Posté <Moment fromNow></Moment></span>
                     </div>
-                    <div className='user-post-right'>
-                        <div className='user-post-content'>
-                            <h1>{comment.userId}Jacques</h1>
-                            <p>{comment.body}</p>
-                            <span>Posté <Moment fromNow></Moment></span>
+                    <div className="post-icons-container">
+                        <div className="like-dislike-icons-container">
+                            <FontAwesomeIcon icon={faThumbsUp} className="like-dislike-icons" />
+                            <FontAwesomeIcon icon={faThumbsDown} className="like-dislike-icons" />
                         </div>
-                        <div className="post-icons-container">
-                            <div className="like-dislike-icons-container">
-                                <FontAwesomeIcon icon={faThumbsUp} className="like-dislike-icons" />
-                                <FontAwesomeIcon icon={faThumbsDown} className="like-dislike-icons" />
-                            </div>
-                            <i className="fa-solid fa-message"></i>
-                            <i className="fa-solid fa-trash-can"></i>
-                        </div>
+                        <i className="fa-solid fa-message" onClick={() => setCommentModal(true)}></i>
+                        {commentModal && <CreateCommentModal showModal={setCommentModal} />}
+                        <i className="fa-solid fa-trash-can" onClick={() => setDeleteModal(true)}></i>
+                        {deleteModal && <DeleteComment showModal={setDeleteModal} />}
+
                     </div>
-                </>}
-            </div>
+                </div>
+            </>}
         </div>
     );
 };
