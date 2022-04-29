@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Header from './Header';
 import photo from "../assets/images/logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { updateUsernameSchema } from '../validations/UserValidation';
-import Spinner from './Spinner';
 
 
 /*update profile picture*/

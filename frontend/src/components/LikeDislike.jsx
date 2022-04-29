@@ -36,10 +36,7 @@ const LikeDislike = () => {
         setActiveLike(false);
         dislikeValue++;
         setDislike(dislikeValue);
-        console.log(dislike);
     }
-
-
 
     const handleLike = () => {
         if (activeLike) {
@@ -49,8 +46,8 @@ const LikeDislike = () => {
         } else {
             userLike();
         }
-
     }
+
     const handleDislike = () => {
         if (activeDislike) {
             dislikeValue--;

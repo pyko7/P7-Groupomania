@@ -45,6 +45,10 @@ body {
     text-align: center;
   }
 
+  h2{
+    cursor: pointer;
+  }
+
   .logo-container {
     width: 33%;
     min-width: 200px;
@@ -112,10 +116,4 @@ body {
   color: $secondary-color;
   font-style: italic;
   text-align: end;
-}
-
-.connect-change-form {
-  a {
-    color: inherit;
-  }
 }

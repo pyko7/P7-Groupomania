@@ -17,20 +17,28 @@ const Header = () => {
     return (
         <header>
             <Link to="/" className="logo-container">
-                <img src={large} srcSet={`${small} 768w, ${large} 3200w`} alt='Logo' />
+                {/* change logo according to screen size */}
+                <img src={window.innerWidth <= 768 ? small : large} alt='Logo' />
+
             </Link>
+
             <nav>
                 <ul>
-                    <li><Link to="/"><FontAwesomeIcon id="homeIcon" icon={faHome} />
-                    </Link></li>
-                    <li><Link to="/profile/:id">
-                        <FontAwesomeIcon icon={faUser} />
-                    </Link></li>
-                    <li><FontAwesomeIcon icon={faArrowRightFromBracket} onClick={() => setLogOut(true)} /></li>
+                    <li>
+                        <Link to="/">
+                            <FontAwesomeIcon id="homeIcon" icon={faHome} />
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/profile/:id">
+                            <FontAwesomeIcon icon={faUser} alt="Profil" />
+                        </Link>
+                    </li>
+                    <li>
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} onClick={() => setLogOut(true)} alt="Se déconnecter" />
+                    </li>
                     {logOut && <LogOutModal showModal={setLogOut} />}
                 </ul>
-
-
             </nav>
         </header>
     );

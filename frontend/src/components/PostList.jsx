@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import photo from "../assets/images/logo.png";
-import { Link } from 'react-router-dom';
 import DeletePost from './DeletePost';
 import LikeDislike from './LikeDislike';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -15,8 +18,7 @@ Moment.globalMoment = moment;
 Moment.globalLocale = 'fr';
 
 
-const PostList = (props) => {
-    const posts = props.posts;
+const PostList = ({posts}) => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [commentModal, setCommentModal] = useState(false);
 
@@ -40,9 +42,9 @@ const PostList = (props) => {
                             <LikeDislike />
                             {/* Link to post page + opening modal */}
                             <Link to={`/posts/${post.id}`}>
-                                <i className="fa-solid fa-message"></i>
+                                <FontAwesomeIcon icon={faMessage} className="post-icons" />
                             </Link>
-                            <i className="fa-solid fa-trash-can" onClick={() => setDeleteModal(true)}></i>
+                            <FontAwesomeIcon icon={faTrashCan} className="post-icons" onClick={() => setDeleteModal(true)} />
                             {deleteModal && <DeletePost showModal={setDeleteModal} />}
                         </div>
                     </div>

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Header from './Header';
 import { useParams } from 'react-router-dom';
-import Spinner from './Spinner';
 
 /*update profile picture*/
 const DeleteAccountModal = ({ showModal }) => {

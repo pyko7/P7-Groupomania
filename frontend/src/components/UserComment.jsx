@@ -3,8 +3,8 @@ import photo from "../assets/images/logo.png";
 import useFetch from './useFetch';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-import { faThumbsDown } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -45,9 +45,9 @@ const UserComment = () => {
                     </div>
                     <div className="post-icons-container">
                         <LikeDislike />
-                        <i className="fa-solid fa-message" onClick={() => setCommentModal(true)}></i>
+                        <FontAwesomeIcon icon={faMessage} className="post-icons" />
                         {commentModal && <CreateCommentModal showModal={setCommentModal} />}
-                        <i className="fa-solid fa-trash-can" onClick={() => setDeleteModal(true)}></i>
+                        <FontAwesomeIcon icon={faTrashCan} className="post-icons" onClick={() => setDeleteModal(true)} />
                         {deleteModal && <DeleteComment showModal={setDeleteModal} />}
 
                     </div>

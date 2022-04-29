@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Header from './Header';
-import { useParams } from 'react-router-dom';
-import Spinner from './Spinner';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 /*update profile picture*/

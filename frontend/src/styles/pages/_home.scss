@@ -47,6 +47,17 @@
       padding: $post-mobile-padding;
     }
 
+    .add-file-icon {
+      @include postIcons;
+      font-size: 30px;
+
+      @include medium-screen {
+        font-size: 28px;
+      }
+      @include small-screen {
+        font-size: 26px;
+      }
+    }
     label i {
       @include postIcons;
       font-size: 30px;
@@ -139,13 +150,9 @@ a {
     padding: $post-mobile-padding;
   }
 
-  i {
+  .post-icons {
     @include postIcons;
     font-size: 22px;
-
-    @include small-screen {
-      font-size: 20px;
-    }
   }
 }
 
@@ -159,7 +166,8 @@ a {
   }
 }
 
-.active-icon{
+/*active state for like/dislike icons*/
+.active-icon {
   @include postIcons;
   font-size: 22px;
   color: $main-color;
@@ -247,5 +255,3 @@ a {
     }
   }
 }
-
-/*ajouter validation form*/

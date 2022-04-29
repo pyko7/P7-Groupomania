@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import useFetch from './useFetch';
 import Spinner from './Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-import { faThumbsDown } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -54,9 +54,9 @@ const PostDetails = () => {
                                 </div>
                                 <div className="post-icons-container">
                                     <LikeDislike />
-                                    <i className="fa-solid fa-message" onClick={() => setCommentModal(true)}></i>
+                                    <FontAwesomeIcon icon={faMessage} className="post-icons" />
                                     {commentModal && <CreateCommentModal showModal={setCommentModal} />}
-                                    <i className="fa-solid fa-trash-can" onClick={() => setDeleteModal(true)}></i>
+                                    <FontAwesomeIcon icon={faTrashCan} className="post-icons" onClick={() => setDeleteModal(true)} />
                                     {deleteModal && <DeletePost showModal={setDeleteModal} />}
                                 </div>
                             </div>

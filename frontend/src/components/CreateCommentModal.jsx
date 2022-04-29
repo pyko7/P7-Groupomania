@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import Spinner from './Spinner';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -30,6 +29,7 @@ const CreateCommentModal = ({ showModal }) => {
         resolver: yupResolver(commentSchema),
     });
     const navigate = useNavigate();
+    const [isPending, setIsPending] = useState(false)
 
     /*function to comment a post*/
     const createComment = async () => {
@@ -55,10 +55,14 @@ const CreateCommentModal = ({ showModal }) => {
             showModal(false);
             return data;
         } catch (error) {
+            setIsPending(true);
             return error;
         }
     };
 
+    /*
+    *   ADD SPINNER IF ERROR
+    */
     return (
         <div className='modal-overlay' onClick={() => showModal(false)}>
             <div className="modal" onClick={e => e.stopPropagation()}>

@@ -71,10 +71,9 @@ header {
         }
 
         &:hover {
-          font-weight: $weight-bold;
-          background: $secondary-color;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+          color: lighten($secondary-color, 10%);
         }
 
         #homeIcon {

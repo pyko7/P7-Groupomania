@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { postSchema } from '../validations/PostValidation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileImage } from '@fortawesome/free-solid-svg-icons';
 import photo from "../assets/images/logo.png";
 
 
@@ -70,7 +72,7 @@ const CreatePost = () => {
                 <div className="new-post-icons-container">
                     <input accept='image/jpeg,image/png' type='file' name="image" id="image" onChange={e => setSelectedImage(e.target.files[0])}></input>
                     <label htmlFor="image">
-                        <i className="fa-solid fa-file-image"></i>
+                        <FontAwesomeIcon icon={faFileImage} className='add-file-icon' />
                     </label>
                     <button className='send-post-button' onClick={handleSubmit(submitPost)}>Envoyer</button>
                 </div>

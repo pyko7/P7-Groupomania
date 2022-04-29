@@ -36,6 +36,16 @@
   }
 }
 
+.connect-container{
+  h2{
+    font-weight: $weight-semi-bold;
+    font-size: 16px;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+}
+
 /*inputs of the login/register form*/
 .register-form {
   input {

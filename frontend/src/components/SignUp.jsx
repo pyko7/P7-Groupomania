@@ -2,9 +2,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from "../validations/UserValidation";
-import { Link } from "react-router-dom";
-import logo from '../assets/images/icon-above-font-nobg.png';
-
 
 /*function to register to the website*/
 const Register = () => {
@@ -41,42 +38,25 @@ const Register = () => {
             console.log(user.email);
             console.log(user.password);
             console.log(user.confirmPassword);
+            navigate("/");
             return data;
         } catch (error) {
             return error
         }
     }
 
-
-    const submitForm = async () => {
-        await createUser();
-        navigate("/");
-    }
-
-
     return (
-        <main className="connect-modal">
-            <div className="connect-container">
-                <div className="logo-container">
-                    <img src={logo} />
-                </div>
-                <div>
-                    <h1 className="connect-title">S'inscrire</h1>
-                </div>
-                <form onSubmit={handleSubmit(submitForm)}>
-                    <input type="text" name="username" placeholder="Pseudo"{...register("username")} />
-                    <p className="invalid-message">{errors.username?.message}</p>
-                    <input type="email" name="email" placeholder="Adresse email" {...register("email")} />
-                    <p className="invalid-message">{errors.email?.message}</p>
-                    <input type="password" name="password" placeholder="Mot de passe" {...register("password")} />
-                    <p className="invalid-message">{errors.password?.message}</p>
-                    <input type="password" name="confirmPassword" placeholder="Confirmer le mot de passe" {...register("confirmPassword")} />
-                    <p className="invalid-message">{errors.confirmPassword && "Les mots de passes doivent être similaires"}</p>
-                    <input type="submit" name="submitButton" value="S'inscrire" />
-                </form>
-                <h2 className="connect-change-form"><Link to="/login">Déjà inscrit ? Connectez-vous ici</Link></h2>
-            </div>
-        </main>
+        <form onSubmit={handleSubmit(createUser)}>
+            <input type="text" name="username" placeholder="Pseudo"{...register("username")} />
+            <p className="invalid-message">{errors.username?.message}</p>
+            <input type="email" name="email" placeholder="Adresse email" {...register("email")} />
+            <p className="invalid-message">{errors.email?.message}</p>
+            <input type="password" name="password" placeholder="Mot de passe" {...register("password")} />
+            <p className="invalid-message">{errors.password?.message}</p>
+            <input type="password" name="confirmPassword" placeholder="Confirmer le mot de passe" {...register("confirmPassword")} />
+            <p className="invalid-message">{errors.confirmPassword && "Les mots de passes doivent être similaires"}</p>
+            <input type="submit" name="submitButton" value="S'inscrire" />
+        </form>
     );
 };
 

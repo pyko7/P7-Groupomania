@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import Header from './Header';
 import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { updatePasswordSchema } from '../validations/UserValidation';
-import Spinner from './Spinner';
-
 
 /*update profile picture*/
 const UpdatePasswordModal = ({ showModal }) => {

@@ -4,11 +4,13 @@ import photo from "../assets/images/logo.png";
 import UpdateProfileModal from '../components/UpdateProfileModal';
 import UpdatePasswordModal from '../components/UpdatePasswordModal';
 import DeleteAccountModal from '../components/DeleteAccountModal';
+import LogOutModal from '../components/LogOutModal';
 
 const Profile = () => {
     const [updateProfile, setupdateProfile] = useState(false);
     const [updatePassword, setupdatePassword] = useState(false);
     const [deleteAccount, setdeleteAccount] = useState(false);
+    const [logOut, setLogOut] = useState(false);
 
 
 
@@ -31,6 +33,8 @@ const Profile = () => {
                                 {updatePassword && <UpdatePasswordModal showModal={setupdatePassword} />}
                                 <button onClick={() => setdeleteAccount(true)}>Supprimer le compte</button>
                                 {deleteAccount && <DeleteAccountModal showModal={setdeleteAccount} />}
+                                <button onClick={() => setLogOut(true)}>Se déconnecter</button>
+                                {logOut && <LogOutModal showModal={setLogOut} />}
                             </div>
                         </div>
                     </div>

@@ -2,8 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from "../validations/UserValidation";
-import { Link } from "react-router-dom";
-import logo from '../assets/images/icon-above-font-nobg.png';
+
 
 /*function to login to the website*/
 
@@ -39,35 +38,21 @@ const Login = () => {
             const data = await res.json();
             console.log(user.email);
             console.log(user.password);
+            navigate("/");
             return data;
         } catch (error) {
             return error
         }
     }
 
-    const submitForm = async () => {
-        await logUser();
-        navigate("/");
-    }
     return (
-        <main className="connect-modal">
-            <div className="connect-container">
-                <div className="logo-container">
-                    <img src={logo} />
-                </div>
-                <div>
-                    <h1 className="connect-title">Se connecter</h1>
-                </div>
-                <form onSubmit={handleSubmit(submitForm)}>
-                    <input type="email" name="email" placeholder="Adresse email" {...register("email")} />
-                    <p className="invalid-message">{errors.email?.message}</p>
-                    <input type="password" name="password" placeholder="Mot de passe" {...register("password")} />
-                    <p className="invalid-message">{errors.password?.message}</p>
-                    <input type="submit" name="submitButton" value="Se connecter" />
-                </form>
-                <h2 className="connect-change-form"><Link to="/signup">Vous n'avez pas de compte ? Inscrivez-vous ici</Link></h2>
-            </div>
-        </main>
+        <form onSubmit={handleSubmit(logUser)}>
+            <input type="email" name="email" placeholder="Adresse email" {...register("email")} />
+            <p className="invalid-message">{errors.email?.message}</p>
+            <input type="password" name="password" placeholder="Mot de passe" {...register("password")} />
+            <p className="invalid-message">{errors.password?.message}</p>
+            <input type="submit" name="submitButton" value="Se connecter" />
+        </form>
     );
 };
 

@@ -408,6 +408,14 @@ li {
   }
 }
 
+.connect-container h2 {
+  font-weight: 600;
+  font-size: 16px;
+}
+.connect-container h2:hover {
+  text-decoration: underline;
+}
+
 /*inputs of the login/register form*/
 .register-form input {
   font-size: 20px;
@@ -630,10 +638,9 @@ header nav ul li {
   }
 }
 header nav ul li:hover {
-  font-weight: 800;
-  background: #fd2d01;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: #fe5633;
 }
 header nav ul li #homeIcon {
   display: none;
@@ -717,6 +724,9 @@ body {
     height: 95vh;
     text-align: center;
   }
+}
+.connect-container h2 {
+  cursor: pointer;
 }
 .connect-container .logo-container {
   width: 33%;
@@ -808,10 +818,6 @@ body {
   color: #fd2d01;
   font-style: italic;
   text-align: end;
-}
-
-.connect-change-form a {
-  color: inherit;
 }
 
 .main-container {
@@ -948,6 +954,24 @@ body {
   .new-user-post .new-post-icons-container {
     width: 100%;
     padding: 10px 25px;
+  }
+}
+.new-user-post .new-post-icons-container .add-file-icon {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 30px;
+}
+.new-user-post .new-post-icons-container .add-file-icon:hover {
+  color: #fe5633;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .new-user-post .new-post-icons-container .add-file-icon {
+    font-size: 28px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .new-user-post .new-post-icons-container .add-file-icon {
+    font-size: 26px;
   }
 }
 .new-user-post .new-post-icons-container label i {
@@ -1136,18 +1160,13 @@ a {
     padding: 10px 25px;
   }
 }
-.post-icons-container i {
+.post-icons-container .post-icons {
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
 }
-.post-icons-container i:hover {
+.post-icons-container .post-icons:hover {
   color: #fe5633;
-}
-@media screen and (max-width: 768px) {
-  .post-icons-container i {
-    font-size: 20px;
-  }
 }
 
 .like-dislike-icons {
@@ -1164,6 +1183,7 @@ a {
   color: #6ab4dc;
 }
 
+/*active state for like/dislike icons*/
 .active-icon {
   color: #fd2d01;
   cursor: pointer;
@@ -1325,7 +1345,6 @@ a {
   }
 }
 
-/*ajouter validation form*/
 .profile-container {
   width: 35%;
   height: -webkit-fit-content;
