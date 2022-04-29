@@ -11,6 +11,9 @@ header {
   overflow: hidden;
   z-index: 100;
 
+  @include medium-screen {
+    padding: 0 20px;
+  }
   @include small-screen {
     padding: 0 20px;
   }
@@ -30,20 +33,61 @@ header {
   }
 
   nav {
+    width: 7%;
+    min-width: 120px;
     margin-right: 25px;
+    @include medium-screen {
+      width: 35%;
+      max-width: 200px;
+      margin-right: 10px;
+    }
     @include small-screen {
+      min-width: auto;
+      max-width: 150px;
+      width: 35%;
       margin-right: 10px;
     }
 
-    .fa-user {
-      font-size: 28px;
-      color: $secondary-color;
+    ul {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
 
-      &:hover{
-        font-weight: $weight-bold;
-        background: $secondary-color;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent; 
+      @include small-screen {
+        justify-content: space-between;
+      }
+
+      li {
+        font-size: 28px;
+        color: $secondary-color;
+        cursor: pointer;
+
+        @include medium-screen {
+          font-size: 24px;
+        }
+        @include small-screen {
+          font-size: 20px;
+        }
+
+        &:hover {
+          font-weight: $weight-bold;
+          background: $secondary-color;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        #homeIcon {
+          display: none;
+
+          @include medium-screen {
+            display: block;
+          }
+
+          @include small-screen {
+            display: block;
+          }
+        }
       }
     }
   }

@@ -5,7 +5,7 @@ layout
 pages*/
 /*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
-.profile-modal, .profile-footer, .profile-body_buttons button, .profile-body_buttons, .profile-body, .profile-header, .user-post-right .image-preview-container, a, .posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
+.profile-modal, .profile-footer button, .profile-footer, .profile-body_buttons button, .profile-body_buttons, .profile-body, .profile-header, .user-post-right .image-preview-container, a, .posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -561,6 +561,11 @@ header {
   overflow: hidden;
   z-index: 100;
 }
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  header {
+    padding: 0 20px;
+  }
+}
 @media screen and (max-width: 768px) {
   header {
     padding: 0 20px;
@@ -579,22 +584,69 @@ header .logo-container img {
   width: 100%;
 }
 header nav {
+  width: 7%;
+  min-width: 120px;
   margin-right: 25px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) and (max-width: 992px) {
   header nav {
+    width: 35%;
+    max-width: 200px;
     margin-right: 10px;
   }
 }
-header nav .fa-user {
+@media screen and (max-width: 768px) {
+  header nav {
+    min-width: auto;
+    max-width: 150px;
+    width: 35%;
+    margin-right: 10px;
+  }
+}
+header nav ul {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+@media screen and (max-width: 768px) {
+  header nav ul {
+    justify-content: space-between;
+  }
+}
+header nav ul li {
   font-size: 28px;
   color: #fd2d01;
+  cursor: pointer;
 }
-header nav .fa-user:hover {
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  header nav ul li {
+    font-size: 24px;
+  }
+}
+@media screen and (max-width: 768px) {
+  header nav ul li {
+    font-size: 20px;
+  }
+}
+header nav ul li:hover {
   font-weight: 800;
   background: #fd2d01;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+header nav ul li #homeIcon {
+  display: none;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  header nav ul li #homeIcon {
+    display: block;
+  }
+}
+@media screen and (max-width: 768px) {
+  header nav ul li #homeIcon {
+    display: block;
+  }
 }
 
 .not-found-page {
@@ -1112,6 +1164,16 @@ a {
   color: #6ab4dc;
 }
 
+.active-icon {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+  color: #6ab4dc;
+}
+.active-icon:hover {
+  color: #fe5633;
+}
+
 .like-dislike-icons-container {
   width: 12%;
   max-width: 80px;
@@ -1414,12 +1476,21 @@ a {
   font-weight: bold;
   background-color: #fe4119;
   cursor: pointer;
-  width: 150px;
+  min-width: 150px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   margin-left: 25px;
   margin-right: 25px;
 }
 .profile-footer button:hover {
   background-color: #fe5633;
+}
+@media screen and (max-width: 768px) {
+  .profile-footer button {
+    min-width: auto;
+    font-size: 14px;
+  }
 }
 
 /*modale for editing profile/password, delete account*/

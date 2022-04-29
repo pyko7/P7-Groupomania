@@ -14,6 +14,7 @@ import Header from './Header';
 import UserComment from './UserComment';
 import CreateCommentModal from './CreateCommentModal';
 import DeletePost from './DeletePost';
+import LikeDislike from './LikeDislike';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -52,22 +53,19 @@ const PostDetails = () => {
                                     <span>Posté <Moment fromNow></Moment> </span>
                                 </div>
                                 <div className="post-icons-container">
-                                    <div className="like-dislike-icons-container">
-                                        <FontAwesomeIcon icon={faThumbsUp} className="like-dislike-icons" />
-                                        <FontAwesomeIcon icon={faThumbsDown} className="like-dislike-icons" />
-                                    </div>
+                                    <LikeDislike />
                                     <i className="fa-solid fa-message" onClick={() => setCommentModal(true)}></i>
-                                    {commentModal && <CreateCommentModal showModal={setCommentModal}/>}
+                                    {commentModal && <CreateCommentModal showModal={setCommentModal} />}
                                     <i className="fa-solid fa-trash-can" onClick={() => setDeleteModal(true)}></i>
-                                    {deleteModal && <DeletePost showModal={setDeleteModal}/>}
+                                    {deleteModal && <DeletePost showModal={setDeleteModal} />}
                                 </div>
                             </div>
                         </>}
                     </div>
                     <div className="comments-container">
-                    < UserComment />
-                    < UserComment />
-                    < UserComment />
+                        < UserComment />
+                        < UserComment />
+                        < UserComment />
                     </div>
                 </div>
             </main>

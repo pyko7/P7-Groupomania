@@ -11,6 +11,7 @@ import 'moment-timezone';
 import Spinner from './Spinner';
 import CreateCommentModal from './CreateCommentModal';
 import DeleteComment from './DeleteComment';
+import LikeDislike from './LikeDislike';
 
 
 
@@ -43,10 +44,7 @@ const UserComment = () => {
                         <span>Posté <Moment fromNow></Moment></span>
                     </div>
                     <div className="post-icons-container">
-                        <div className="like-dislike-icons-container">
-                            <FontAwesomeIcon icon={faThumbsUp} className="like-dislike-icons" />
-                            <FontAwesomeIcon icon={faThumbsDown} className="like-dislike-icons" />
-                        </div>
+                        <LikeDislike />
                         <i className="fa-solid fa-message" onClick={() => setCommentModal(true)}></i>
                         {commentModal && <CreateCommentModal showModal={setCommentModal} />}
                         <i className="fa-solid fa-trash-can" onClick={() => setDeleteModal(true)}></i>

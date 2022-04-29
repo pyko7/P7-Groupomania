@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-import { faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import photo from "../assets/images/logo.png";
 import { Link } from 'react-router-dom';
 import DeletePost from './DeletePost';
+import LikeDislike from './LikeDislike';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -39,10 +37,7 @@ const PostList = (props) => {
                             </div>
                         </Link>
                         <div className="post-icons-container">
-                            <div className="like-dislike-icons-container">
-                                <FontAwesomeIcon icon={faThumbsUp} className="like-dislike-icons" />
-                                <FontAwesomeIcon icon={faThumbsDown} className="like-dislike-icons" />
-                            </div>
+                            <LikeDislike />
                             {/* Link to post page + opening modal */}
                             <Link to={`/posts/${post.id}`}>
                                 <i className="fa-solid fa-message"></i>

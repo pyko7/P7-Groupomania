@@ -159,6 +159,12 @@ a {
   }
 }
 
+.active-icon{
+  @include postIcons;
+  font-size: 22px;
+  color: $main-color;
+}
+
 .like-dislike-icons-container {
   width: 12%;
   max-width: 80px;
