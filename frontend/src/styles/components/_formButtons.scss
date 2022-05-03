@@ -22,8 +22,11 @@
   @include medium-screen {
     font-size: 22px;
   }
-
+  
   @include small-screen {
+    width: 50%;
+    margin-top: 25px;
+    height: 50px;
     font-size: 20px;
   }
 }

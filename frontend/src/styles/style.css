@@ -384,7 +384,7 @@ li {
 }
 @media screen and (max-width: 768px) {
   .connect-title {
-    font-size: 28px;
+    font-size: 24px;
   }
 }
 
@@ -412,6 +412,11 @@ li {
   font-weight: 600;
   font-size: 16px;
 }
+@media screen and (max-width: 768px) {
+  .connect-container h2 {
+    font-size: 14px;
+  }
+}
 .connect-container h2:hover {
   text-decoration: underline;
 }
@@ -423,6 +428,11 @@ li {
 
 .invalid-message {
   font-size: 16px;
+}
+@media screen and (max-width: 768px) {
+  .invalid-message {
+    font-size: 13px;
+  }
 }
 
 /*______________________________/
@@ -697,7 +707,7 @@ body {
   width: 50%;
   min-width: 600px;
   max-width: 800px;
-  height: 750px;
+  height: 900px;
   padding: 25px 0;
   display: flex;
   align-items: center;
@@ -718,10 +728,10 @@ body {
 }
 @media screen and (max-width: 768px) {
   .connect-container {
-    width: 85%;
+    width: 95%;
     min-width: auto;
     max-width: 540px;
-    height: 95vh;
+    height: 98vh;
     text-align: center;
   }
 }
@@ -733,6 +743,11 @@ body {
   min-width: 200px;
   height: 100px;
   margin-bottom: 25px;
+}
+@media screen and (max-width: 768px) {
+  .connect-container .logo-container {
+    margin-bottom: 10px;
+  }
 }
 .connect-container .logo-container img {
   width: 100%;
@@ -766,6 +781,11 @@ body {
   border: 2px solid #000;
   border-radius: 10px;
 }
+@media screen and (max-width: 768px) {
+  .connect-container input {
+    height: 45px;
+  }
+}
 .connect-container input[type=submit] {
   width: 65%;
   height: 60px;
@@ -792,6 +812,9 @@ body {
 }
 @media screen and (max-width: 768px) {
   .connect-container input[type=submit] {
+    width: 50%;
+    margin-top: 25px;
+    height: 50px;
     font-size: 20px;
   }
 }
@@ -818,6 +841,11 @@ body {
   color: #fd2d01;
   font-style: italic;
   text-align: end;
+}
+@media screen and (max-width: 768px) {
+  .invalid-message {
+    margin-bottom: 0;
+  }
 }
 
 .main-container {

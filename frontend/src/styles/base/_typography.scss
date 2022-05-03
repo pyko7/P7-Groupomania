@@ -13,7 +13,7 @@
   font-weight: 800;
 
   @include small-screen {
-    font-size: 28px;
+    font-size: 24px;
   }
 }
 
@@ -36,11 +36,16 @@
   }
 }
 
-.connect-container{
-  h2{
+.connect-container {
+  h2 {
     font-weight: $weight-semi-bold;
     font-size: 16px;
-    &:hover{
+
+    @include small-screen {
+      font-size: 14px;
+    }
+
+    &:hover {
       text-decoration: underline;
     }
   }
@@ -55,26 +60,26 @@
 
 .invalid-message {
   font-size: 16px;
+  @include small-screen {
+    font-size: 13px;
+  }
 }
 
 /*______________________________/
 /           HOMEPAGE            /
 /______________________________*/
 
-
-
 .user-post {
-  &-right{
-    h1{
+  &-right {
+    h1 {
       font-size: 22px;
       @include medium-screen {
         font-size: 18px;
       }
-    
+
       @include small-screen {
         font-size: 16px;
       }
-    
     }
   }
 }

@@ -5,7 +5,7 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { updateUsernameSchema } from '../validations/UserValidation';
+import { updateUserProfile } from '../validations/UserValidation';
 
 
 /*update profile picture*/
@@ -26,7 +26,7 @@ const UpdateProfileModal = ({ showModal }) => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         /*if input invalid, it displays error message when user select another input*/
         mode: 'onSubmit',
-        resolver: yupResolver(updateUsernameSchema)
+        resolver: yupResolver(updateUserProfile)
     });
 
 
@@ -80,7 +80,9 @@ const UpdateProfileModal = ({ showModal }) => {
                         </label>
                     </div>
                     <div className="profile-body">
-                        <input type="text" name="newUsername" placeholder='Pseudo' minLength={3} maxLength={16} {...register("newUsername")} onChange={e => setUsername(e.target.value)} />
+                        <input type="text" name="newFirstName" placeholder='Prénom' minLength={2} maxLength={35}  {...register("newFirstName")} onChange={e => setUsername(e.target.value)} />
+                        <p className="invalid-message">{errors.newUsername?.message}</p>
+                        <input type="text" name="newLastName" placeholder='Nom' minLength={2} maxLength={35}  {...register("newLastName")} onChange={e => setUsername(e.target.value)} />
                         <p className="invalid-message">{errors.newUsername?.message}</p>
 
                     </div>

@@ -10,41 +10,45 @@ setLocale({
 /* Schema for validation of register form on register page */
 export const registerSchema = yup
   .object({
-    username: yup
+    firstName: yup
       .string()
-      .matches(/^([A-Za-z]+[-'\s]?){3,16}$/, {
-        message: "Veuillez vérifier la validité de votre pseudo",
+      .required("Veuillez entrer un prénom")
+      .matches(/^([A-Za-z]+[-'\s]?){2,}$/, {
+        message: "Veuillez vérifier la validité du champ de texte",
         excludeEmptyString: true,
-      })
-      .required("Le pseudo doit contenir entre 3 et 16 caractères"),
+      }),
+    lastName: yup
+      .string()
+      .required("Veuillez entrer un nom")
+      .matches(/^([A-Za-z]+[-'\s]?){2,}$/, {
+        message: "Veuillez vérifier la validité du champ de texte",
+        excludeEmptyString: true,
+      }),
+
     email: yup
       .string()
-      .email("L'adresse mail doit être valide")
-      .required("L'adresse mail doit être valide"),
+      .required("Veuillez entrer une adresse email")
+      .email("L'adresse mail doit être valide"),
+
     password: yup
       .string()
+      .required("Veuillez entrer un mot de passe")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
         {
           message:
-            "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial",
-          excludeEmptyString: true,
+            "Le mot de passe doit contenir au moins 1 minuscule ,1 majuscule, 1 chiffre et 1 caractère spécial",
         }
       )
-      .min(
-        6,
-        "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial"
-      )
-      .required(
-        "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial"
-      ),
+      .min(6, "Le mot de passe doit contenir au moins 6 caractères"),
+
     confirmPassword: yup
       .string()
       .oneOf(
         [yup.ref("password"), null],
         "Les mots de passe doivent être similaires"
       )
-      .required("Les mots de passe doivent être similaires"),
+      .required("Veuillez confirmer votre mot de passe"),
   })
   .required();
 
@@ -53,64 +57,61 @@ export const loginSchema = yup
   .object({
     email: yup
       .string()
-      .email("L'adresse mail doit être valide")
-      .required("L'adresse mail doit être valide"),
+      .required("Veuillez entrer une adresse email")
+      .email("L'adresse mail doit être valide"),
+
     password: yup
       .string()
+      .required("Veuillez entrer un mot de passe")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
         {
           message:
-            "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial",
+            "Le mot de passe doit contenir au moins 1 minuscule ,1 majuscule, 1 chiffre et 1 caractère spécial",
         }
       )
-      .min(
-        6,
-        "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial"
-      )
-      .required(
-        "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial"
-      ),
+      .min(6, "Le mot de passe doit contenir au moins 6 caractères"),
   })
   .required();
 
-  export const updateUsernameSchema = yup
+export const updateUserProfile = yup
   .object({
-    newUsername: yup
-    .string()
-    .matches(/^([A-Za-z]+[-'\s]?){3,16}$/, {
-      message: "Veuillez vérifier la validité de votre pseudo",
-      excludeEmptyString: true,
-    })
-    .required("Le pseudo doit contenir entre 3 et 16 caractères"),
+    newFirstName: yup
+      .string()
+      .required("Veuillez entrer un prénom")
+      .matches(/^([A-Za-z]+[-'\s]?){2,}$/, {
+        message: "Veuillez vérifier la validité du champ de texte",
+        excludeEmptyString: true,
+      }),
+    newLastName: yup
+      .string()
+      .required("Veuillez entrer un nom")
+      .matches(/^([A-Za-z]+[-'\s]?){2,}$/, {
+        message: "Veuillez vérifier la validité du champ de texte",
+        excludeEmptyString: true,
+      }),
   })
   .required();
 
-  export const updatePasswordSchema = yup
+export const updatePasswordSchema = yup
   .object({
     newPassword: yup
       .string()
+      .required("Veuillez entrer un mot de passe")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
         {
           message:
-            "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial",
-          excludeEmptyString: true,
+            "Le mot de passe doit contenir au moins 1 minuscule ,1 majuscule, 1 chiffre et 1 caractère spécial",
         }
       )
-      .min(
-        6,
-        "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial"
-      )
-      .required(
-        "Le mot de passe doit contenir au minimum 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial"
-      ),
+      .min(6, "Le mot de passe doit contenir au moins 6 caractères"),
     confirmNewPassword: yup
       .string()
       .oneOf(
         [yup.ref("password"), null],
         "Les mots de passe doivent être similaires"
       )
-      .required("Les mots de passe doivent être similaires"),
+      .required("Veuillez confirmer votre mot de passe"),
   })
   .required();
