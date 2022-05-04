@@ -5,15 +5,11 @@ import { useNavigate } from 'react-router-dom';
 const LogOutModal = ({ showModal }) => {
     const navigate = useNavigate()
     const handleClick = async () => {
-        navigate('/login');
+        localStorage.clear();
+        navigate('/auth/login');
     }
 
-    /*prevent scrolling behind opened modal*/
-    // useEffect(() => {
-    //     if (showModal) {
-    //         document.body.style.overflow = 'hidden'
-    //     }
-    // }, [showModal])
+
 
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>

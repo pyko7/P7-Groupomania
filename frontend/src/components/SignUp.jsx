@@ -32,13 +32,13 @@ const Register = () => {
             },
             body: JSON.stringify({ ...user }),
         };
-        try{
+        try {
             const res = await fetch('http://localhost:3000/api/auth/signup', settings)
             const data = await res.json();
             if (!res.ok) return
             navigate("/");
             return data;
-        }catch(error){
+        } catch (error) {
             return error
         }
     }

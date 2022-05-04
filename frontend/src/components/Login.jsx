@@ -5,7 +5,6 @@ import { loginSchema } from "../validations/UserValidation";
 import { Link } from "react-router-dom";
 import logo from '../assets/images/icon-above-font-nobg.png';
 
-
 /*function to login to the website*/
 
 const Login = () => {
@@ -36,9 +35,8 @@ const Login = () => {
         try {
             const res = await fetch('http://localhost:3000/api/auth/login', settings)
             const data = await res.json();
-            console.log(user.email);
-            console.log(user.password);
-            if (!res.ok) return
+            if (!res.ok) return;
+            localStorage.setItem('token', JSON.stringify(data.token));
             navigate("/");
             return data;
         } catch (error) {
