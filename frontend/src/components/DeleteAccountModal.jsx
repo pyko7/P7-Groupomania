@@ -59,8 +59,8 @@ const DeleteAccountModal = ({ showModal }) => {
                     {errorMessage && <p className='invalid-message deletion'>La saisie du champs de texte n'est pas bonne</p>}
                 </div>
                 <div className="profile-footer">
-                    <button onClick={() => showModal(false)}> Annuler</button>
-                    <button onClick={submitForm}>Confirmer</button>
+                    <button className='footer-buttons' onClick={() => showModal(false)}> Annuler</button>
+                    <button className='footer-buttons' onClick={submitForm}>Confirmer</button>
                 </div>
             </div>
         </div>

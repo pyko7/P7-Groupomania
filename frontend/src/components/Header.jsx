@@ -11,8 +11,10 @@ import small from "../assets/images/logo.png";
 import large from "../assets/images/icon-left-font-nobg.png";
 
 const Header = () => {
-
     const [logOut, setLogOut] = useState(false);
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const id = user.userId;
 
     return (
         <header>
@@ -30,8 +32,8 @@ const Header = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/profile/:id">
-                            <FontAwesomeIcon icon={faUser} alt="Profil" />
+                        <Link to={`/users/${id}`}>
+                            <FontAwesomeIcon icon={faUser} />
                         </Link>
                     </li>
                     <li>

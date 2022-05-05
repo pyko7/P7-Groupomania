@@ -11,29 +11,32 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { loginContext } from "./context/context";
+import UpdatePasswordModal from "./components/UpdatePasswordModal";
 
 const App = () => {
   /*States*/
   const [isLogged, setIsLogged] = useState(null);
 
   /**
-   * Verify user authentification
    * Check if a token exists in LS
+   * Verify user authentification
    * If it does:
    *  get the token
    *  decode it
    *  verify if it's still valid
    * */
   const isAuthenticated = () => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    const isTokenExpired = isExpired(token);
+    const checkToken = localStorage.getItem("user");
+    if (!checkToken) return setIsLogged(null);
 
-    if (token === null || isTokenExpired) {
+    const token = JSON.parse(checkToken);
+    const isTokenExpired = isExpired(token.token);
+    if (token.token === null || isTokenExpired) {
       localStorage.clear();
+      console.log("token");
       setIsLogged(false);
     } else {
       setIsLogged(true);
-      console.log("log");
     }
   };
 
@@ -48,7 +51,8 @@ const App = () => {
           <Route element={<ProtectedRoute data={{ isAuthenticated }} />}>
             <Route path="/" element={<Home />} />;
             <Route path="/posts/:id" element={<PostDetails />} />;
-            <Route path="/profile/:id" element={<Profile />} />;
+            <Route path="/users/:id" element={<Profile />} />
+            <Route path="/users/:id/password" element={<UpdatePasswordModal />} />
             <Route path="*" element={<NotFound />} />;
           </Route>
         </Routes>

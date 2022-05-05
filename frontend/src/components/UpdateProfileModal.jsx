@@ -87,8 +87,8 @@ const UpdateProfileModal = ({ showModal }) => {
 
                     </div>
                     <div className="profile-footer">
-                        <button onClick={() => showModal(false)}> Annuler</button>
-                        <button>Enregistrer</button>
+                        <button className='footer-buttons' onClick={() => showModal(false)}> Annuler</button>
+                        <button className='footer-buttons'>Enregistrer</button>
                     </div>
                 </form>
             </div>

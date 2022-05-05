@@ -18,7 +18,7 @@ Moment.globalMoment = moment;
 Moment.globalLocale = 'fr';
 
 
-const PostList = ({posts}) => {
+const PostList = ({ posts }) => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [commentModal, setCommentModal] = useState(false);
 
@@ -49,8 +49,7 @@ const PostList = ({posts}) => {
                         </div>
                     </div>
                 </div>
-            ))
-            }
+            ))}
         </div>
 
     );

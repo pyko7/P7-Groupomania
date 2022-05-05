@@ -28,6 +28,7 @@ const PostDetails = () => {
     /*Get post*/
     const { id } = useParams();
     const { data: post, isPending } = useFetch("https://jsonplaceholder.typicode.com/posts/" + id);
+    console.log(post);
 
     const navigate = useNavigate();
     /*Defines state to show/hide comment modal*/

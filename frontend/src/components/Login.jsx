@@ -36,7 +36,8 @@ const Login = () => {
             const res = await fetch('http://localhost:3000/api/auth/login', settings)
             const data = await res.json();
             if (!res.ok) return;
-            localStorage.setItem('token', JSON.stringify(data.token));
+            console.log(data)
+            localStorage.setItem("user", JSON.stringify(data));
             navigate("/");
             return data;
         } catch (error) {

@@ -4,31 +4,31 @@ import { useState, useEffect } from "react";
 const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user.token;
+  const headers = {
+    Authorization: token,
+    "Content-Type": "application/json",
+  };
 
   useEffect(() => {
-    const abortCont = new AbortController();
-
     const getPosts = async () => {
-      const res = await fetch(url, { signal: abortCont.signal });
-      const data = await res.json();
-      if (!res.ok) throw Error("La requête effectuée a échouée");
-      /*change state to get datas*/
-      setData(data);
-      /*remove loader*/
-      setIsPending(false);
+      try {
+        const res = await fetch(url, { headers });
+        const data = await res.json();
+        /*change state to get datas*/
+        setData(data);
+        /*remove loader*/
+        setIsPending(false);
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     };
 
-    getPosts().catch((err) => {
-      if (!err.name === "AbortError") {
-        console.error;
-      }
-    });
-
-    /*cleanup function pauses the fetch*/
-    return () => abortCont.abort();
-  }),
-    // empty dependency array means this effect will only run once (like componentDidMount in classes)
-    [url];
+    getPosts();
+  }, [url]);
+  // empty dependency array means this effect will only run once (like componentDidMount in classes)
 
   /*allows to get data and pending status in other components*/
   return { data, isPending };

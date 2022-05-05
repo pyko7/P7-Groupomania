@@ -22,8 +22,8 @@ const LogOutModal = ({ showModal }) => {
                     </p>
                 </div>
                 <div className="profile-footer">
-                    <button onClick={() => showModal(false)}> Annuler</button>
-                    <button onClick={handleClick}>Se déconnecter</button>
+                    <button className='footer-buttons' onClick={() => showModal(false)}> Annuler</button>
+                    <button className='footer-buttons' onClick={handleClick}>Se déconnecter</button>
                 </div>
             </div>
         </div>

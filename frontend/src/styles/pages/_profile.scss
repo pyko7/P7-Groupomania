@@ -85,7 +85,7 @@
       flex-wrap: wrap;
       flex: 1;
 
-      button {
+      .body-buttons {
         @include profileButton;
         @extend %flex-center;
         line-height: 1;
@@ -131,7 +131,7 @@
     width: 100%;
     margin: 0 auto;
     @extend %flex-center;
-    button {
+    .footer-buttons {
       @include profileButton;
       @extend %flex-center;
       min-width: 150px;
