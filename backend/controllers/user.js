@@ -69,11 +69,101 @@ const logUser = async (req, res) => {
     const token = jwt.sign({ userId: user.id }, `${USER_TOKEN}`, {
       expiresIn: "24h",
     });
+    if (!token) {
+      res.status(401).json({ error: "erreur de token" });
+    }
 
     res.status(200).json({ userId: user.id, token });
   } catch (error) {
     res.status(500).json({ error });
   }
 };
+const getUserById = async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+      select: {
+        firstName: true,
+        lastName: true,
+      },
+    });
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(400).json({ error: "erreur" });
+  }
+};
 
-module.exports = { createUser, logUser };
+const updateProfile = async (req, res) => {
+  const { firstName, lastName } = req.body;
+  try {
+    await User.updateUserProfile.validate(req.body);
+    const user = await prisma.user.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+      },
+    });
+    res.status(200).json({ message: "Informations modifiées" });
+  } catch (error) {
+    res.status(401).json({ error });
+  }
+};
+
+const updatePassword = async (req, res) => {
+  const id = Number(req.params.id);
+  const { currentPassword, password } = req.body;
+  try {
+    const userPassword = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    const isValid = await bcrypt.compare(
+      currentPassword,
+      userPassword.password
+    );
+    if (!isValid)
+      return res.status(400).json({ message: "Mot de passe invalide" });
+    await User.updatePasswordSchema.validate(req.body);
+    const hash = await bcrypt.hash(password, 10);
+    const user = await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        password: hash,
+      },
+    });
+    res.status(200).json({ message: "Mot de passe modifié" });
+  } catch (error) {
+    res.status(401).json({ error });
+  }
+};
+const deleteProfile = async (req, res) => {
+  try {
+    const user = await prisma.user.delete({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+    res.status(200).json({ message: "Compte supprimé" });
+  } catch (error) {
+    if (error.name) return res.status(401).json({ message: error.message });
+    res.status(401).json({ error });
+  }
+};
+
+module.exports = {
+  createUser,
+  logUser,
+  getUserById,
+  updateProfile,
+  updatePassword,
+  deleteProfile,
+};

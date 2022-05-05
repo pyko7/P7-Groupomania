@@ -22,10 +22,9 @@ app.use((req, res, next) => {
   );
   next();
 });
-
 //routes
 const userRoutes = require("./routes/user");
 
-app.use("/api/auth", userRoutes);
+app.use("/api", userRoutes);
 
 module.exports = app;
