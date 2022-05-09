@@ -5,10 +5,12 @@ import { loginSchema } from "../validations/UserValidation";
 import { Link } from "react-router-dom";
 import logo from '../assets/images/icon-above-font-nobg.png';
 
+
 /*function to login to the website*/
 
 const Login = () => {
     const navigate = useNavigate();
+
     /*
        *register: allows to register an input or select element and apply validation,
        handleSubmit: This function receives the form data if form validation is successful,

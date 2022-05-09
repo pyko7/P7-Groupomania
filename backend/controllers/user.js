@@ -1,6 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const path = require("path");
+const fs = require("fs");
+
 const dotenv = require("dotenv");
 dotenv.config();
 const USER_TOKEN = process.env.USER_TOKEN;
@@ -28,11 +31,13 @@ const createUser = async (req, res) => {
         lastName: lastName,
         email: email,
         password: hash,
+        profilePicture: "http://localhost:3000/images/users/logo.png",
       },
     });
 
     res.status(200).json({ message: "Utilisateur créé" });
   } catch (error) {
+    if (error.name) return res.status(401).json({ message: error.message });
     res.status(400).json({ error });
   }
 };
@@ -78,6 +83,13 @@ const logUser = async (req, res) => {
     res.status(500).json({ error });
   }
 };
+
+/**
+ *   Get user datas by ID
+ * where: search user ID in DB with params
+ * select: get firstName & lastName because we only need those datas
+ * for profile page
+ */
 const getUserById = async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
@@ -87,33 +99,80 @@ const getUserById = async (req, res) => {
       select: {
         firstName: true,
         lastName: true,
+        profilePicture: true,
       },
     });
     res.status(200).json({ user });
   } catch (error) {
-    res.status(400).json({ error: "erreur" });
+    if (error.name) return res.status(401).json({ message: error.message });
+    res.status(400).json({ error });
   }
 };
 
+/**
+ *    Update firstName & lastName
+ * where: target the right user with its ID
+ * if there's a file, gets datas & rename file url
+ * if there's no file, gets datas & keep the same image
+ */
 const updateProfile = async (req, res) => {
-  const { firstName, lastName } = req.body;
+  const defaultPicture = "http://localhost:3000/images/users/logo.png";
   try {
-    await User.updateUserProfile.validate(req.body);
-    const user = await prisma.user.update({
+    const user = await prisma.user.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+      select: {
+        profilePicture: true,
+      },
+    });
+
+    if (req.file && user.profilePicture !== defaultPicture) {
+      const filename = user.profilePicture.split("/images/users/")[1];
+      fs.unlink(`images/users/${filename}`, (err) => {
+        if (err) return err;
+      });
+    }
+    const userUpdates = req.file
+      ? {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          profilePicture: `${req.protocol}://${req.get("host")}/images/users/${
+            req.file.filename
+          }`,
+        }
+      : {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          profilePicture: user.profilePicture,
+        };
+
+    const userUpdate = await prisma.user.update({
       where: {
         id: Number(req.params.id),
       },
       data: {
-        firstName: firstName,
-        lastName: lastName,
+        firstName: userUpdates.firstName,
+        lastName: userUpdates.lastName,
+        profilePicture: userUpdates.profilePicture,
       },
     });
+
+    await User.updateUserProfile.validate(req.body);
     res.status(200).json({ message: "Informations modifiées" });
   } catch (error) {
+    if (error.name) return res.status(401).json({ message: error.message });
     res.status(401).json({ error });
   }
 };
 
+/**
+ *   Update password
+ * where: target the right user with its ID
+ * compare req.password / DB password
+ * if currentPassword is good, bcrypy hashes the new password
+ * update of the new password in DB
+ */
 const updatePassword = async (req, res) => {
   const id = Number(req.params.id);
   const { currentPassword, password } = req.body;
@@ -142,15 +201,26 @@ const updatePassword = async (req, res) => {
     });
     res.status(200).json({ message: "Mot de passe modifié" });
   } catch (error) {
+    if (error.name) return res.status(401).json({ message: error.message });
     res.status(401).json({ error });
   }
 };
+
+/**
+ *   Delete account
+ * where: target the right user with its ID
+ * delete account from DB
+ */
 const deleteProfile = async (req, res) => {
   try {
     const user = await prisma.user.delete({
       where: {
         id: Number(req.params.id),
       },
+    });
+    const filename = user.profilePicture.split("/images/users/")[1];
+    fs.unlink(`images/users/${filename}`, (err) => {
+      if (err) return err;
     });
     res.status(200).json({ message: "Compte supprimé" });
   } catch (error) {

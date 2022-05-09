@@ -5,7 +5,7 @@ layout
 pages*/
 /*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
-.profile-modal, .profile-footer button, .profile-footer, .profile-body_buttons button, .profile-body_buttons, .profile-body, .profile-header, .user-post-right .image-preview-container, a, .posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
+.profile-modal, .profile-footer .footer-buttons, .profile-footer, .profile-body_buttons .body-buttons, .profile-body_buttons, .profile-body, .profile-header, .user-post-right .image-preview-container, a, .posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1405,6 +1405,7 @@ a {
   display: flex;
   justify-content: center;
   margin-top: 25px;
+  color: #fd2d01;
 }
 @media screen and (max-width: 768px) {
   .profile-header h1 {
@@ -1461,7 +1462,7 @@ a {
   flex-wrap: wrap;
   flex: 1;
 }
-.profile-body_buttons button {
+.profile-body_buttons .body-buttons {
   width: 250px;
   height: 50px;
   margin: 15px;
@@ -1473,7 +1474,7 @@ a {
   cursor: pointer;
   line-height: 1;
 }
-.profile-body_buttons button:hover {
+.profile-body_buttons .body-buttons:hover {
   background-color: #fe5633;
 }
 .profile-body .invalid-message {
@@ -1513,7 +1514,7 @@ a {
   width: 100%;
   margin: 0 auto;
 }
-.profile-footer button {
+.profile-footer .footer-buttons {
   width: 250px;
   height: 50px;
   margin: 15px;
@@ -1530,14 +1531,18 @@ a {
   margin-left: 25px;
   margin-right: 25px;
 }
-.profile-footer button:hover {
+.profile-footer .footer-buttons:hover {
   background-color: #fe5633;
 }
 @media screen and (max-width: 768px) {
-  .profile-footer button {
+  .profile-footer .footer-buttons {
     min-width: auto;
     font-size: 14px;
   }
+}
+
+.hidden-buttons {
+  display: none;
 }
 
 /*modale for editing profile/password, delete account*/

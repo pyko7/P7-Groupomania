@@ -30,6 +30,7 @@
     display: flex;
     justify-content: center;
     margin-top: 25px;
+    color: $secondary-color;
 
     h1 {
       @include small-screen {
@@ -67,6 +68,8 @@
       }
     }
   }
+
+
   &-body {
     position: relative;
     width: 100%;
@@ -145,6 +148,10 @@
       }
     }
   }
+}
+
+.hidden-buttons{
+ display: none;
 }
 
 /*modale for editing profile/password, delete account*/

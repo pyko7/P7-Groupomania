@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import photo from "../assets/images/logo.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { updateUserProfile } from '../validations/UserValidation';
+import useFetch from './useFetch';
 
 
 /*update profile picture*/
 const UpdateProfileModal = ({ showModal }) => {
-    const { id } = useParams()
-    const [selectedImage, setSelectedImage] = useState(null);
+    const { id } = useParams();
+    const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
+    const [profilePicture, setProfilePicture] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
-    const [username, setUsername] = useState('');
+
 
     /*
         *register: allows to register an input or select element and apply validation,
@@ -23,76 +24,104 @@ const UpdateProfileModal = ({ showModal }) => {
         *mode: validation will trigger on the submit event and invalid inputs
         *resolver: allows to use YUP as external validation
        */
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm({
         /*if input invalid, it displays error message when user select another input*/
         mode: 'onSubmit',
         resolver: yupResolver(updateUserProfile)
     });
 
-
-    useEffect(() => {
-        if (selectedImage) {
-            setImageUrl(URL.createObjectURL(selectedImage));
-        }
-    }, [selectedImage]);
-
-    /*prevent scrolling behind opened modal*/
-    useEffect(() => {
-        if (showModal) {
-            document.body.style.overflow = 'hidden'
-        }
-    }, [showModal])
-
-    const handleInput = async () => {
-        const settings = {
-            method: 'PUT',
-            headers: { 'Content-type': 'application/json; charset=UTF-8', },
-            body: JSON.stringify({ username, selectedImage }),
-        };
-
-        // const res = await fetch('https://jsonplaceholder.typicode.com/users/' + { id }, settings)
-        const res = await fetch('https://jsonplaceholder.typicode.com/users/1', settings)
-        const data = await res.json();
-        if (!res.ok) throw error;
-        try {
-            console.log(username);
-            console.log(selectedImage);
-            showModal(false);
-            return data
-        } catch (error) {
-            return error
-        }
-
+    const handlePicture = (e) => {
+        setImageUrl(URL.createObjectURL(e.target.files[0]))
+        setProfilePicture(e.target.files[0])
     }
 
-    return (
 
+    const handleInput = async () => {
+        const user = getValues();
+        const userData = JSON.parse(localStorage.getItem("user"));
+        const token = userData.token;
+
+        /*If the user keep its profile picture*/
+        if (profilePicture === null) {
+            const settings = {
+                method: 'PUT',
+                headers: {
+                    'Authorization': "Bearer " + token,
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                }),
+            }
+            try {
+                const res = await fetch('http://localhost:3000/api/users/' + id, settings)
+                const data = await res.json();
+                if (!res.ok) return;
+                window.location.reload();
+                showModal(false);
+                return data
+            } catch (error) {
+                return error
+            }
+        }
+        if (imageUrl) {
+            const formData = new FormData();
+            formData.append("firstName", user.firstName);
+            formData.append("lastName", user.lastName);
+            formData.append("images", profilePicture);
+
+            const imageSettings = {
+                method: 'PUT',
+                headers: {
+                    'Authorization': "Bearer " + token,
+                },
+                body: formData
+            }
+            try {
+                console.log(profilePicture);
+                const res = await fetch('http://localhost:3000/api/users/' + id, imageSettings)
+                const data = await res.json();
+                if (!res.ok) return;
+                window.location.reload();
+                showModal(false);
+                return data
+            } catch (error) {
+                return console.log("erreur: " + error);
+            }
+        }
+    }
+
+    console.log(profilePicture);
+
+    return (
         <div className="profile-modal" onClick={() => showModal(false)}>
             <div className="profile-container" onClick={e => e.stopPropagation()}>
                 <form onSubmit={handleSubmit(handleInput)}>
                     <div className="profile-header">
                         <h1>Modification du profil</h1>
-                        <input accept='image/jpeg,image/png' type='file' name="edit-photo" id="edit-photo" onChange={e => setSelectedImage(e.target.files[0])}></input>
-                        {!imageUrl && !selectedImage && (<img src={photo} alt="photo de profil" />)}
-                        {imageUrl && selectedImage && (<img src={imageUrl} alt="photo de profil" />)}
-                        <label htmlFor="edit-photo">
+                        <input accept='image/jpeg,image/png' type='file' name="profilePicture" id="profilePicture" onChange={(e) => handlePicture(e)} />
+                        {!imageUrl && !profilePicture && user && (<img src={user.user.profilePicture} alt="photo de profil" />)}
+                        {imageUrl && profilePicture && (<img src={imageUrl} alt="photo de profil" />)}
+                        <label htmlFor="profilePicture">
                             <FontAwesomeIcon icon={faPen} className="edit-profile" />
                         </label>
                     </div>
-                    <div className="profile-body">
-                        <input type="text" name="newFirstName" placeholder='Prénom' minLength={2} maxLength={35}  {...register("newFirstName")} onChange={e => setUsername(e.target.value)} />
-                        <p className="invalid-message">{errors.newUsername?.message}</p>
-                        <input type="text" name="newLastName" placeholder='Nom' minLength={2} maxLength={35}  {...register("newLastName")} onChange={e => setUsername(e.target.value)} />
-                        <p className="invalid-message">{errors.newUsername?.message}</p>
 
+                    <div className="profile-body">
+                        <input type="text" name="firstName" minLength={2} maxLength={35} placeholder="Prénom"{...register("firstName")} />
+                        <p className="invalid-message">{errors.firstName?.message}</p>
+                        <input type="text" name="lastName" minLength={2} maxLength={35} placeholder="Nom"{...register("lastName")} />
+                        <p className="invalid-message">{errors.lastName?.message}</p>
                     </div>
+
                     <div className="profile-footer">
-                        <button className='footer-buttons' onClick={() => showModal(false)}> Annuler</button>
-                        <button className='footer-buttons'>Enregistrer</button>
+                        <button type='button' className='footer-buttons' onClick={() => showModal(false)}> Annuler</button>
+                        <button type="submit" className='footer-buttons' name="submitButton">Enregistrer</button>
                     </div>
                 </form>
             </div>
-        </div>
+        </div >
     );
 };
 

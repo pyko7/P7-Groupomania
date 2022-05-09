@@ -7,7 +7,7 @@ const useFetch = (url) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.token;
   const headers = {
-    Authorization: token,
+    Authorization: "Bearer " + token,
     "Content-Type": "application/json",
   };
 
@@ -20,6 +20,7 @@ const useFetch = (url) => {
         setData(data);
         /*remove loader*/
         setIsPending(false);
+        return data
       } catch (error) {
         console.log(error);
         return;

@@ -76,14 +76,14 @@ export const loginSchema = yup
 
 export const updateUserProfile = yup
   .object({
-    newFirstName: yup
+    firstName: yup
       .string()
       .required("Veuillez entrer un prénom")
       .matches(/^([A-Za-z]+[-'\s]?){2,}$/, {
         message: "Veuillez vérifier la validité du champ de texte",
         excludeEmptyString: true,
       }),
-    newLastName: yup
+    lastName: yup
       .string()
       .required("Veuillez entrer un nom")
       .matches(/^([A-Za-z]+[-'\s]?){2,}$/, {
@@ -95,7 +95,7 @@ export const updateUserProfile = yup
 
 export const updatePasswordSchema = yup
   .object({
-    newPassword: yup
+    password: yup
       .string()
       .required("Veuillez entrer un mot de passe")
       .matches(
@@ -106,7 +106,7 @@ export const updatePasswordSchema = yup
         }
       )
       .min(6, "Le mot de passe doit contenir au moins 6 caractères"),
-    confirmNewPassword: yup
+    confirmPassword: yup
       .string()
       .oneOf(
         [yup.ref("password"), null],

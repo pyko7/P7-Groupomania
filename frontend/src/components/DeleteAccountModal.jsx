@@ -1,49 +1,54 @@
 import React, { useEffect, useState } from 'react';
+import { set } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-
+import Spinner from './Spinner';
+import useFetch from './useFetch';
 /*update profile picture*/
 const DeleteAccountModal = ({ showModal }) => {
     const { id } = useParams()
-    const [deleteMessage, setDeleteMessage] = useState('groupomania.com/user')
+    const navigate = useNavigate();
+    const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
+    const [deleteMessage, setDeleteMessage] = useState("groupomania.com/suppresion");
     const [deleteAccount, setDeleteAccount] = useState(null);
     const [errorMessage, setErrorMessage] = useState(false)
 
     const handleInput = async () => {
+        const userData = JSON.parse(localStorage.getItem("user"));
+        const token = userData.token;
         const settings = {
             method: 'DELETE',
-            headers: { 'Content-type': 'application/json; charset=UTF-8', },
-            body: JSON.stringify({ ...values }),
+            headers: {
+                'Authorization': "Bearer " + token,
+            }
         };
-
-        // const res = await fetch('https://jsonplaceholder.typicode.com/users/' + { id }, settings)
-        const res = await fetch('https://jsonplaceholder.typicode.com/users/1', settings)
+        const res = await fetch('http://localhost:3000/api/users/' + id, settings)
         const data = await res.json();
-        if (!res.ok) throw error;
+        if (!res.ok) return;
         try {
-            console.log("values");
             showModal(false);
+            navigate("/auth/login");
             return data
         } catch (error) {
             return error
         }
     }
 
-    /*prevent scrolling behind opened modal*/
-    useEffect(() => {
-        if (showModal) {
-            document.body.style.overflow = 'hidden'
-        }
-    }, [showModal])
-
-    const submitForm = async () => {
+    const submitDeletion = () => {
         if (deleteAccount !== deleteMessage) {
             setErrorMessage(true);
+            return
+        } else {
+            handleInput();
         }
-        await handleInput();
     }
+
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
-            <div className="profile-container" onClick={e => e.stopPropagation()}>
+            {/* {<isPending/> && <Spinner />}
+             */}
+            {user && <div className="profile-container" onClick={e => e.stopPropagation()}>
+
                 <div className="profile-header">
                     <h1>Suppression du compte</h1>
                 </div>
@@ -51,7 +56,7 @@ const DeleteAccountModal = ({ showModal }) => {
                     <p className='deletion-message'>Cette action aura des effets irréversibles. Après la suppression du compte, il ne sera plus possible d'accéder au site à moins de créer à nouveau un compte.
                         <br />
                         <br />
-                        Afin de supprimer le compte, veuillez recopier <strong>groupomania.com/user</strong>
+                        Afin de supprimer le compte, veuillez recopier {user && <strong>{deleteMessage}</strong>}
                         <br />
                         <br />
                     </p>
@@ -60,9 +65,10 @@ const DeleteAccountModal = ({ showModal }) => {
                 </div>
                 <div className="profile-footer">
                     <button className='footer-buttons' onClick={() => showModal(false)}> Annuler</button>
-                    <button className='footer-buttons' onClick={submitForm}>Confirmer</button>
+                    <button className='footer-buttons' onClick={submitDeletion}>Confirmer</button>
                 </div>
             </div>
+            }
         </div>
     );
 };
