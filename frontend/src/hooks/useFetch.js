@@ -29,7 +29,6 @@ const useFetch = (url) => {
 
     getPosts();
   }, [url]);
-  // empty dependency array means this effect will only run once (like componentDidMount in classes)
 
   /*allows to get data and pending status in other components*/
   return { data, isPending };

@@ -10,10 +10,11 @@ const MIME_TYPES = {
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     if (req.route.path === "/users/:id") callback(null, "images/users");
+    if (req.route.path === "/posts") callback(null, "images/posts");
   },
 
   filename: (req, file, callback) => {
-    //add underscores instead of spaces
+    //add underscores instead of dashes
     const name = uuidv4().split("-").join("_");
     const extension = MIME_TYPES[file.mimetype];
     callback(null, name + Date.now() + "." + extension);
@@ -24,7 +25,7 @@ const upload = multer({
   //file size limit
   limits: {
     files: 1,
-    fileSize: 2097152, //2mb limit
+    fileSize: 3145728 , //3mb limit
   },
 
   fileFilter: (req, file, callback) => {

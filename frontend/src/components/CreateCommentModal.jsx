@@ -4,7 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import { commentSchema } from "../validations/PostValidation";
 import { useNavigate } from 'react-router-dom';
 
 // instances every 30 seconds.

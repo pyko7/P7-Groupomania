@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import photo from "../assets/images/logo.png";
-import useFetch from './useFetch';
+import useFetch from '../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';

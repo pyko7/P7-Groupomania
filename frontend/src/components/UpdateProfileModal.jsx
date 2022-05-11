@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { updateUserProfile } from '../validations/UserValidation';
-import useFetch from './useFetch';
-
+import useFetch from '../hooks/useFetch';
+import Spinner from "../components/Spinner";
 
 /*update profile picture*/
 const UpdateProfileModal = ({ showModal }) => {
@@ -25,11 +25,11 @@ const UpdateProfileModal = ({ showModal }) => {
         *resolver: allows to use YUP as external validation
        */
     const { register, handleSubmit, getValues, formState: { errors } } = useForm({
-        /*if input invalid, it displays error message when user select another input*/
         mode: 'onSubmit',
         resolver: yupResolver(updateUserProfile)
     });
 
+    /*selects image with label and displays preview of image*/
     const handlePicture = (e) => {
         setImageUrl(URL.createObjectURL(e.target.files[0]))
         setProfilePicture(e.target.files[0])
@@ -40,10 +40,10 @@ const UpdateProfileModal = ({ showModal }) => {
         const user = getValues();
         const userData = JSON.parse(localStorage.getItem("user"));
         const token = userData.token;
-
-        /*If the user keep its profile picture*/
+        let settings = {};
+        /*If the user keep his profile picture*/
         if (profilePicture === null) {
-            const settings = {
+            settings = {
                 method: 'PUT',
                 headers: {
                     'Authorization': "Bearer " + token,
@@ -54,54 +54,41 @@ const UpdateProfileModal = ({ showModal }) => {
                     lastName: user.lastName,
                 }),
             }
-            try {
-                const res = await fetch('http://localhost:3000/api/users/' + id, settings)
-                const data = await res.json();
-                if (!res.ok) return;
-                window.location.reload();
-                showModal(false);
-                return data
-            } catch (error) {
-                return error
-            }
-        }
-        if (imageUrl) {
+        } else {
             const formData = new FormData();
             formData.append("firstName", user.firstName);
             formData.append("lastName", user.lastName);
             formData.append("images", profilePicture);
 
-            const imageSettings = {
+            settings = {
                 method: 'PUT',
                 headers: {
                     'Authorization': "Bearer " + token,
                 },
                 body: formData
             }
-            try {
-                console.log(profilePicture);
-                const res = await fetch('http://localhost:3000/api/users/' + id, imageSettings)
-                const data = await res.json();
-                if (!res.ok) return;
-                window.location.reload();
-                showModal(false);
-                return data
-            } catch (error) {
-                return console.log("erreur: " + error);
-            }
+        }
+        try {
+            const res = await fetch('http://localhost:3000/api/users/' + id, settings)
+            const data = await res.json();
+            if (!res.ok) return;
+            window.location.reload();
+            showModal(false);
+            return data
+        } catch (error) {
+            return console.log(error);
         }
     }
-
-    console.log(profilePicture);
 
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
             <div className="profile-container" onClick={e => e.stopPropagation()}>
                 <form onSubmit={handleSubmit(handleInput)}>
+                    {isPending && <Spinner />}
                     <div className="profile-header">
                         <h1>Modification du profil</h1>
                         <input accept='image/jpeg,image/png' type='file' name="profilePicture" id="profilePicture" onChange={(e) => handlePicture(e)} />
-                        {!imageUrl && !profilePicture && user && (<img src={user.user.profilePicture} alt="photo de profil" />)}
+                        {!imageUrl && !profilePicture && user && (<img src={user.profilePicture} alt="photo de profil" />)}
                         {imageUrl && profilePicture && (<img src={imageUrl} alt="photo de profil" />)}
                         <label htmlFor="profilePicture">
                             <FontAwesomeIcon icon={faPen} className="edit-profile" />
@@ -109,7 +96,7 @@ const UpdateProfileModal = ({ showModal }) => {
                     </div>
 
                     <div className="profile-body">
-                        <input type="text" name="firstName" minLength={2} maxLength={35} placeholder="Prénom"{...register("firstName")} />
+                        <input type="text" name="firstName" minLength={2} maxLength={35} placeholder="Prénom" {...register("firstName")} />
                         <p className="invalid-message">{errors.firstName?.message}</p>
                         <input type="text" name="lastName" minLength={2} maxLength={35} placeholder="Nom"{...register("lastName")} />
                         <p className="invalid-message">{errors.lastName?.message}</p>

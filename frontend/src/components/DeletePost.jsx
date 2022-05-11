@@ -10,7 +10,8 @@ const DeletePost = ({ showModal }) => {
         /*Get ID for posts deletion*/
         const settings = { method: "DELETE" };
         try {
-            const res = await fetch("https://jsonplaceholder.typicode.com/posts/" + id, settings);
+           
+            const res = await fetch("http://localhost:3000/api/posts/" + id, settings);
             const data = await res.json();
             if (!res.ok) throw error;
             console.log("ok");
@@ -32,8 +33,8 @@ const DeletePost = ({ showModal }) => {
                     <br/>
                 </div>
                 <div className="profile-footer">
-                    <button onClick={() => showModal(false)}>Annuler</button>
-                    <button onClick={confirmDelete}>Confirmer</button>
+                    <button className='footer-buttons' onClick={() => showModal(false)}>Annuler</button>
+                    <button className='footer-buttons' onClick={confirmDelete}>Confirmer</button>
                 </div>
             </div>
         </div>

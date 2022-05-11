@@ -1,5 +1,6 @@
 .profile {
   &-container {
+    position: relative;
     width: $timeline-desktop-width;
     height: fit-content;
     margin-top: 100px;

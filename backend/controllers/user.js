@@ -1,7 +1,6 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, Prisma } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const path = require("path");
 const fs = require("fs");
 
 const dotenv = require("dotenv");
@@ -14,9 +13,11 @@ const User = require("../models/User");
 
 /**
  *   Create an user
- * verify input validity with a yup's schema
- * hash the password10 is the number of round for salt
+ * check input validity with a yup's schema
+ * hash the password, 10 is the number of round for salt
  * get the data from req and send them to DB
+ * return a httpOnly cookie for authentification, it expires after 24 hours
+ * if email already exists, an error code 2002 is send with an error message
  */
 const createUser = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -32,6 +33,7 @@ const createUser = async (req, res) => {
         email: email,
         password: hash,
         profilePicture: "http://localhost:3000/images/users/logo.png",
+        role: 2,
       },
     });
 
@@ -44,15 +46,15 @@ const createUser = async (req, res) => {
 
 /**
  *   Login to website
- * verify input validity with a yup's schema
- * verify authenticity of email, if value is null, email is invalid
+ * check input validity with a yup's schema
+ * check authenticity of email, if value is null, email is invalid
  * compare hashed password & request password, if value is false, password is wrong
  * assign a authenticity token to allow user to access the website
  * Return a JSON Object with a userId and the token
  */
 const logUser = async (req, res) => {
   const { email, password } = req.body;
-  //verifier input
+
   try {
     await User.loginSchema.validate(req.body);
     const user = await prisma.user.findUnique({
@@ -84,6 +86,16 @@ const logUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const user = await prisma.user.findMany({});
+    res.status(200).json({ user });
+  } catch (error) {
+    if (error.name) return res.status(400).json({ message: error.message });
+    res.status(400).json({ error });
+  }
+};
+
 /**
  *   Get user datas by ID
  * where: search user ID in DB with params
@@ -102,18 +114,22 @@ const getUserById = async (req, res) => {
         profilePicture: true,
       },
     });
-    res.status(200).json({ user });
+    res.status(200).json(user);
   } catch (error) {
-    if (error.name) return res.status(401).json({ message: error.message });
+    if (error.name) return res.status(400).json({ message: error.message });
     res.status(400).json({ error });
   }
 };
 
 /**
- *    Update firstName & lastName
- * where: target the right user with its ID
- * if there's a file, gets datas & rename file url
+ *    Update profile (firstName, lastName and profilePicture)
+ * where: search user ID in DB with params
+ * if there's a file (new profile picture):
+ * check if user's profile picture is the default one or not
+ * if it was a custom profile picture, this one is deleted and the new one is stored
+ * gets datas & rename file url
  * if there's no file, gets datas & keep the same image
+ * check inputs validity
  */
 const updateProfile = async (req, res) => {
   const defaultPicture = "http://localhost:3000/images/users/logo.png";
@@ -147,6 +163,7 @@ const updateProfile = async (req, res) => {
           profilePicture: user.profilePicture,
         };
 
+    await User.updateUserProfile.validate(req.body);
     const userUpdate = await prisma.user.update({
       where: {
         id: Number(req.params.id),
@@ -157,8 +174,6 @@ const updateProfile = async (req, res) => {
         profilePicture: userUpdates.profilePicture,
       },
     });
-
-    await User.updateUserProfile.validate(req.body);
     res.status(200).json({ message: "Informations modifiées" });
   } catch (error) {
     if (error.name) return res.status(401).json({ message: error.message });
@@ -170,7 +185,8 @@ const updateProfile = async (req, res) => {
  *   Update password
  * where: target the right user with its ID
  * compare req.password / DB password
- * if currentPassword is good, bcrypy hashes the new password
+ * if currentPassword is good, bcrypt hashes the new password
+ * check input validity
  * update of the new password in DB
  */
 const updatePassword = async (req, res) => {
@@ -182,6 +198,7 @@ const updatePassword = async (req, res) => {
         id: id,
       },
     });
+    await User.updatePasswordSchema.validate(req.body);
 
     const isValid = await bcrypt.compare(
       currentPassword,
@@ -189,7 +206,6 @@ const updatePassword = async (req, res) => {
     );
     if (!isValid)
       return res.status(400).json({ message: "Mot de passe invalide" });
-    await User.updatePasswordSchema.validate(req.body);
     const hash = await bcrypt.hash(password, 10);
     const user = await prisma.user.update({
       where: {
@@ -209,19 +225,28 @@ const updatePassword = async (req, res) => {
 /**
  *   Delete account
  * where: target the right user with its ID
+ * check if user's profile picture is the default profile picture
+ * if it is not, the profile picture is deleted
  * delete account from DB
+ *
  */
 const deleteProfile = async (req, res) => {
+  const defaultPicture = "http://localhost:3000/images/users/logo.png";
   try {
     const user = await prisma.user.delete({
       where: {
         id: Number(req.params.id),
       },
+      select: {
+        profilePicture: true,
+      },
     });
-    const filename = user.profilePicture.split("/images/users/")[1];
-    fs.unlink(`images/users/${filename}`, (err) => {
-      if (err) return err;
-    });
+    if (user.profilePicture !== defaultPicture) {
+      const filename = user.profilePicture.split("/images/users/")[1];
+      fs.unlink(`images/users/${filename}`, (err) => {
+        if (err) return err;
+      });
+    }
     res.status(200).json({ message: "Compte supprimé" });
   } catch (error) {
     if (error.name) return res.status(401).json({ message: error.message });
@@ -232,6 +257,7 @@ const deleteProfile = async (req, res) => {
 module.exports = {
   createUser,
   logUser,
+  getAllUsers,
   getUserById,
   updateProfile,
   updatePassword,

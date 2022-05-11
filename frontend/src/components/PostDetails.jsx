@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import useFetch from './useFetch';
 import Spinner from './Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -15,6 +14,9 @@ import UserComment from './UserComment';
 import CreateCommentModal from './CreateCommentModal';
 import DeletePost from './DeletePost';
 import LikeDislike from './LikeDislike';
+import useFetch from '../hooks/useFetch';
+import { useSearchParams } from 'react-router-dom';
+
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -25,50 +27,48 @@ Moment.globalLocale = 'fr';
 
 
 const PostDetails = () => {
-    /*Get post*/
-    const { id } = useParams();
-    const { data: post, isPending } = useFetch("https://jsonplaceholder.typicode.com/posts/" + id);
-    console.log(post);
+    const { id } = useParams()
+    const { data: post, isPending } = useFetch(`http://localhost:3000/api/posts/${id}`)
 
-    const navigate = useNavigate();
     /*Defines state to show/hide comment modal*/
-    const [commentModal, setCommentModal] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
+    const [comment, setComment] = useState(false);
 
     return (
         <div>
             <Header />
             <main>
-                <div className='main-container'>
-                    <div className='user-post' >
-                        {isPending && <Spinner />}
+                {post &&
+                    <div className='main-container'>
+                        <div className='user-post' key={post.id}>
+                            {isPending && <Spinner />}
 
-                        {post && <>
                             <div className="post-profile-picture">
-                                <img src={photo} alt='photo de profil' />
+                                <img src={post.author.profilePicture} alt='photo de profil' />
                             </div>
                             <div className='user-post-right'>
                                 <div className='user-post-content'>
-                                    <h1>{post.userId + " Jean"}</h1>
-                                    <p>{post.body}</p>
-                                    <span>Posté <Moment fromNow></Moment> </span>
+                                    <h1>{post.author.firstName} {post.author.lastName}</h1>
+                                    <p>{post.textContent}</p>
+                                    <img src={photo} alt="photo" />
+                                    <span>Posté <Moment fromNow>{post.createdAt}</Moment> </span>
                                 </div>
                                 <div className="post-icons-container">
                                     <LikeDislike />
                                     <FontAwesomeIcon icon={faMessage} className="post-icons" />
-                                    {commentModal && <CreateCommentModal showModal={setCommentModal} />}
+                                    {/* {commentModal && <CreateCommentModal showModal={setCommentModal} />} */}
                                     <FontAwesomeIcon icon={faTrashCan} className="post-icons" onClick={() => setDeleteModal(true)} />
                                     {deleteModal && <DeletePost showModal={setDeleteModal} />}
                                 </div>
                             </div>
-                        </>}
+                        </div>
+                        <div className="comments-container">
+                            < UserComment />
+                            < UserComment />
+                            < UserComment />
+                        </div>
                     </div>
-                    <div className="comments-container">
-                        < UserComment />
-                        < UserComment />
-                        < UserComment />
-                    </div>
-                </div>
+                }
             </main>
         </div>
 

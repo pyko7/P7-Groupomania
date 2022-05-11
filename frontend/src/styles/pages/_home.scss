@@ -132,6 +132,19 @@ a {
   @include small-screen {
     width: $textarea-mobile-width;
   }
+
+  .post-image {
+    background-color: red;
+    margin: 0 auto;
+    width: 50%;
+    height: 50px;
+    object-fit: contain;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
 }
 
 .post-icons-container {

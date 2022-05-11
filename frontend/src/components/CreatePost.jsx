@@ -4,78 +4,100 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { postSchema } from '../validations/PostValidation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileImage } from '@fortawesome/free-solid-svg-icons';
-import photo from "../assets/images/logo.png";
+import useFetch from '../hooks/useFetch';
 
 
 
 const CreatePost = () => {
-    const [selectedImage, setSelectedImage] = useState(null);
+    const userAuth = JSON.parse(localStorage.getItem("user"));
+    const id = userAuth.userId;
+    const token = userAuth.token;
+    const { data: user } = useFetch(`http://localhost:3000/api/users/${id}`);
     const [imageUrl, setImageUrl] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
+    /*
+    *register: allows to register an input or select element and apply validation,
+    handleSubmit: This function receives the form data if form validation is successful,
+    getValues: read form values,
+    formState: contains information about the entire form state, errors displays an error message
+    *mode: validation will trigger on the submit event and invalid inputs
+    *resolver: allows to use YUP as external validation
+   */
     const { register, handleSubmit, getValues } = useForm({
         mode: 'onSubmit',
         resolver: yupResolver(postSchema)
     });
 
-
     /*selects image with label and displays preview of image*/
-    useEffect(() => {
-        if (selectedImage) {
-            setImageUrl(URL.createObjectURL(selectedImage));
+    const handlePicture = (e) => {
+        setImagePreview(URL.createObjectURL(e.target.files[0]))
+        setImageUrl(e.target.files[0])
+    }
+
+    console.log(imageUrl);
+
+    const handleInput = async () => {
+        const post = getValues();
+        let settings = {};
+        if (imageUrl === null) {
+            settings = {
+                method: 'POST',
+                headers: {
+                    'Authorization': "Bearer " + token,
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({
+                    textContent: post.textContent,
+                }),
+            }
+        } else {
+            const formData = new FormData();
+            formData.append("textContent", post.textContent);
+            formData.append("images", imageUrl);
+
+            settings = {
+                method: 'POST',
+                headers: {
+                    'Authorization': "Bearer " + token,
+                },
+                body: formData
+            }
         }
-    }, [selectedImage]);
-
-
-    const sendPost = async () => {
-        const values = getValues();
-        const settings = {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-            body: JSON.stringify({
-                ...values,
-                selectedImage
-            }),
-        };
         try {
-            const res = await fetch('https://jsonplaceholder.typicode.com/posts', settings)
+            const res = await fetch('http://localhost:3000/api/posts', settings)
             const data = await res.json();
-            if (!res.ok) throw Error("La requête effectuée a échouée");
-            console.log(values.post);
-            console.log(selectedImage);
+            if (!res.ok) return console.log("pb");
+            console.log(res.data);
+            window.location.reload();
             return data;
         } catch (error) {
-            return error
+            return console.log(error);
         }
     }
-
-
-    const submitPost = async () => {
-        await sendPost();
-    }
-
 
 
     return (
         <div className="new-user-post">
             <div className="post-profile-picture">
-                <img src={photo} alt='photo de profil' />
+                {user && <img src={user.profilePicture} alt='photo de profil' />}
             </div>
             <div className='user-post-right'>
-                <textarea minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="post" required {...register("post")}></textarea>
-                {imageUrl && selectedImage && (
-                    <div className='image-preview-container'>
-                        <img src={imageUrl} alt={selectedImage.name} className="image-preview" />
+                <form onSubmit={handleSubmit(handleInput)}>
+                    <textarea minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" required {...register("textContent")}></textarea>
+                    {imagePreview && imageUrl && (
+                        <div className='image-preview-container'>
+                            <img src={imagePreview} alt={imageUrl.name} className="image-preview" />
+                        </div>
+                    )}
+                    <div className="new-post-icons-container">
+                        <input accept='image/jpeg,image/png' type='file' name="imageUrl" id="imageUrl" onChange={(e) => handlePicture(e)} />
+                        <label htmlFor="imageUrl">
+                            <FontAwesomeIcon icon={faFileImage} className='add-file-icon' />
+                        </label>
+                        <input type="submit" className='send-post-button' value="Envoyer" />
                     </div>
-                )}
-                <div className="new-post-icons-container">
-                    <input accept='image/jpeg,image/png' type='file' name="image" id="image" onChange={e => setSelectedImage(e.target.files[0])}></input>
-                    <label htmlFor="image">
-                        <FontAwesomeIcon icon={faFileImage} className='add-file-icon' />
-                    </label>
-                    <button className='send-post-button' onClick={handleSubmit(submitPost)}>Envoyer</button>
-                </div>
+                </form>
 
             </div>
         </div>

@@ -40,8 +40,8 @@ const UpdatePasswordModal = ({ showModal }) => {
             const res = await fetch(`http://localhost:3000/api/users/${id}/password`, settings)
             const data = await res.json();
             if (!res.ok) return;
+            alert("Votre mot de passe a été modifié")
             window.location.reload()
-            console.log(data);
             showModal(false);
             return data
         } catch (error) {

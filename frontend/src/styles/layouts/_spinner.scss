@@ -1,11 +1,14 @@
 @mixin posts-spinner {
   position: fixed;
   top: 100px;
+  right: 50%;
+  left: 50%;
+  transform: translateX(-50%);
   @extend %flex-center;
-  background-color: $main-bg-color;
   width: 100%;
   height: 100%;
   z-index: 100;
+  background-color: $main-bg-color;
 
   span {
     display: inline-block;

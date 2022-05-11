@@ -33,8 +33,8 @@
   /*user profile picture*/
   img {
     margin: 15px 10px;
-    width: 50px;
-    height: 50px;
+    max-width: 100%;
+    height: auto;
     border-radius: 50%;
 
     @include medium-screen {

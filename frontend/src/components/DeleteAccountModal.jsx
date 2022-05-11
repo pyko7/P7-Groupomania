@@ -3,13 +3,13 @@ import { set } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Spinner from './Spinner';
-import useFetch from './useFetch';
+import useFetch from '../hooks/useFetch';
 /*update profile picture*/
 const DeleteAccountModal = ({ showModal }) => {
     const { id } = useParams()
     const navigate = useNavigate();
     const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
-    const [deleteMessage, setDeleteMessage] = useState("groupomania.com/suppresion");
+    const [deleteMessage, setDeleteMessage] = useState("groupomania.com/suppression");
     const [deleteAccount, setDeleteAccount] = useState(null);
     const [errorMessage, setErrorMessage] = useState(false)
 
@@ -26,6 +26,7 @@ const DeleteAccountModal = ({ showModal }) => {
         const data = await res.json();
         if (!res.ok) return;
         try {
+            alert("Votre compte a bien été supprimé")
             showModal(false);
             navigate("/auth/login");
             return data

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
-import photo from "../assets/images/logo.png";
 import UpdateProfileModal from '../components/UpdateProfileModal';
 import UpdatePasswordModal from '../components/UpdatePasswordModal';
 import DeleteAccountModal from '../components/DeleteAccountModal';
 import LogOutModal from '../components/LogOutModal';
-import useFetch from '../components/useFetch';
+import useFetch from '../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Spinner from "../components/Spinner";
@@ -29,10 +28,10 @@ const Profile = () => {
                     {isPending && <Spinner />}
                     {user && <div className="profile-container">
                         <div className="profile-header">
-                            <img src={user.user.profilePicture} alt="photo de profil" />
+                            <img src={user.profilePicture} alt="photo de profil" />
                         </div>
                         <div className="profile-body">
-                            <h1>{user.user.firstName} {user.user.lastName}</h1>
+                            <h1>{user.firstName} {user.lastName}</h1>
                             <div className="profile-body_buttons">
                                 {/* showModal control the state of modal */}
                                 <button className="body-buttons" onClick={() => setupdateProfile(true)}>Modifier le profil</button>
