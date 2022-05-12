@@ -9,9 +9,9 @@ import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import Spinner from './Spinner';
-import CreateCommentModal from './CreateCommentModal';
-import DeleteComment from './DeleteComment';
 import LikeDislike from './LikeDislike';
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -26,34 +26,38 @@ Moment.globalLocale = 'fr';
 /*function gets all comments of the post*/
 const UserComment = () => {
     const { id } = useParams();
-    const [commentModal, setCommentModal] = useState(false);
+    const { data: user, isPending } = useFetch(`https://jsonplaceholder.typicode.com/comments/${id}`);
     const [deleteModal, setDeleteModal] = useState(false);
-    const { data: comment, isPending } = useFetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+    const [postId, setPostId] = useState(null);
 
     return (
-        <div className="user-comment" >
+        <>
             {isPending && <Spinner />}
-            {comment && <>
-                <div className="post-profile-picture">
-                    <img src={photo} alt='photo de profil' />
-                </div>
-                <div className='user-post-right'>
-                    <div className='user-post-content'>
-                        <h1>{comment.userId}Jacques</h1>
-                        <p>{comment.body}</p>
-                        <span>Posté <Moment fromNow></Moment></span>
+            {user &&
+                <article className="user-comment" >
+                    <div className="post-profile-picture">
+                        <img src={photo} alt='photo de profil' />
                     </div>
-                    <div className="post-icons-container">
-                        <LikeDislike />
-                        <FontAwesomeIcon icon={faMessage} className="post-icons" />
-                        {commentModal && <CreateCommentModal showModal={setCommentModal} />}
-                        <FontAwesomeIcon icon={faTrashCan} className="post-icons" onClick={() => setDeleteModal(true)} />
-                        {deleteModal && <DeleteComment showModal={setDeleteModal} />}
-
+                    <div className='comment-content'>
+                        <div className='comment-details'>
+                            <h1>{user.name}</h1>
+                            <p>{user.body}</p>
+                            <br />
+                            <span>Posté <Moment fromNow></Moment></span>
+                        </div>
+                        <div className="post-icons-container">
+                            <LikeDislike />
+                            {/* Link to post page + opening modal */}
+                            <FontAwesomeIcon icon={faMessage} className="post-icons" />
+                            <FontAwesomeIcon icon={faTrashCan} className="post-icons" />
+                            {/* <FontAwesomeIcon icon={faTrashCan} className="post-icons"
+                            onClick={() => { setDeleteModal(true); setPostId(post.id) }} /> */}
+                            {/* {deleteModal && <DeletePost showModal={setDeleteModal} postId={postId} />} */}
+                        </div>
                     </div>
-                </div>
-            </>}
-        </div>
+                </article>
+            }
+        </>
     );
 };
 

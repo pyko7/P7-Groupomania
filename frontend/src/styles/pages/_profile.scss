@@ -1,8 +1,8 @@
 .profile {
   &-container {
     position: relative;
-    width: $timeline-desktop-width;
-    height: fit-content;
+    margin: 0 auto;
+    width: 100%;
     margin-top: 100px;
     padding: $post-padding;
     background-color: #fff;
@@ -10,15 +10,14 @@
     text-align: center;
 
     @include medium-screen {
-      min-width: auto;
       max-width: 700px;
-      width: $timeline-tablet-width;
+      width: 100%;
     }
-
+    
     @include small-screen {
-      min-width: auto;
+      margin-top: 20px;
       max-width: 475px;
-      width: $timeline-mobile-width;
+      width: 100%;
     }
   }
 

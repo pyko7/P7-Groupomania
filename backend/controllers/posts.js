@@ -8,9 +8,8 @@ dotenv.config();
 const USER_TOKEN = process.env.USER_TOKEN;
 const jwt = require("jsonwebtoken");
 
-const bcrypt = require("bcrypt");
 const Posts = require("../models/Posts");
-const User = require("../models/User");
+
 /**
  *   Get all posts
  * where: search user ID in DB with params
@@ -36,7 +35,6 @@ const getAllPosts = async (req, res) => {
  * include: get author(user) datas
  */
 const getPostsById = async (req, res) => {
-  console.log(req.params.id);
   try {
     const post = await prisma.post.findUnique({
       where: {
@@ -46,7 +44,6 @@ const getPostsById = async (req, res) => {
         author: true,
       },
     });
-    console.log(post.id);
     res.status(200).json(post);
   } catch (error) {
     if (error.name) return res.status(400).json({ message: error.message });
@@ -60,7 +57,6 @@ const createPost = async (req, res) => {
   const userId = decodedToken.userId;
 
   try {
-    console.log(req.file);
     await Posts.postSchema.validate(req.body);
     const userPost = req.file
       ? {
@@ -87,7 +83,30 @@ const createPost = async (req, res) => {
     res.status(400).json({ error });
   }
 };
-const deletePost = (req, res, next) => {};
+const deletePost = async (req, res, next) => {
+  try {
+    const post = await prisma.post.delete({
+      where: {
+        id: Number(req.params.id),
+      },
+      select: {
+        imageUrl: true,
+      },
+    });
+
+    if (post.imageUrl) {
+      const filename = post.imageUrl.split("/images/posts/")[1];
+      fs.unlink(`images/posts/${filename}`, (err) => {
+        if (err) return err;
+      });
+    }
+
+    res.status(200).json({ message: "Post supprimé" });
+  } catch (error) {
+    if (error.name) return res.status(401).json({ message: error.message });
+    res.status(401).json({ error });
+  }
+};
 
 module.exports = {
   getAllPosts,

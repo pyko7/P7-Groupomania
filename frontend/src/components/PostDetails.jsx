@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import Spinner from './Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -8,14 +7,12 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import photo from "../assets/images/logo.png";
 import Header from './Header';
 import UserComment from './UserComment';
 import CreateCommentModal from './CreateCommentModal';
 import DeletePost from './DeletePost';
 import LikeDislike from './LikeDislike';
 import useFetch from '../hooks/useFetch';
-import { useSearchParams } from 'react-router-dom';
 
 
 // instances every 30 seconds.
@@ -32,7 +29,7 @@ const PostDetails = () => {
 
     /*Defines state to show/hide comment modal*/
     const [deleteModal, setDeleteModal] = useState(false);
-    const [comment, setComment] = useState(false);
+    const [postId, setPostId] = useState(null);
 
     return (
         <div>
@@ -40,32 +37,35 @@ const PostDetails = () => {
             <main>
                 {post &&
                     <div className='main-container'>
-                        <div className='user-post' key={post.id}>
+                        <article className='user-post' key={post.id}>
                             {isPending && <Spinner />}
-
                             <div className="post-profile-picture">
                                 <img src={post.author.profilePicture} alt='photo de profil' />
                             </div>
-                            <div className='user-post-right'>
-                                <div className='user-post-content'>
+                            <div className='user-content'>
+                                <div className='post-details'>
                                     <h1>{post.author.firstName} {post.author.lastName}</h1>
                                     <p>{post.textContent}</p>
-                                    <img src={photo} alt="photo" />
+                                    {post.imageUrl && <div className="image-container">
+                                        <img src={post.imageUrl}
+                                            alt={`posté par ${post.author.firstName} ${post.author.lastName} `} />
+                                    </div>}
+                                    <br />
                                     <span>Posté <Moment fromNow>{post.createdAt}</Moment> </span>
                                 </div>
                                 <div className="post-icons-container">
                                     <LikeDislike />
                                     <FontAwesomeIcon icon={faMessage} className="post-icons" />
                                     {/* {commentModal && <CreateCommentModal showModal={setCommentModal} />} */}
-                                    <FontAwesomeIcon icon={faTrashCan} className="post-icons" onClick={() => setDeleteModal(true)} />
-                                    {deleteModal && <DeletePost showModal={setDeleteModal} />}
+                                    <FontAwesomeIcon icon={faTrashCan} className="post-icons"
+                                        onClick={() => { setDeleteModal(true); setPostId(post.id) }} />
+                                    {deleteModal && <DeletePost showModal={setDeleteModal} postId={postId} />}
                                 </div>
                             </div>
-                        </div>
+                        </article>
                         <div className="comments-container">
-                            < UserComment />
-                            < UserComment />
-                            < UserComment />
+                            <UserComment />
+                            <UserComment />
                         </div>
                     </div>
                 }

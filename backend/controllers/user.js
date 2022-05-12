@@ -79,7 +79,8 @@ const logUser = async (req, res) => {
     if (!token) {
       res.status(401).json({ error: "erreur de token" });
     }
-
+    res.cookie('')
+    res.cookie('token', token, { httpOnly: true });
     res.status(200).json({ userId: user.id, token });
   } catch (error) {
     res.status(500).json({ error });

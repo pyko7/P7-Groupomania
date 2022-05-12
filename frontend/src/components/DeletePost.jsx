@@ -1,22 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import useDelete from '../hooks/useDelete';
 
-const DeletePost = ({ showModal }) => {
-    const { id } = useParams();
+
+const DeletePost = ({ showModal, postId },) => {
     const navigate = useNavigate();
     /*function delete a post*/
-    const confirmDelete = async () => {
-        /*Get ID for posts deletion*/
-        const settings = { method: "DELETE" };
+
+    const confirmDelete = async (postId) => {
         try {
-           
-            const res = await fetch("http://localhost:3000/api/posts/" + id, settings);
-            const data = await res.json();
-            if (!res.ok) throw error;
-            console.log("ok");
+            const deletePost = await useDelete(`http://localhost:3000/api/posts/${postId}`);
+            if (!deletePost) return console.log("error");
             showModal(false);
+            alert("Le poste a bien été supprimé");
             navigate("/");
+            window.location.reload();
             return data;
         } catch (error) {
             return error;
@@ -28,13 +26,13 @@ const DeletePost = ({ showModal }) => {
             <div className="profile-container" onClick={e => e.stopPropagation()}>
                 <div className="profile-header">
                     <h1>Confirmer la suppresion ?</h1>
-                    <br/>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
+                    <br />
                 </div>
                 <div className="profile-footer">
                     <button className='footer-buttons' onClick={() => showModal(false)}>Annuler</button>
-                    <button className='footer-buttons' onClick={confirmDelete}>Confirmer</button>
+                    <button className='footer-buttons' onClick={async () => await confirmDelete(postId)}>Confirmer</button>
                 </div>
             </div>
         </div>

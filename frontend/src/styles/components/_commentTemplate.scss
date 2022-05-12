@@ -1,4 +1,53 @@
-@mixin postTemplate {
+/*comments section*/
+.comments-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  @include medium-screen {
+    width: 100%;
+  }
+
+  @include small-screen {
+    width: 100%;
+  }
+  .user-comment {
+    position: relative;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    border-radius: $post-border-radius;
+    background-color: #fff;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -7%;
+      width: 7%;
+      height: 2px;
+      background-color: $secondary-color;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 50%;
+      left: -7%;
+      width: 2px;
+      height: 150%;
+      background-color: $secondary-color;
+      z-index: -1;
+    }
+
+    @include medium-screen {
+      width: 90%;
+    }
+    @include small-screen {
+      width: 90%;
+    }
+  }
+
   /*user profile picture container*/
   .post-profile-picture {
     width: $pp-post-width;
@@ -6,7 +55,6 @@
     text-align: center;
     border-top-left-radius: $post-border-radius;
     border-bottom-left-radius: $post-border-radius;
-
     @include small-screen {
       min-width: 35px;
       width: 20%;
@@ -25,7 +73,7 @@
     }
   }
 
-  .user-content {
+  .comment-content {
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -33,37 +81,17 @@
     align-items: flex-start;
     padding: $post-padding;
     line-height: 1.25;
+  }
 
-    @include medium-screen {
-      min-width: auto;
-      width: 100%;
+  .comment-details {
+    width: 100%;
+    height: auto;
+    margin-bottom: 25px;
+    h1 {
+      margin-bottom: 15px;
     }
-
-    @include small-screen {
-      min-width: auto;
-      width: 100%;
-      padding: 15px 10px;
-    }
-
-    .post-details {
-      width: 100%;
-      height: auto;
-      margin-bottom: 25px;
-      h1 {
-        margin-bottom: 15px;
-      }
-      span {
-        @include postDate;
-      }
-      .image-container {
-        width: 100%;
-        margin-top: 15px;
-
-        img {
-          width: 100%;
-          height: auto;
-        }
-      }
+    span {
+      @include postDate;
     }
   }
 
@@ -71,13 +99,6 @@
     width: 100%;
     height: auto;
     @extend %flex-center-between;
-
-    @include medium-screen {
-      padding: 0 25px;
-    }
-    @include small-screen {
-      padding: 0 8px;
-    }
 
     .post-icons {
       @include postIcons;
@@ -129,4 +150,5 @@
       }
     }
   }
-}
+  }
+

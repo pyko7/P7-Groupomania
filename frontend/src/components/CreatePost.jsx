@@ -35,8 +35,6 @@ const CreatePost = () => {
         setImageUrl(e.target.files[0])
     }
 
-    console.log(imageUrl);
-
     const handleInput = async () => {
         const post = getValues();
         let settings = {};
@@ -68,7 +66,6 @@ const CreatePost = () => {
             const res = await fetch('http://localhost:3000/api/posts', settings)
             const data = await res.json();
             if (!res.ok) return console.log("pb");
-            console.log(res.data);
             window.location.reload();
             return data;
         } catch (error) {
@@ -82,12 +79,12 @@ const CreatePost = () => {
             <div className="post-profile-picture">
                 {user && <img src={user.profilePicture} alt='photo de profil' />}
             </div>
-            <div className='user-post-right'>
+            <div className='user-content'>
                 <form onSubmit={handleSubmit(handleInput)}>
-                    <textarea minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" required {...register("textContent")}></textarea>
+                    <textarea minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" required {...register("textContent")} />
                     {imagePreview && imageUrl && (
                         <div className='image-preview-container'>
-                            <img src={imagePreview} alt={imageUrl.name} className="image-preview" />
+                            <img src={imagePreview} alt={imageUrl.name} />
                         </div>
                     )}
                     <div className="new-post-icons-container">

@@ -8,8 +8,8 @@ import LikeDislike from './LikeDislike';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
-import photo from "../assets/images/logo.png";
-
+import UserComment from './UserComment'
+import useFetch from '../hooks/useFetch';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -21,24 +21,25 @@ Moment.globalLocale = 'fr';
 
 const PostList = ({ posts }) => {
     const [deleteModal, setDeleteModal] = useState(false);
-    const [comment, setComment] = useState(false);
+    const [postId, setPostId] = useState(null);
 
     return (
         <div className='posts-container'>
             {posts.map((post) => (
-                <div className='user-post' key={post.id}>
+                <article className='user-post' key={post.id}>
                     <div className="post-profile-picture">
                         <img src={post.author.profilePicture} alt='photo de profil' />
                     </div>
-                    <div className='user-post-right'>
+                    <div className='user-content'>
                         <Link to={`/posts/${post.id}`}>
-                            <div className='user-post-content'>
+                            <div className='post-details'>
                                 <h1>{post.author.firstName} {post.author.lastName}</h1>
                                 <p>{post.textContent}</p>
-                                <div className="post-image">
+                                {post.imageUrl && <div className="image-container">
                                     <img src={post.imageUrl}
-                                     alt={`posté par ${post.author.firstName} ${post.author.lastName} `}/>
-                                </div>
+                                        alt={`posté par ${post.author.firstName} ${post.author.lastName} `} />
+                                </div>}
+                                <br />
                                 <span>Posté <Moment fromNow>{post.createdAt}</Moment> </span>
                             </div>
                         </Link>
@@ -48,11 +49,12 @@ const PostList = ({ posts }) => {
                             <Link to={`/posts/${post.id}`}>
                                 <FontAwesomeIcon icon={faMessage} className="post-icons" />
                             </Link>
-                            <FontAwesomeIcon icon={faTrashCan} className="post-icons" onClick={() => setDeleteModal(true)} />
-                            {deleteModal && <DeletePost showModal={setDeleteModal} />}
+                            <FontAwesomeIcon icon={faTrashCan} className="post-icons"
+                                onClick={() => { setDeleteModal(true); setPostId(post.id) }} />
+                            {deleteModal && <DeletePost showModal={setDeleteModal} postId={postId} />}
                         </div>
                     </div>
-                </div>
+                </article>
             ))}
         </div>
 

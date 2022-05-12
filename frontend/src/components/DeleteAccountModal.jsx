@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Spinner from './Spinner';
 import useFetch from '../hooks/useFetch';
+import useDelete from '../hooks/useDelete';
 /*update profile picture*/
 const DeleteAccountModal = ({ showModal }) => {
     const { id } = useParams()
@@ -13,34 +14,25 @@ const DeleteAccountModal = ({ showModal }) => {
     const [deleteAccount, setDeleteAccount] = useState(null);
     const [errorMessage, setErrorMessage] = useState(false)
 
-    const handleInput = async () => {
-        const userData = JSON.parse(localStorage.getItem("user"));
-        const token = userData.token;
-        const settings = {
-            method: 'DELETE',
-            headers: {
-                'Authorization': "Bearer " + token,
-            }
-        };
-        const res = await fetch('http://localhost:3000/api/users/' + id, settings)
-        const data = await res.json();
-        if (!res.ok) return;
+    const confirmDelete = async () => {
         try {
-            alert("Votre compte a bien été supprimé")
+            const deletePost = await useDelete(`http://localhost:3000/api/users/${id}`);
+            if (!deletePost) return console.log("error");
             showModal(false);
+            alert("Votre compte a bien été supprimé")
             navigate("/auth/login");
-            return data
+            return data;
         } catch (error) {
-            return error
+            return error;
         }
     }
 
-    const submitDeletion = () => {
+    const submitDeletion = async () => {
         if (deleteAccount !== deleteMessage) {
             setErrorMessage(true);
             return
         } else {
-            handleInput();
+            await confirmDelete();
         }
     }
 

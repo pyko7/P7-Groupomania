@@ -5,13 +5,13 @@ layout
 pages*/
 /*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
-.profile-modal, .profile-footer .footer-buttons, .profile-footer, .profile-body_buttons .body-buttons, .profile-body_buttons, .profile-body, .profile-header, .user-post-right .image-preview-container, a, .posts-container, .main-container .spinner, .main-container, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
+.profile-modal, .profile-footer .footer-buttons, .profile-footer, .profile-body_buttons .body-buttons, .profile-body_buttons, .profile-body, .profile-header, .new-user-post .image-preview-container, .posts-container, .main-container .spinner, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.like-dislike-icons-container, .post-icons-container {
+.comments-container .user-comment .like-dislike-icons-container, .comments-container .user-comment .post-icons-container, .user-post .like-dislike-icons-container, .user-post .post-icons-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -453,7 +453,7 @@ li {
 }
 
 /*submit button of login/register form*/
-/*Text area to create a post*/
+/*Container for post creation*/
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -848,9 +848,23 @@ body {
   }
 }
 
+/*container on home page, it contains create post textarea, and posts timeline*/
 .main-container {
-  width: 100%;
-  flex-direction: column;
+  width: 35%;
+  min-width: 700px;
+  margin: 0 auto;
+}
+@media screen and (max-width: 768px) {
+  .main-container {
+    min-width: auto;
+    width: 90%;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .main-container {
+    min-width: auto;
+    width: 80%;
+  }
 }
 .main-container .spinner {
   position: fixed;
@@ -877,6 +891,7 @@ body {
   left: 50%;
 }
 
+/*container for all posts*/
 .posts-container {
   width: 100%;
   flex-direction: column-reverse;
@@ -884,69 +899,73 @@ body {
 
 /*Post creation section*/
 .new-user-post {
-  min-width: 700px;
-  width: 35%;
-  display: flex;
-  margin-top: 25px;
-  border-radius: 20px;
-  line-height: 1.25;
-  background-color: #fff;
-  /*user profile picture container*/
-  /*user profile picture*/
-  height: 250px;
+  width: 100%;
+  min-height: 180px;
+  margin-top: 15px;
   margin-bottom: 35px;
-  /*icons for post creation*/
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .new-user-post {
-    min-width: auto;
-    width: 80%;
-  }
-}
-@media screen and (max-width: 768px) {
-  .new-user-post {
-    min-width: auto;
-    width: 95%;
-  }
+  display: flex;
+  justify-content: space-between;
+  /*user profile picture container*/
+  /*text area, icons & buttons container*/
+  /*icons container*/
+  /*container of image preview*/
+  border-radius: 20px;
+  background-color: #fff;
 }
 .new-user-post .post-profile-picture {
   width: 10%;
+  padding-top: 10px;
   text-align: center;
-  background-color: #fff;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
 }
 @media screen and (max-width: 768px) {
   .new-user-post .post-profile-picture {
     min-width: 35px;
+    width: 20%;
   }
 }
-.new-user-post img {
-  margin: 15px 10px;
+.new-user-post .post-profile-picture img {
+  display: inline-block;
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media screen and (max-width: 768px) {
+  .new-user-post .post-profile-picture img {
+    width: 35px;
+    height: 35px;
+  }
+}
+.new-user-post .user-content {
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  line-height: 1.25;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .new-user-post img {
-    width: 40px;
-    height: 40px;
+  .new-user-post .user-content {
+    min-width: auto;
+    width: 100%;
   }
 }
 @media screen and (max-width: 768px) {
-  .new-user-post img {
-    margin: 15px 7px;
-    width: 30px;
-    height: 30px;
+  .new-user-post .user-content {
+    min-width: auto;
+    width: 100%;
   }
 }
 .new-user-post textarea {
   width: 100%;
-  min-height: 120px;
+  min-height: 135px;
   padding: 25px;
   border: none;
   border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
   resize: none;
   overflow: auto;
 }
@@ -958,22 +977,19 @@ body {
 @media screen and (max-width: 768px) {
   .new-user-post textarea {
     width: 100%;
+    padding: 15px 10px;
   }
 }
 .new-user-post textarea:focus {
   outline: none;
 }
 .new-user-post .new-post-icons-container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
   padding: 25px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   border-bottom-right-radius: 20px;
-  background-color: #fff;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .new-user-post .new-post-icons-container {
@@ -990,6 +1006,7 @@ body {
 .new-user-post .new-post-icons-container .add-file-icon {
   color: #fd2d01;
   cursor: pointer;
+  font-size: 22px;
   font-size: 30px;
 }
 .new-user-post .new-post-icons-container .add-file-icon:hover {
@@ -1008,6 +1025,7 @@ body {
 .new-user-post .new-post-icons-container label i {
   color: #fd2d01;
   cursor: pointer;
+  font-size: 22px;
   font-size: 30px;
 }
 .new-user-post .new-post-icons-container label i:hover {
@@ -1051,200 +1069,179 @@ body {
   cursor: default;
   background: #fe957f;
 }
-
-/*existing posts*/
-a {
-  width: 100%;
-  color: inherit;
-}
-
-.user-post {
-  position: relative;
-  min-width: 700px;
-  width: 35%;
-  display: flex;
-  margin-top: 25px;
-  border-radius: 20px;
-  line-height: 1.25;
-  background-color: #fff;
-  /*user profile picture container*/
-  /*user profile picture*/
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .user-post {
-    min-width: auto;
-    width: 80%;
-  }
+.new-user-post .image-preview-container {
+  width: 20%;
+  height: auto;
 }
 @media screen and (max-width: 768px) {
-  .user-post {
-    min-width: auto;
-    width: 95%;
+  .new-user-post .image-preview-container {
+    width: 55%;
+    margin-bottom: 10px;
   }
+}
+.new-user-post .image-preview-container img {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+/*existing posts*/
+.user-post {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 35px;
+  display: flex;
+  justify-content: space-between;
+  /*user profile picture container*/
+  /*active state for like/dislike icons*/
+  border-radius: 20px;
+  background-color: #fff;
 }
 .user-post .post-profile-picture {
   width: 10%;
+  padding-top: 20px;
   text-align: center;
-  background-color: #fff;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
 }
 @media screen and (max-width: 768px) {
   .user-post .post-profile-picture {
     min-width: 35px;
+    width: 20%;
   }
 }
-.user-post img {
-  margin: 15px 10px;
+.user-post .post-profile-picture img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media screen and (max-width: 768px) {
+  .user-post .post-profile-picture img {
+    width: 35px;
+    height: 35px;
+  }
+}
+.user-post .user-content {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px;
+  line-height: 1.25;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .user-post img {
-    width: 40px;
-    height: 40px;
+  .user-post .user-content {
+    min-width: auto;
+    width: 100%;
   }
 }
 @media screen and (max-width: 768px) {
-  .user-post img {
-    margin: 15px 7px;
-    width: 30px;
-    height: 30px;
+  .user-post .user-content {
+    min-width: auto;
+    width: 100%;
+    padding: 15px 10px;
   }
 }
-.user-post-right {
-  position: relative;
+.user-post .user-content .post-details {
   width: 100%;
-  /*container of image preview*/
-  /*preview of the image that the user wants to upload*/
-}
-.user-post-right .image-preview-container {
-  position: absolute;
-  bottom: 5px;
-  left: 15px;
-  width: 80px;
   height: auto;
+  margin-bottom: 25px;
 }
-.user-post-right .image-preview {
-  width: 100%;
-  height: 100%;
-  z-index: 100;
+.user-post .user-content .post-details h1 {
+  margin-bottom: 15px;
 }
-.user-post-right h1 {
-  margin-bottom: 14px;
-}
-.user-post-right span {
-  position: absolute;
-  margin-top: 20px;
+.user-post .user-content .post-details span {
+  margin: 20px auto;
   font-style: italic;
   font-size: 14px;
   background-color: #fff;
   color: #517c96;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .user-post-right span {
+  .user-post .user-content .post-details span {
     margin-top: 7px;
   }
 }
 @media screen and (max-width: 768px) {
-  .user-post-right span {
+  .user-post .user-content .post-details span {
     margin-top: 10px;
   }
 }
-
-/*content that user have posted*/
-.user-post-content {
-  position: relative;
+.user-post .user-content .post-details .image-container {
   width: 100%;
-  padding: 25px;
-  border: none;
-  border-top-right-radius: 20px;
-  background-color: #fff;
+  margin-top: 15px;
+}
+.user-post .user-content .post-details .image-container img {
+  width: 100%;
+  height: auto;
+}
+.user-post .post-icons-container {
+  width: 100%;
+  height: auto;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .user-post-content {
+  .user-post .post-icons-container {
     width: 100%;
+    padding: 0 25px;
   }
 }
 @media screen and (max-width: 768px) {
-  .user-post-content {
-    width: 100%;
+  .user-post .post-icons-container {
+    padding: 0 8px;
   }
 }
-
-.post-icons-container {
-  width: 100%;
-  padding: 25px;
-  border-bottom-right-radius: 20px;
-  background-color: #fff;
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .post-icons-container {
-    width: 100%;
-    padding: 10px 25px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .post-icons-container {
-    width: 100%;
-    padding: 10px 25px;
-  }
-}
-.post-icons-container .post-icons {
+.user-post .post-icons-container .post-icons {
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
 }
-.post-icons-container .post-icons:hover {
+.user-post .post-icons-container .post-icons:hover {
   color: #fe5633;
 }
-
-.like-dislike-icons {
+.user-post .like-dislike-icons {
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
 }
-.like-dislike-icons:hover {
+.user-post .like-dislike-icons:hover {
   color: #fe5633;
 }
-.like-dislike-icons:hover {
+.user-post .like-dislike-icons:hover {
   font-weight: 800;
   background: transparent;
   color: #6ab4dc;
 }
-
-/*active state for like/dislike icons*/
-.active-icon {
+.user-post .active-icon {
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
   color: #6ab4dc;
 }
-.active-icon:hover {
+.user-post .active-icon:hover {
   color: #fe5633;
 }
-
-.like-dislike-icons-container {
+.user-post .like-dislike-icons-container {
   width: 12%;
   max-width: 80px;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .like-dislike-icons-container {
+  .user-post .like-dislike-icons-container {
     width: 20%;
     min-width: 60px;
     max-width: 80px;
   }
 }
 @media screen and (max-width: 768px) {
-  .like-dislike-icons-container {
+  .user-post .like-dislike-icons-container {
     width: 25%;
     min-width: 75px;
     max-width: 80px;
   }
 }
-
-.fa-trash-can:hover {
+.user-post .fa-trash-can:hover {
   -webkit-animation-name: wiggle;
           animation-name: wiggle;
   -webkit-animation-duration: 0.2s;
@@ -1267,6 +1264,10 @@ a {
   100% {
     transform: rotate(3deg);
   }
+}
+
+a {
+  color: inherit;
 }
 
 .comments-container {
@@ -1292,58 +1293,168 @@ a {
 }
 .comments-container .user-comment {
   position: relative;
-  min-width: 700px;
-  width: 35%;
-  display: flex;
-  margin-top: 25px;
-  border-radius: 20px;
-  line-height: 1.25;
-  background-color: #fff;
   /*user profile picture container*/
-  /*user profile picture*/
+  /*active state for like/dislike icons*/
   min-width: 650px;
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .comments-container .user-comment {
-    min-width: auto;
-    width: 80%;
-  }
-}
-@media screen and (max-width: 768px) {
-  .comments-container .user-comment {
-    min-width: auto;
-    width: 95%;
-  }
 }
 .comments-container .user-comment .post-profile-picture {
   width: 10%;
+  padding-top: 20px;
   text-align: center;
-  background-color: #fff;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
 }
 @media screen and (max-width: 768px) {
   .comments-container .user-comment .post-profile-picture {
     min-width: 35px;
+    width: 20%;
   }
 }
-.comments-container .user-comment img {
-  margin: 15px 10px;
+.comments-container .user-comment .post-profile-picture img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media screen and (max-width: 768px) {
+  .comments-container .user-comment .post-profile-picture img {
+    width: 35px;
+    height: 35px;
+  }
+}
+.comments-container .user-comment .user-content {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px;
+  line-height: 1.25;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .comments-container .user-comment img {
-    width: 40px;
-    height: 40px;
+  .comments-container .user-comment .user-content {
+    min-width: auto;
+    width: 100%;
   }
 }
 @media screen and (max-width: 768px) {
-  .comments-container .user-comment img {
-    margin: 15px 7px;
-    width: 30px;
-    height: 30px;
+  .comments-container .user-comment .user-content {
+    min-width: auto;
+    width: 100%;
+    padding: 15px 10px;
+  }
+}
+.comments-container .user-comment .user-content .post-details {
+  width: 100%;
+  height: auto;
+  margin-bottom: 25px;
+}
+.comments-container .user-comment .user-content .post-details h1 {
+  margin-bottom: 15px;
+}
+.comments-container .user-comment .user-content .post-details span {
+  margin: 20px auto;
+  font-style: italic;
+  font-size: 14px;
+  background-color: #fff;
+  color: #517c96;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .comments-container .user-comment .user-content .post-details span {
+    margin-top: 7px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .comments-container .user-comment .user-content .post-details span {
+    margin-top: 10px;
+  }
+}
+.comments-container .user-comment .user-content .post-details .image-container {
+  width: 100%;
+  margin-top: 15px;
+}
+.comments-container .user-comment .user-content .post-details .image-container img {
+  width: 100%;
+  height: auto;
+}
+.comments-container .user-comment .post-icons-container {
+  width: 100%;
+  height: auto;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .comments-container .user-comment .post-icons-container {
+    width: 100%;
+    padding: 0 25px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .comments-container .user-comment .post-icons-container {
+    padding: 0 8px;
+  }
+}
+.comments-container .user-comment .post-icons-container .post-icons {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+}
+.comments-container .user-comment .post-icons-container .post-icons:hover {
+  color: #fe5633;
+}
+.comments-container .user-comment .like-dislike-icons {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+}
+.comments-container .user-comment .like-dislike-icons:hover {
+  color: #fe5633;
+}
+.comments-container .user-comment .like-dislike-icons:hover {
+  font-weight: 800;
+  background: transparent;
+  color: #6ab4dc;
+}
+.comments-container .user-comment .active-icon {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+  color: #6ab4dc;
+}
+.comments-container .user-comment .active-icon:hover {
+  color: #fe5633;
+}
+.comments-container .user-comment .like-dislike-icons-container {
+  width: 12%;
+  max-width: 80px;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .comments-container .user-comment .like-dislike-icons-container {
+    width: 20%;
+    min-width: 60px;
+    max-width: 80px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .comments-container .user-comment .like-dislike-icons-container {
+    width: 25%;
+    min-width: 75px;
+    max-width: 80px;
+  }
+}
+.comments-container .user-comment .fa-trash-can:hover {
+  -webkit-animation-name: wiggle;
+          animation-name: wiggle;
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+  -webkit-animation-iteration-count: 5;
+          animation-iteration-count: 5;
+}
+@keyframes wiggle {
+  0% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(3deg);
   }
 }
 .comments-container .user-comment::before {
@@ -1436,6 +1547,7 @@ a {
   right: 40%;
   color: #fd2d01;
   cursor: pointer;
+  font-size: 22px;
   color: #ccc;
   padding: 7px;
   background-color: #6ab4dc;
