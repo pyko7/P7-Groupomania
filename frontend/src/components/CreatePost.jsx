@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useFetch from '../hooks/useFetch';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { postSchema } from '../validations/PostValidation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileImage } from '@fortawesome/free-solid-svg-icons';
-import useFetch from '../hooks/useFetch';
 
 
 
@@ -41,8 +41,8 @@ const CreatePost = () => {
         if (imageUrl === null) {
             settings = {
                 method: 'POST',
+                credentials: "include",
                 headers: {
-                    'Authorization': "Bearer " + token,
                     'Content-type': 'application/json; charset=UTF-8',
                 },
                 body: JSON.stringify({
@@ -56,16 +56,14 @@ const CreatePost = () => {
 
             settings = {
                 method: 'POST',
-                headers: {
-                    'Authorization': "Bearer " + token,
-                },
+                credentials: "include",
                 body: formData
             }
         }
         try {
             const res = await fetch('http://localhost:3000/api/posts', settings)
             const data = await res.json();
-            if (!res.ok) return console.log("pb");
+            if (!res.ok) return;
             window.location.reload();
             return data;
         } catch (error) {

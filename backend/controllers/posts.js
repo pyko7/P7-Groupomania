@@ -52,7 +52,7 @@ const getPostsById = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-  const token = req.headers.authorization.split(" ")[1];
+  const token = req.cookies.token;
   const decodedToken = jwt.verify(token, `${USER_TOKEN}`);
   const userId = decodedToken.userId;
 

@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const USER_TOKEN = process.env.USER_TOKEN;
 const jwt = require("jsonwebtoken");
+const cookie = require("cookie");
 
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
@@ -49,7 +50,7 @@ const createUser = async (req, res) => {
  * check input validity with a yup's schema
  * check authenticity of email, if value is null, email is invalid
  * compare hashed password & request password, if value is false, password is wrong
- * assign a authenticity token to allow user to access the website
+ * set the token into a htppOnly cookie
  * Return a JSON Object with a userId and the token
  */
 const logUser = async (req, res) => {
@@ -73,18 +74,25 @@ const logUser = async (req, res) => {
       return;
     }
 
-    const token = jwt.sign({ userId: user.id }, `${USER_TOKEN}`, {
+    const token = jwt.sign({ userId: user.id, role: user.role }, `${USER_TOKEN}`, {
       expiresIn: "24h",
     });
     if (!token) {
       res.status(401).json({ error: "erreur de token" });
     }
-    res.cookie('')
-    res.cookie('token', token, { httpOnly: true });
-    res.status(200).json({ userId: user.id, token });
+
+    res.cookie("token", token, { httpOnly: true });
+    res.status(200).json({ userId: user.id, role: user.role, token });
   } catch (error) {
-    res.status(500).json({ error });
+    if (error.name) return res.status(401).json({ message: error.message });
+    res.status(400).json({ error });
   }
+};
+
+const logOut = (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Utilisateur déconnecté" });
+  res.end();
 };
 
 const getAllUsers = async (req, res) => {
@@ -258,6 +266,7 @@ const deleteProfile = async (req, res) => {
 module.exports = {
   createUser,
   logUser,
+  logOut,
   getAllUsers,
   getUserById,
   updateProfile,

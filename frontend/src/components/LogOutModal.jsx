@@ -4,21 +4,25 @@ import { useNavigate } from 'react-router-dom';
 /*update profile picture*/
 const LogOutModal = ({ showModal }) => {
     const navigate = useNavigate()
+    const settings = { method: 'GET', credentials: 'include' };
     const handleClick = async () => {
-        localStorage.clear();
+        const res = await fetch(`http://localhost:3000/api/auth/logout`, settings)
+        const data = await res.json();
+        if (!res.ok) return;
         navigate('/auth/login');
+        return data;
     }
 
 
 
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
-            <div className="profile-container" onClick={e => e.stopPropagation()}>
+            <div className="update-modale" onClick={e => e.stopPropagation()}>
                 <div className="profile-header">
                     <h1>Voulez-vous vous déconnecter ?</h1>
                 </div>
                 <div className="profile-body">
-                    <p className='deletion-message'>Vous pouvez vous reconnecter à n'importe quel moement.
+                    <p className='deletion-message'>Vous pouvez vous reconnecter à n'importe quel moment.
                     </p>
                 </div>
                 <div className="profile-footer">

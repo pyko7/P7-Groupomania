@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { updatePasswordSchema } from '../validations/UserValidation';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 /*update profile picture*/
@@ -26,12 +25,10 @@ const UpdatePasswordModal = ({ showModal }) => {
 
     const handleInput = async () => {
         const user = getValues()
-        const userData = JSON.parse(localStorage.getItem("user"));
-        const token = userData.token;
         const settings = {
             method: 'PUT',
+            credentials: 'include',
             headers: {
-                'Authorization': "Bearer " + token,
                 'Content-type': 'application/json; charset=UTF-8',
             },
             body: JSON.stringify({ ...user }),
@@ -51,8 +48,8 @@ const UpdatePasswordModal = ({ showModal }) => {
 
 
     return (
-        <div className="profile-modal" onClick={() => navigate(`/users/${id}`)}>
-            <div className="profile-container" onClick={e => e.stopPropagation()}>
+        <div className="profile-modal" onClick={() => showModal(false)}>
+            <div className="update-modale" onClick={e => e.stopPropagation()}>
                 <form onSubmit={handleSubmit(handleInput)}>
                     <div className="profile-header">
                         <h1>Changement de mot de passe</h1>
@@ -65,8 +62,7 @@ const UpdatePasswordModal = ({ showModal }) => {
                         <p className="invalid-message">{errors.confirmPassword && "Les mots de passes doivent être similaires"}</p>
                     </div>
                     <div className="profile-footer">
-                        <button type="button" className='footer-buttons'
-                            onClick={() => navigate(`/users/${id}`)}>Annuler</button>
+                        <button type='button' className='footer-buttons' onClick={() => showModal(false)}> Annuler</button>
                         <button type="submit" className='footer-buttons' name="submitButton">Enregistrer</button>
                     </div>
                 </form>

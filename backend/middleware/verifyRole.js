@@ -6,28 +6,34 @@ const dotenv = require("dotenv");
 dotenv.config();
 const USER_TOKEN = process.env.USER_TOKEN;
 
+/**
+ * get the token, if it doesn't exists return 401 status
+ * get userId in DB
+ * Decode the token to get encrypted userId when user logged in
+ * Compare userId in DB and userId inside the token, any action is forbidden
+ */
+
 module.exports = async (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json("Veuillez vous connecter");
+  }
   try {
     const user = await prisma.user.findUnique({
       where: {
         id: Number(req.params.id),
       },
       select: {
-        firstName: true,
-        lastName: true,
-        profilePicture: true,
+        id: true,
+        role: true,
       },
     });
-    if (!token) {
-      return res.status(401).json("Veuillez vous connecter");
-    }
-    const decodedToken = jwt.verify(token, `${USER_TOKEN}`);
-    const userId = decodedToken.userId;
 
-    // Compare sauce userId & token's one
-    if (user.id && user.id !== userId) {
-      throw "User ID non valable";
+    const decodedToken = jwt.verify(token, `${USER_TOKEN}`);
+    const role = decodedToken.role;
+
+    if (role && role !== 1) {
+      return res.status(403).json({ message: "Action interdite" });
     } else {
       next();
     }

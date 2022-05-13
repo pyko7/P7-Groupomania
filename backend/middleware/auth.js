@@ -1,14 +1,18 @@
+const { PrismaClient, Prisma } = require("@prisma/client");
+const prisma = new PrismaClient();
+
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 const USER_TOKEN = process.env.USER_TOKEN;
 
-//get the token
-//check if token has same value as the token
-//get the decoded userID encrypted when user logged in
+/**
+ * get the token, if it doesn't exists return 401 status
+ * Decode the token to get encrypted userID when user logged in
+ * Compare req.id & token ID, if they are different it means that the user isn't log
+ */
 module.exports = async (req, res, next) => {
-  // const token = req.cookies.token || "";
-  const token = req.headers.authorization.split(" ")[1];
+  const token = req.cookies.token;
   try {
     if (!token) {
       return res.status(401).json("Veuillez vous connecter");
@@ -16,7 +20,7 @@ module.exports = async (req, res, next) => {
     const decodedToken = jwt.verify(token, `${USER_TOKEN}`);
     const userId = decodedToken.userId;
     if (req.body.userId && req.body.userId !== userId) {
-      throw "User ID non valable";
+      return res.status(403).json({ message: "Veuillez vous connecter" });
     } else {
       next();
     }

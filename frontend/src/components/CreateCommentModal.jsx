@@ -36,6 +36,7 @@ const CreateCommentModal = ({ showModal }) => {
         /*post method settings*/
         const settings = {
             method: "POST",
+            credentials: 'include',
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
             },

@@ -23,7 +23,7 @@ const DeletePost = ({ showModal, postId },) => {
 
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
-            <div className="profile-container" onClick={e => e.stopPropagation()}>
+            <div className="update-modale" onClick={e => e.stopPropagation()}>
                 <div className="profile-header">
                     <h1>Confirmer la suppresion ?</h1>
                     <br />

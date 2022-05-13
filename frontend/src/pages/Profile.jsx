@@ -10,15 +10,14 @@ import { Link } from 'react-router-dom';
 import Spinner from "../components/Spinner";
 
 const Profile = () => {
+    /*get user datas*/
+    const { id } = useParams();
+    const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
     /*modals state*/
     const [updateProfile, setupdateProfile] = useState(false);
     const [updatePassword, setupdatePassword] = useState(false);
     const [deleteAccount, setdeleteAccount] = useState(false);
     const [logOut, setLogOut] = useState(false);
-
-    /*get user datas*/
-    const { id } = useParams();
-    const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
 
     return (
         <div>
@@ -36,14 +35,13 @@ const Profile = () => {
                                 {/* showModal control the state of modal */}
                                 <button className="body-buttons" onClick={() => setupdateProfile(true)}>Modifier le profil</button>
                                 {updateProfile && <UpdateProfileModal showModal={setupdateProfile} />}
-                                <Link to={`/users/${id}/password`} className="body-buttons" onClick={() => setupdatePassword(true)}>
-                                    Changer de mot de passe
-                                </Link>
+                                {updatePassword && <UpdatePasswordModal showModal={setupdateProfile} />}
+                                <button className="body-buttons" onClick={() => setupdatePassword(true)}>Modifier le mot de passe</button>
                                 {updatePassword && <UpdatePasswordModal showModal={setupdatePassword} />}
                                 <button className="body-buttons" onClick={() => setdeleteAccount(true)}>Supprimer le compte</button>
                                 {deleteAccount && <DeleteAccountModal showModal={setdeleteAccount} />}
                                 <button className="body-buttons" onClick={() => setLogOut(true)}>Se déconnecter</button>
-                                {logOut && <LogOutModal showModal={setLogOut} />}
+                                {logOut && <LogOutModal showModal={setLogOut}/>}
                             </div>
                         </div>
                     </div>

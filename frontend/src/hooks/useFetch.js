@@ -6,6 +6,14 @@ const useFetch = (url) => {
   const [isPending, setIsPending] = useState(true);
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.token;
+  const settings = {
+    method: 'GET',
+    credentials: "include",
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+}
   const headers = {
     Authorization: "Bearer " + token,
     "Content-Type": "application/json",
@@ -14,7 +22,7 @@ const useFetch = (url) => {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const res = await fetch(url, { headers });
+        const res = await fetch(url, settings);
         const data = await res.json();
         /*change state to get datas*/
         setData(data);

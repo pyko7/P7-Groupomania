@@ -4,6 +4,7 @@ const useDelete = async (url) => {
   const token = user.token;
   const settings = {
     method: "DELETE",
+    credentials: "include",
     headers: {
       Authorization: "Bearer " + token,
     },

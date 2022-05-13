@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
+import useFetch from '../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { updateUserProfile } from '../validations/UserValidation';
-import useFetch from '../hooks/useFetch';
 import Spinner from "../components/Spinner";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 /*update profile picture*/
 const UpdateProfileModal = ({ showModal }) => {
@@ -45,8 +45,8 @@ const UpdateProfileModal = ({ showModal }) => {
         if (profilePicture === null) {
             settings = {
                 method: 'PUT',
+                credentials: "include",
                 headers: {
-                    'Authorization': "Bearer " + token,
                     'Content-type': 'application/json; charset=UTF-8',
                 },
                 body: JSON.stringify({
@@ -62,14 +62,12 @@ const UpdateProfileModal = ({ showModal }) => {
 
             settings = {
                 method: 'PUT',
-                headers: {
-                    'Authorization': "Bearer " + token,
-                },
+                credentials: "include",
                 body: formData
             }
         }
         try {
-            const res = await fetch('http://localhost:3000/api/users/' + id, settings)
+            const res = await fetch(`http://localhost:3000/api/users/${id}`, settings)
             const data = await res.json();
             if (!res.ok) return;
             window.location.reload();
@@ -82,7 +80,7 @@ const UpdateProfileModal = ({ showModal }) => {
 
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
-            <div className="profile-container" onClick={e => e.stopPropagation()}>
+            <div className="update-modale" onClick={e => e.stopPropagation()}>
                 <form onSubmit={handleSubmit(handleInput)}>
                     {isPending && <Spinner />}
                     <div className="profile-header">
