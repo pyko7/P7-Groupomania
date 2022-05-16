@@ -38,9 +38,7 @@ const DeleteAccountModal = ({ showModal }) => {
 
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
-            {/* {<isPending/> && <Spinner />}
-             */}
-            {user && <div className="profile-container" onClick={e => e.stopPropagation()}>
+            {user && <div className="update-modale" onClick={e => e.stopPropagation()}>
 
                 <div className="profile-header">
                     <h1>Suppression du compte</h1>

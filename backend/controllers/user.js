@@ -40,6 +40,11 @@ const createUser = async (req, res) => {
 
     res.status(200).json({ message: "Utilisateur créé" });
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return res.status(401).json({ message: "Email déjà utilisé" });
+      }
+    }
     if (error.name) return res.status(401).json({ message: error.message });
     res.status(400).json({ error });
   }
@@ -64,19 +69,21 @@ const logUser = async (req, res) => {
       },
     });
     if (user === null) {
-      res.status(401).json({ message: "Utilisateur non trouvé" });
-      return;
+      return res.status(401).json({ message: "Utilisateur non trouvé" });
     }
 
     const compare = await bcrypt.compare(password, user.password);
     if (!compare) {
-      res.status(401).json({ message: "Mot de passe incorrect" });
-      return;
+      return res.status(401).json({ message: "Mot de passe incorrect" });
     }
 
-    const token = jwt.sign({ userId: user.id, role: user.role }, `${USER_TOKEN}`, {
-      expiresIn: "24h",
-    });
+    const token = jwt.sign(
+      { userId: user.id, role: user.role },
+      `${USER_TOKEN}`,
+      {
+        expiresIn: "24h",
+      }
+    );
     if (!token) {
       res.status(401).json({ error: "erreur de token" });
     }

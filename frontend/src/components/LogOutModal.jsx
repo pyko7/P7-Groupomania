@@ -9,6 +9,7 @@ const LogOutModal = ({ showModal }) => {
         const res = await fetch(`http://localhost:3000/api/auth/logout`, settings)
         const data = await res.json();
         if (!res.ok) return;
+        alert("Vous êtes déconnecté")
         navigate('/auth/login');
         return data;
     }

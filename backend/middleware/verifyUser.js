@@ -21,6 +21,7 @@ module.exports = async (req, res, next) => {
     return res.status(401).json("Veuillez vous connecter");
   }
   try {
+    console.log(req.params.id);
     const user = await prisma.user.findUnique({
       where: {
         id: Number(req.params.id),
@@ -29,7 +30,8 @@ module.exports = async (req, res, next) => {
     const decodedToken = jwt.verify(token, `${USER_TOKEN}`);
     const userId = decodedToken.userId;
     const role = decodedToken.role;
-    console.log(role);
+    console.log(user.id);
+    console.log(userId);
     if ((user.id && user.id === userId) || role === 1) {
       next();
     } else {
@@ -37,7 +39,7 @@ module.exports = async (req, res, next) => {
       return;
     }
   } catch (error) {
-    if (error.name) return res.status(401).json({ message: error.message });
+    if (error.name) return res.status(401).json({ message: error.message});
     res.status(403).json({ error: "Action interdite" });
   }
 };

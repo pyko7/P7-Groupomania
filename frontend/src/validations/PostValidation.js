@@ -11,9 +11,11 @@ export const postSchema = yup
   .object({
     textContent: yup
       .string()
-      .min(2)
+      .min(2, "Veuillez saisir au minimum 2 caractères")
       .max(280)
-      .matches(/^(?!\s*$).+$/)
+      .matches(/^(?!\s*$).+$/, {
+        message: "Veuillez saisir au minimum 2 caractères",
+      })
       .required("Veuillez saisir au minimum 2 caractères"),
   })
-    .required();
+  .required();

@@ -4,11 +4,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from "../validations/UserValidation";
 import { Link } from "react-router-dom";
 import logo from '../assets/images/icon-above-font-nobg.png';
+import { useState } from "react";
 
 
 /*function to register to the website*/
 const Register = () => {
     const navigate = useNavigate();
+    const [existEmail, setExistEmail] = useState(null);
     /*
      *register: allows to register an input or select element and apply validation,
      handleSubmit: This function receives the form data if form validation is successful,
@@ -35,7 +37,9 @@ const Register = () => {
         try {
             const res = await fetch('http://localhost:3000/api/auth/signup', settings)
             const data = await res.json();
-            if (!res.ok) return
+            if (!res.ok) {
+                if (data.message === "Email déjà utilisé") return setExistEmail(data.message)
+            }
             navigate("/");
             return data;
         } catch (error) {
@@ -58,6 +62,7 @@ const Register = () => {
                     <p className="invalid-message">{errors.lastName?.message}</p>
                     <input type="email" name="email" placeholder="Adresse email" {...register("email")} />
                     <p className="invalid-message">{errors.email?.message}</p>
+                    {existEmail && <p className="invalid-message">{existEmail}</p>}
                     <input type="password" name="password" autoComplete="off" placeholder="Mot de passe" {...register("password")} />
                     <p className="invalid-message">{errors.password?.message}</p>
                     <input type="password" name="confirmPassword" autoComplete="off" placeholder="Confirmer le mot de passe" {...register("confirmPassword")} />

@@ -12,7 +12,7 @@ import Spinner from "../components/Spinner";
 const Profile = () => {
     /*get user datas*/
     const { id } = useParams();
-    const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
+    const { data: user, isPending } = useFetch(`http://localhost:3000/api/users/${id}`);
     /*modals state*/
     const [updateProfile, setupdateProfile] = useState(false);
     const [updatePassword, setupdatePassword] = useState(false);

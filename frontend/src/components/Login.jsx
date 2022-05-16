@@ -1,15 +1,18 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from "../validations/UserValidation";
 import { Link } from "react-router-dom";
 import logo from '../assets/images/icon-above-font-nobg.png';
+import { useState } from "react";
 
 
 /*function to login to the website*/
 
 const Login = () => {
     const navigate = useNavigate();
+    const [existEmail, setExistEmail] = useState(null);
+    const [wrongPassword, setWrongPassword] = useState(null);
 
     /*
        *register: allows to register an input or select element and apply validation,
@@ -38,7 +41,17 @@ const Login = () => {
         try {
             const res = await fetch('http://localhost:3000/api/auth/login', settings)
             const data = await res.json();
-            if (!res.ok) return;
+            if (!res.ok) {
+                if (data.message === "Utilisateur non trouvé") {
+                    setExistEmail(data.message);
+                    setWrongPassword(null)
+                }
+                if (data.message === "Mot de passe incorrect") {
+                    setWrongPassword(data.message);
+                    setExistEmail(null);
+                }
+                return
+            };
             console.log(data)
             localStorage.setItem("user", JSON.stringify(data));
             navigate("/");
@@ -59,8 +72,10 @@ const Login = () => {
                 <form onSubmit={handleSubmit(logUser)}>
                     <input type="email" name="email" placeholder="Adresse email" {...register("email")} />
                     <p className="invalid-message">{errors.email?.message}</p>
+                    {existEmail && <p className="invalid-message">{existEmail}</p>}
                     <input type="password" name="password" autoComplete="off" placeholder="Mot de passe" {...register("password")} />
                     <p className="invalid-message">{errors.password?.message}</p>
+                    {wrongPassword && <p className="invalid-message">{wrongPassword}</p>}
                     <input type="submit" name="submitButton" value="Se connecter" />
                 </form>
                 <Link to="/auth/signup">

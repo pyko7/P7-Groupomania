@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
+import { postSchema } from '../validations/PostValidation';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -24,8 +25,8 @@ const CreateCommentModal = ({ showModal }) => {
      *resolver: allows to use YUP as external validation
     */
     const { register, handleSubmit, getValues, formState: { errors } } = useForm({
-        mode: "onSubmit",
-        resolver: yupResolver(commentSchema),
+        mode: 'onSubmit',
+        resolver: yupResolver(postSchema)
     });
     const navigate = useNavigate();
     const [isPending, setIsPending] = useState(false)
@@ -60,20 +61,20 @@ const CreateCommentModal = ({ showModal }) => {
         }
     };
 
-    /*
-    *   ADD SPINNER IF ERROR
-    */
+
     return (
-        <div className='modal-overlay' onClick={() => showModal(false)}>
-            <div className="modal" onClick={e => e.stopPropagation()}>
-                <h1>Commentaire</h1>
-                <div className="modal-body">
+        <div className="profile-modal" onClick={() => showModal(false)}>
+            <div className="update-modale" onClick={e => e.stopPropagation()}>
+                <div className="profile-header">
+                    <h1>Commentaire</h1>
+                </div>
+                <div className="profile-body">
                     <textarea minLength='2' maxLength='280' placeholder='Ecrivez votre réponse' name="comment" {...register('comment')}></textarea>
                     <p className="invalid-message">{errors.comment?.message}</p>
                 </div>
-                <div className="modal-footer">
-                    <button onClick={() => showModal(false)}>Annuler</button>
-                    <button onClick={handleSubmit(createComment)}>Commenter</button>
+                <div className="profile-footer">
+                    <button className='footer-buttons' onClick={() => showModal(false)}>Annuler</button>
+                    <button className='footer-buttons' onClick={handleSubmit(createComment)}>Commenter</button>
                 </div>
             </div>
         </div>

@@ -5,13 +5,13 @@ layout
 pages*/
 /*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
-.profile-modal, .profile-footer .footer-buttons, .profile-footer, .profile-body_buttons .body-buttons, .profile-body_buttons, .profile-body, .profile-header, .new-user-post .image-preview-container, .posts-container, .main-container .spinner, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container, .modal-footer, .modal-body, .modal-overlay {
+.profile-modal, .profile-footer .footer-buttons, .profile-footer, .profile-body_buttons .body-buttons, .profile-body_buttons, .profile-body, .profile-header, .new-user-post .image-preview-container, .posts-container, .main-container .spinner, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.comments-container .user-comment .like-dislike-icons-container, .comments-container .user-comment .post-icons-container, .user-post .like-dislike-icons-container, .user-post .post-icons-container {
+.user-post .like-dislike-icons-container, .user-post .post-icons-container, .comments-container .like-dislike-icons-container, .comments-container .post-icons-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -454,105 +454,198 @@ li {
 
 /*submit button of login/register form*/
 /*Container for post creation*/
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal {
-  position: relative;
-  max-width: 550px;
-  width: 80%;
-  min-height: 300px;
+/*comments section*/
+.comments-container {
+  width: 100%;
   display: flex;
-  align-items: center;
   flex-direction: column;
-  border-radius: 20px;
-  padding: 25px;
-  background: #fff;
+  align-items: flex-end;
+  /*user profile picture container*/
+  /*active state for like/dislike icons*/
 }
-.modal h1 {
-  text-align: center;
-  color: #fd2d01;
-  font-weight: 800;
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .comments-container {
+    width: 100%;
+  }
 }
-.modal-body {
-  width: 100%;
-  flex-direction: column;
+@media screen and (max-width: 768px) {
+  .comments-container {
+    width: 100%;
+  }
 }
-.modal-body textarea {
+.comments-container .user-comment {
   position: relative;
-  width: 95%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  padding: 25px;
-  border: none;
-  resize: none;
-}
-.modal-body textarea:focus {
-  outline: none;
-}
-.modal-footer {
-  position: absolute;
-  margin: 25px;
-  bottom: 0;
-  width: 100%;
-}
-.modal-footer button {
-  width: 100px;
-  padding: 10px 15px;
-  margin-left: 50px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
   border-radius: 20px;
+  background-color: #fff;
+}
+.comments-container .user-comment::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -7%;
+  width: 7%;
+  height: 2px;
   background-color: #fd2d01;
-  font-weight: 600;
+}
+.comments-container .user-comment::after {
+  content: "";
+  position: absolute;
+  bottom: 50%;
+  left: -7%;
+  width: 2px;
+  height: 150%;
+  background-color: #fd2d01;
+  z-index: -1;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .comments-container .user-comment {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .comments-container .user-comment {
+    width: 90%;
+  }
+}
+.comments-container .post-profile-picture {
+  width: 10%;
+  padding-top: 20px;
+  text-align: center;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+@media screen and (max-width: 768px) {
+  .comments-container .post-profile-picture {
+    min-width: 35px;
+    width: 20%;
+  }
+}
+.comments-container .post-profile-picture img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+@media screen and (max-width: 768px) {
+  .comments-container .post-profile-picture img {
+    width: 35px;
+    height: 35px;
+  }
+}
+.comments-container .comment-content {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px;
+  line-height: 1.25;
+}
+.comments-container .comment-details {
+  width: 100%;
+  height: auto;
+  margin-bottom: 25px;
+}
+.comments-container .comment-details h1 {
+  margin-bottom: 15px;
+}
+.comments-container .comment-details span {
+  margin: 20px auto;
+  font-style: italic;
+  font-size: 14px;
+  background-color: #fff;
+  color: #517c96;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .comments-container .comment-details span {
+    margin-top: 7px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .comments-container .comment-details span {
+    margin-top: 10px;
+  }
+}
+.comments-container .post-icons-container {
+  width: 100%;
+  height: auto;
+}
+.comments-container .post-icons-container .post-icons {
+  color: #fd2d01;
   cursor: pointer;
-  /*style of disabled button*/
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  font-size: 22px;
+}
+.comments-container .post-icons-container .post-icons:hover {
+  color: #fe5633;
+}
+.comments-container .like-dislike-icons {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+}
+.comments-container .like-dislike-icons:hover {
+  color: #fe5633;
+}
+.comments-container .like-dislike-icons:hover {
+  font-weight: 800;
+  background: transparent;
+  color: #6ab4dc;
+}
+.comments-container .active-icon {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+  color: #6ab4dc;
+}
+.comments-container .active-icon:hover {
+  color: #fe5633;
+}
+.comments-container .like-dislike-icons-container {
+  width: 12%;
+  max-width: 80px;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
-  .modal-footer button {
-    width: 100px;
+  .comments-container .like-dislike-icons-container {
+    width: 20%;
+    min-width: 60px;
+    max-width: 80px;
   }
 }
 @media screen and (max-width: 768px) {
-  .modal-footer button {
-    width: 80px;
-    padding: 7px 10px;
-    margin-left: 30px;
-    font-size: 14px;
+  .comments-container .like-dislike-icons-container {
+    width: 25%;
+    min-width: 75px;
+    max-width: 80px;
   }
 }
-.modal-footer button:hover {
-  background: #fe5633;
+.comments-container .fa-trash-can:hover {
+  -webkit-animation-name: wiggle;
+          animation-name: wiggle;
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+  -webkit-animation-iteration-count: 5;
+          animation-iteration-count: 5;
 }
-.modal-footer button:disabled {
-  cursor: default;
-  background: #fe957f;
-}
-@media screen and (max-width: 768px) {
-  .modal-footer button {
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
+@-webkit-keyframes wiggle {
+  0% {
+    transform: rotate(-3deg);
+  }
+  100% {
+    transform: rotate(3deg);
   }
 }
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .modal-footer button {
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
+@keyframes wiggle {
+  0% {
+    transform: rotate(-3deg);
   }
-}
-.modal-footer .button-comment:hover {
-  background: #93c9e6;
+  100% {
+    transform: rotate(3deg);
+  }
 }
 
 @keyframes spin {
@@ -993,13 +1086,11 @@ body {
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .new-user-post .new-post-icons-container {
-    width: 100%;
     padding: 10px 25px;
   }
 }
 @media screen and (max-width: 768px) {
   .new-user-post .new-post-icons-container {
-    width: 100%;
     padding: 10px 25px;
   }
 }
@@ -1070,7 +1161,8 @@ body {
   background: #fe957f;
 }
 .new-user-post .image-preview-container {
-  width: 20%;
+  position: relative;
+  width: 33%;
   height: auto;
 }
 @media screen and (max-width: 768px) {
@@ -1083,6 +1175,30 @@ body {
   width: 100%;
   height: 100%;
   z-index: 100;
+}
+.new-user-post .image-preview-container .remove-preview-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  z-index: 101;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 100px;
+  vertical-align: middle;
+  padding: 5px;
+  background-color: #cbf7ff;
+  color: #fd2d01;
+  cursor: pointer;
+}
+.new-user-post .invalid-message {
+  width: 95%;
+}
+@media screen and (max-width: 768px) {
+  .new-user-post .invalid-message {
+    width: 95%;
+  }
 }
 
 /*existing posts*/
@@ -1184,7 +1300,6 @@ body {
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .user-post .post-icons-container {
-    width: 100%;
     padding: 0 25px;
   }
 }
@@ -1249,14 +1364,6 @@ body {
   -webkit-animation-iteration-count: 5;
           animation-iteration-count: 5;
 }
-@-webkit-keyframes wiggle {
-  0% {
-    transform: rotate(-3deg);
-  }
-  100% {
-    transform: rotate(3deg);
-  }
-}
 @keyframes wiggle {
   0% {
     transform: rotate(-3deg);
@@ -1270,229 +1377,14 @@ a {
   color: inherit;
 }
 
-.comments-container {
-  position: relative;
-  min-width: 700px;
-  width: 35%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  /*user comments*/
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .comments-container {
-    min-width: auto;
-    width: 80%;
-  }
-}
-@media screen and (max-width: 768px) {
-  .comments-container {
-    min-width: auto;
-    width: 95%;
-  }
-}
-.comments-container .user-comment {
-  position: relative;
-  /*user profile picture container*/
-  /*active state for like/dislike icons*/
-  min-width: 650px;
-}
-.comments-container .user-comment .post-profile-picture {
-  width: 10%;
-  padding-top: 20px;
-  text-align: center;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-}
-@media screen and (max-width: 768px) {
-  .comments-container .user-comment .post-profile-picture {
-    min-width: 35px;
-    width: 20%;
-  }
-}
-.comments-container .user-comment .post-profile-picture img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-@media screen and (max-width: 768px) {
-  .comments-container .user-comment .post-profile-picture img {
-    width: 35px;
-    height: 35px;
-  }
-}
-.comments-container .user-comment .user-content {
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 25px;
-  line-height: 1.25;
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .comments-container .user-comment .user-content {
-    min-width: auto;
-    width: 100%;
-  }
-}
-@media screen and (max-width: 768px) {
-  .comments-container .user-comment .user-content {
-    min-width: auto;
-    width: 100%;
-    padding: 15px 10px;
-  }
-}
-.comments-container .user-comment .user-content .post-details {
+.post-comments-container {
   width: 100%;
-  height: auto;
-  margin-bottom: 25px;
-}
-.comments-container .user-comment .user-content .post-details h1 {
-  margin-bottom: 15px;
-}
-.comments-container .user-comment .user-content .post-details span {
-  margin: 20px auto;
-  font-style: italic;
-  font-size: 14px;
-  background-color: #fff;
-  color: #517c96;
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .comments-container .user-comment .user-content .post-details span {
-    margin-top: 7px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .comments-container .user-comment .user-content .post-details span {
-    margin-top: 10px;
-  }
-}
-.comments-container .user-comment .user-content .post-details .image-container {
-  width: 100%;
-  margin-top: 15px;
-}
-.comments-container .user-comment .user-content .post-details .image-container img {
-  width: 100%;
-  height: auto;
-}
-.comments-container .user-comment .post-icons-container {
-  width: 100%;
-  height: auto;
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .comments-container .user-comment .post-icons-container {
-    width: 100%;
-    padding: 0 25px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .comments-container .user-comment .post-icons-container {
-    padding: 0 8px;
-  }
-}
-.comments-container .user-comment .post-icons-container .post-icons {
-  color: #fd2d01;
-  cursor: pointer;
-  font-size: 22px;
-}
-.comments-container .user-comment .post-icons-container .post-icons:hover {
-  color: #fe5633;
-}
-.comments-container .user-comment .like-dislike-icons {
-  color: #fd2d01;
-  cursor: pointer;
-  font-size: 22px;
-}
-.comments-container .user-comment .like-dislike-icons:hover {
-  color: #fe5633;
-}
-.comments-container .user-comment .like-dislike-icons:hover {
-  font-weight: 800;
-  background: transparent;
-  color: #6ab4dc;
-}
-.comments-container .user-comment .active-icon {
-  color: #fd2d01;
-  cursor: pointer;
-  font-size: 22px;
-  color: #6ab4dc;
-}
-.comments-container .user-comment .active-icon:hover {
-  color: #fe5633;
-}
-.comments-container .user-comment .like-dislike-icons-container {
-  width: 12%;
-  max-width: 80px;
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .comments-container .user-comment .like-dislike-icons-container {
-    width: 20%;
-    min-width: 60px;
-    max-width: 80px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .comments-container .user-comment .like-dislike-icons-container {
-    width: 25%;
-    min-width: 75px;
-    max-width: 80px;
-  }
-}
-.comments-container .user-comment .fa-trash-can:hover {
-  -webkit-animation-name: wiggle;
-          animation-name: wiggle;
-  -webkit-animation-duration: 0.2s;
-          animation-duration: 0.2s;
-  -webkit-animation-iteration-count: 5;
-          animation-iteration-count: 5;
-}
-@keyframes wiggle {
-  0% {
-    transform: rotate(-3deg);
-  }
-  100% {
-    transform: rotate(3deg);
-  }
-}
-.comments-container .user-comment::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: -7%;
-  width: 7%;
-  height: 2px;
-  background-color: #fd2d01;
-}
-.comments-container .user-comment::after {
-  content: "";
-  position: absolute;
-  bottom: 50%;
-  left: -7%;
-  width: 2px;
-  height: 150%;
-  background-color: #fd2d01;
-  z-index: -1;
-}
-@media screen and (min-width: 768px) and (max-width: 992px) {
-  .comments-container .user-comment {
-    width: 90%;
-  }
-}
-@media screen and (max-width: 768px) {
-  .comments-container .user-comment {
-    width: 90%;
-  }
 }
 
 .profile-container {
   position: relative;
-  width: 35%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  margin: 0 auto;
+  width: 100%;
   margin-top: 100px;
   padding: 25px;
   background-color: #fff;
@@ -1501,16 +1393,15 @@ a {
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .profile-container {
-    min-width: auto;
     max-width: 700px;
-    width: 80%;
+    width: 100%;
   }
 }
 @media screen and (max-width: 768px) {
   .profile-container {
-    min-width: auto;
+    margin-top: 20px;
     max-width: 475px;
-    width: 95%;
+    width: 100%;
   }
 }
 .profile-header {
@@ -1537,9 +1428,11 @@ a {
 }
 .profile-header img {
   width: 100px;
+  height: 100px;
   margin: 10px auto;
-  border: 1px solid #fd2d01;
   border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .profile-header .edit-profile {
   position: absolute;
@@ -1570,6 +1463,20 @@ a {
 }
 .profile-body h1 {
   color: #fd2d01;
+}
+.profile-body textarea {
+  position: relative;
+  width: 95%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 25px;
+  border: none;
+  border-bottom: 1px solid #517c96;
+  resize: none;
+}
+.profile-body textarea:focus {
+  outline: none;
 }
 .profile-body_buttons {
   width: 100%;
@@ -1670,4 +1577,28 @@ a {
   height: 100vh;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.update-modale {
+  position: relative;
+  margin: 0 auto;
+  width: 35%;
+  margin-top: 100px;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 20px;
+  text-align: center;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .update-modale {
+    max-width: 700px;
+    width: 95%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .update-modale {
+    margin-top: 20px;
+    max-width: 475px;
+    width: 95%;
+  }
 }/*# sourceMappingURL=style.css.map */

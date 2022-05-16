@@ -10,7 +10,7 @@ const MIME_TYPES = {
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     if (req.route.path === "/users/:id") callback(null, "images/users");
-    if (req.route.path === "/posts") callback(null, "images/posts");
+    if (req.route.path === "/posts" || req.route.path === "/posts/:id" ) callback(null, "images/posts");
   },
 
   filename: (req, file, callback) => {
@@ -21,30 +21,22 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({
-  //file size limit
-  limits: {
-    files: 1,
-    fileSize: 3145728 , //3mb limit
-  },
-
-  fileFilter: (req, file, callback) => {
-    const extension = path.extname(file.originalname);
-    if (extension !== ".png" && extension !== ".jpg" && extension !== ".jpeg") {
-      return callback(
-        new Error(
-          "Seules les images aux formats PNG, JPG et JPEG sont acceptées"
-        )
-      );
-    }
-    callback(null, true);
-  },
-
-  storage,
-}).single("images");
-
-module.exports = (req, res, next) => {
-  upload(req, res, (err) => err
-    ? res.status(400).json(err)
-    : next());
+const limits = {
+  files: 1,
+  fileSize: 3145728, //3mb limit
 };
+
+const fileFilter = (req, file, callback) => {
+  const extension = path.extname(file.originalname);
+  if (extension !== ".png" && extension !== ".jpg" && extension !== ".jpeg") {
+    return callback(
+      new Error(
+        "Seules les images aux formats PNG, JPG et JPEG sont acceptées"
+      ),
+      false
+    );
+  }
+  callback(null, true);
+};
+
+module.exports = multer({ storage, limits, fileFilter }).single("images");

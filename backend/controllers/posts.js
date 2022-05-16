@@ -1,6 +1,7 @@
 const { PrismaClient, Prisma } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const multer = require("multer");
 const fs = require("fs");
 
 const dotenv = require("dotenv");
@@ -69,9 +70,56 @@ const createPost = async (req, res) => {
       : {
           author: { connect: { id: userId } },
           textContent: req.body.textContent,
-          imageUrl: req.body.imageUrl,
+          imageUrl: null,
         };
     await prisma.post.create({
+      data: {
+        ...userPost,
+      },
+    });
+    res.status(201).json(userPost);
+  } catch (error) {
+    if (error instanceof multer.MulterError) {
+      console.log("erreur de multer");
+      res.status(401).json({ message: "erreur de multer" });
+    } else if (error.name)
+      return res.status(401).json({ message: console.log(error.message) });
+    res.status(400).json({ error });
+  }
+};
+
+const updatePost = async (req, res) => {
+  try {
+    const post = await prisma.post.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+    await Posts.postSchema.validate(req.body);
+
+    if (req.file && post.imageUrl) {
+      const filename = post.imageUrl.split("/images/posts/")[1];
+      fs.unlink(`images/posts/${filename}`, (err) => {
+        if (err) return err;
+      });
+    }
+
+    const userPost = req.file
+      ? {
+          textContent: req.body.textContent,
+          imageUrl: `${req.protocol}://${req.get("host")}/images/posts/${
+            req.file.filename
+          }`,
+        }
+      : {
+          textContent: req.body.textContent,
+          imageUrl: null,
+        };
+
+    const postUpdate = await prisma.post.update({
+      where: {
+        id: Number(req.params.id),
+      },
       data: {
         ...userPost,
       },
@@ -83,7 +131,8 @@ const createPost = async (req, res) => {
     res.status(400).json({ error });
   }
 };
-const deletePost = async (req, res, next) => {
+
+const deletePost = async (req, res) => {
   try {
     const post = await prisma.post.delete({
       where: {
@@ -93,7 +142,6 @@ const deletePost = async (req, res, next) => {
         imageUrl: true,
       },
     });
-
     if (post.imageUrl) {
       const filename = post.imageUrl.split("/images/posts/")[1];
       fs.unlink(`images/posts/${filename}`, (err) => {
@@ -112,5 +160,6 @@ module.exports = {
   getAllPosts,
   getPostsById,
   createPost,
+  updatePost,
   deletePost,
 };
