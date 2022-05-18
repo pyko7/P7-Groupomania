@@ -48,6 +48,13 @@
   @include postTemplate;
   border-radius: $post-border-radius;
   background-color: #fff;
+
+  &-shared{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid $main-bg-color;
+    border-radius:$post-border-radius;
+  }
 }
 
 a {

@@ -5,6 +5,7 @@ import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import LikeDislike from './LikeDislike';
+import CreateCommentModal from './CreateCommentModal';
 import MoreOptionsCommentModal from './MoreOptionsCommentModal';
 import DeleteComment from './DeleteComment';
 
@@ -17,8 +18,9 @@ Moment.globalMoment = moment;
 Moment.globalLocale = 'fr';
 
 /*function gets all comments of the post*/
-const CommentTemplate = ({ comment }) => {
+const CommentTemplate = ({ postId, comment }) => {
     const [deleteModal, setDeleteModal] = useState(null);
+    const [commentModal, setCommentModal] = useState(null);
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
 
     return (
@@ -46,7 +48,8 @@ const CommentTemplate = ({ comment }) => {
                     <div className="post-icons-container">
                         <LikeDislike />
                         {/* Link to post page + opening modal */}
-                        <FontAwesomeIcon icon={faMessage} className="post-icons" />
+                        <FontAwesomeIcon icon={faMessage} className="post-icons" onClick={() => setCommentModal(true)} />
+                        {commentModal && <CreateCommentModal showModal={setCommentModal} postId={postId} />}
                         <FontAwesomeIcon icon={faTrashCan} className="post-icons"
                             onClick={() => { setDeleteModal(true); setPostId(comment.id) }} />
                         {deleteModal && <DeleteComment showModal={setDeleteModal} commentId={comment.id} />}

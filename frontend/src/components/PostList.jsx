@@ -3,6 +3,7 @@ import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import PostTemplate from './PostTemplate';
+import SharedPostTemplate from './SharedPostTemplate'
 
 
 // instances every 30 seconds.

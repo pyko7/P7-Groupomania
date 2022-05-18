@@ -13,6 +13,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import MoreOptionsPostModal from './MoreOptionsPostModal';
 import useFetch from '../hooks/useFetch';
 import { Link } from 'react-router-dom';
+import SharedPostTemplate from './SharedPostTemplate';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -26,8 +27,11 @@ const PostTemplate = ({ post }) => {
     const [commentModal, setCommentModal] = useState(null);
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
     const comments = post.comments;
+    const sharedPost = post.sharedPost;
     return (
         <div className='post-comment-container'>
+        {sharedPost.length > 0 ? <SharedPostTemplate post={post} sharedPost={post} /> : null}
+
             <article className='user-post'>
                 <div className="post-profile-picture">
                     <img src={post.author.profilePicture} alt='photo de profil' />
@@ -66,7 +70,7 @@ const PostTemplate = ({ post }) => {
             </article>
             <div className="comments-container">
                 {comments.map((comment) => (
-                    <CommentTemplate comment={comment} key={comment.id} />
+                    <CommentTemplate postId={post.id} comment={comment} key={comment.id} />
                 ))}
             </div>
 

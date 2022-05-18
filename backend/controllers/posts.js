@@ -20,6 +20,11 @@ const getAllPosts = async (req, res) => {
     const post = await prisma.post.findMany({
       include: {
         author: true,
+        sharedPost: {
+          include: {
+            author: true,
+          },
+        },
         comments: {
           select: {
             id: true,
@@ -28,6 +33,14 @@ const getAllPosts = async (req, res) => {
             createdAt: true,
             updatedAt: true,
           },
+          // sharedPost: {
+          //   select: {
+          //     id: true,
+          //     author: true,
+          //     post: true,
+          //     createdAt: true,
+          //     updatedAt: true,
+          //   },
         },
       },
     });
@@ -67,6 +80,34 @@ const getPostsById = async (req, res) => {
   }
 };
 
+const getAllSharedPosts = async (req, res) => {
+  try {
+    const sharedPost = await prisma.sharedPost.findMany({
+      include: {
+        author: true,
+      },
+    });
+    res.status(200).json(sharedPost);
+  } catch (error) {
+    if (error.name) return res.status(400).json({ message: error.message });
+    res.status(400).json({ error });
+  }
+};
+
+const getSharedPostById = async (req, res) => {
+  try {
+    const sharedPost = await prisma.sharedPost.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+    res.status(200).json(sharedPost);
+  } catch (error) {
+    if (error.name) return res.status(400).json({ message: error.message });
+    res.status(400).json({ error });
+  }
+};
+
 const createPost = async (req, res) => {
   const token = req.cookies.token;
   const decodedToken = jwt.verify(token, `${USER_TOKEN}`);
@@ -93,6 +134,35 @@ const createPost = async (req, res) => {
       },
     });
     res.status(201).json(userPost);
+  } catch (error) {
+    if (error.name)
+      return res.status(401).json({ message: console.log(error.message) });
+    res.status(400).json({ error });
+  }
+};
+
+const sharePost = async (req, res) => {
+  const token = req.cookies.token;
+  const decodedToken = jwt.verify(token, `${USER_TOKEN}`);
+  const userId = decodedToken.userId;
+
+  try {
+    const post = await prisma.post.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+      include: {
+        author: true,
+      },
+    });
+
+    await prisma.sharedPost.create({
+      data: {
+        author: { connect: { id: userId } },
+        post: { connect: { id: post.id } },
+      },
+    });
+    res.status(201).json(post);
   } catch (error) {
     if (error.name)
       return res.status(401).json({ message: console.log(error.message) });
@@ -171,7 +241,10 @@ const deletePost = async (req, res) => {
 module.exports = {
   getAllPosts,
   getPostsById,
+  getSharedPostById,
+  getAllSharedPosts,
   createPost,
+  sharePost,
   updatePost,
   deletePost,
 };
