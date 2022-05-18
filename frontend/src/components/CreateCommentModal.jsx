@@ -15,7 +15,7 @@ Moment.globalMoment = moment;
 Moment.globalLocale = 'fr';
 
 
-const CreateCommentModal = ({ showModal }) => {
+const CreateCommentModal = ({ showModal, postId }) => {
     /*
      *register: allows to register an input or select element and apply validation,
      handleSubmit: This function receives the form data if form validation is successful,
@@ -28,13 +28,10 @@ const CreateCommentModal = ({ showModal }) => {
         mode: 'onSubmit',
         resolver: yupResolver(postSchema)
     });
-    const navigate = useNavigate();
-    const [isPending, setIsPending] = useState(false)
-
+    const id = postId;
     /*function to comment a post*/
     const createComment = async () => {
         const values = getValues();
-        /*post method settings*/
         const settings = {
             method: "POST",
             credentials: 'include',
@@ -47,16 +44,16 @@ const CreateCommentModal = ({ showModal }) => {
         };
         try {
             const res = await fetch(
-                `https://jsonplaceholder.typicode.com/comments?postId=1`,
+                `http://localhost:3000/api/posts/${id}/comments`,
                 settings
             );
             const data = await res.json();
-            if (!res.ok) throw Error("La requête effectuée a échouée");
-            console.log(values.comment);
+            if (!res.ok) return;
             showModal(false);
+            window.location.reload();
             return data;
         } catch (error) {
-            setIsPending(true);
+
             return error;
         }
     };
@@ -69,8 +66,8 @@ const CreateCommentModal = ({ showModal }) => {
                     <h1>Commentaire</h1>
                 </div>
                 <div className="profile-body">
-                    <textarea minLength='2' maxLength='280' placeholder='Ecrivez votre réponse' name="comment" {...register('comment')}></textarea>
-                    <p className="invalid-message">{errors.comment?.message}</p>
+                    <textarea minLength='2' maxLength='280' placeholder='Ecrivez votre réponse' name="textContent" {...register('textContent')}></textarea>
+                    <p className="invalid-message">{errors.textContent?.message}</p>
                 </div>
                 <div className="profile-footer">
                     <button className='footer-buttons' onClick={() => showModal(false)}>Annuler</button>

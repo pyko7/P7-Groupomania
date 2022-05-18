@@ -10,8 +10,8 @@ app.use(cookieParser());
 app.use(helmet());
 
 /**
- * adding of header -avoid 'ERR_BLOCKED_BY_RESPONSE.NotSameOrigin 200' error for profile picture 
- * allow users to read the resources only when the browser recognizes their requests from the same site 
+ * adding of header -avoid 'ERR_BLOCKED_BY_RESPONSE.NotSameOrigin 200' error for profile picture
+ * allow users to read the resources only when the browser recognizes their requests from the same site
  * adding of header - can access to cookies
  * adding of header - everybody can access to API
  * adding of header - can use these headers
@@ -35,9 +35,11 @@ app.use((req, res, next) => {
 //routes
 const userRoutes = require("./routes/user");
 const postRoutes = require("./routes/posts");
+const commentRoutes = require("./routes/comments");
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api", userRoutes);
 app.use("/api", postRoutes);
+app.use("/api", commentRoutes);
 
 module.exports = app;

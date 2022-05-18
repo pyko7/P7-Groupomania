@@ -1,0 +1,82 @@
+@mixin moreOptionsModal {
+  position: absolute;
+  top: 35px;
+  right: 20px;
+  width: 30px;
+  @extend %flex-center-between;
+  cursor: pointer;
+
+  @include small-screen {
+    top: 20px;
+    right: 15px;
+    width: 25px;
+  }
+
+  .more-dots {
+    color: $secondary-color;
+    font-size: 8px;
+
+    @include small-screen {
+      font-size: 6px;
+    }
+  }
+  //AJOUTER ANIMATION APPARITION DE MODAL
+  &-modal {
+    position: absolute;
+    top: 35px;
+    right: 10px;
+    width: 33%;
+    background-color: $main-color;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 10px 13px -7px #000;
+
+    @include medium-screen {
+      max-width: 350px;
+    }
+
+    @include small-screen {
+      top: 35px;
+      width: 80%;
+      max-width: 250px;
+    }
+
+    #update-post {
+      border-bottom: 1px solid #000;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    p {
+      width: 100%;
+      padding: 10px 0;
+      font-weight: $weight-bold;
+      cursor: pointer;
+
+      &:last-child {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      &:hover {
+        background-color: lighten($main-color, 10%);
+      }
+    }
+
+    .remove-modal-icon {
+      position: absolute;
+      top: -25px;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 100px;
+      vertical-align: middle;
+      padding: 5px;
+      background-color: $main-bg-color;
+      color: $secondary-color;
+      cursor: pointer;
+    }
+  }
+}

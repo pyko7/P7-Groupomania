@@ -1,18 +1,18 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import useDelete from '../hooks/useDelete';
 
-const DeleteComment = ({ showModal }) => {
-    const {id} = useParams();
+
+const DeletePost = ({ showModal, commentId },) => {
+    const navigate = useNavigate();
     /*function delete a post*/
     const confirmDelete = async () => {
-        /*Get ID for posts deletion*/
-        const settings = { method: "DELETE" };
         try {
-            const res = await fetch("https://jsonplaceholder.typicode.com/comments/" + id, settings);
-            const data = await res.json();
-            if (!res.ok) throw error;
-            console.log("ok");
-            showModal(false);
+            const res = await useDelete(`http://localhost:3000/api/comments/${commentId}`);
+            if (!res) return console.log("error");
+            showModal(null);
+            alert("Le commentaire a été supprimé");
+            window.location.reload();
             return data;
         } catch (error) {
             return error;
@@ -20,21 +20,21 @@ const DeleteComment = ({ showModal }) => {
     }
 
     return (
-        <div className="profile-modal" onClick={() => showModal(false)}>
-            <div className="profile-container" onClick={e => e.stopPropagation()}>
+        <div className="profile-modal" onClick={() => showModal(null)}>
+            <div className="update-modale" onClick={e => e.stopPropagation()}>
                 <div className="profile-header">
                     <h1>Confirmer la suppresion ?</h1>
-                    <br/>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
+                    <br />
                 </div>
                 <div className="profile-footer">
-                    <button onClick={() => showModal(false)}>Annuler</button>
-                    <button onClick={confirmDelete}>Confirmer</button>
+                    <button className='footer-buttons' onClick={() => showModal(null)}>Annuler</button>
+                    <button className='footer-buttons' onClick={() => confirmDelete()}>Confirmer</button>
                 </div>
             </div>
         </div>
     );
 };
 
-export default DeleteComment;
+export default DeletePost;

@@ -15,7 +15,6 @@ const CreatePost = () => {
     const { data: user } = useFetch(`http://localhost:3000/api/users/${id}`);
     const [imageUrl, setImageUrl] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
-    const [errorMessage, setErrorMessage] = useState(false);
 
     /*
     *register: allows to register an input or select element and apply validation,
@@ -40,8 +39,8 @@ const CreatePost = () => {
         return
     }
 
-    const removePreview = () =>{
-        if(imageUrl && imagePreview !== null){
+    const removePreview = () => {
+        if (imageUrl && imagePreview !== null) {
             setImagePreview(null)
             setImageUrl(null)
         }

@@ -24,7 +24,7 @@ module.exports = async (req, res, next) => {
     const decodedToken = jwt.verify(token, `${USER_TOKEN}`);
     const userId = decodedToken.userId;
     const role = decodedToken.role;
-    const post = await prisma.post.findUnique({
+    const comment = await prisma.comment.findUnique({
       where: {
         id: Number(req.params.id),
       },
@@ -32,7 +32,7 @@ module.exports = async (req, res, next) => {
           author: true
       }
     });
-    if ((post.author.id && post.author.id === userId) || role === 1) {
+    if ((comment.author.id && comment.author.id === userId) || role === 1) {
       next();
     } else {
       res.status(403).json({ message: "Action interdite" });

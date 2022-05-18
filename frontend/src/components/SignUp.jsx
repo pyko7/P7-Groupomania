@@ -40,7 +40,8 @@ const Register = () => {
             if (!res.ok) {
                 if (data.message === "Email déjà utilisé") return setExistEmail(data.message)
             }
-            navigate("/");
+            alert("Inscription confirmée, veuillez vous connecter")
+            navigate("/auth/login");
             return data;
         } catch (error) {
             return error

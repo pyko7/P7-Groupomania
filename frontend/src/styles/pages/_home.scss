@@ -54,7 +54,11 @@ a {
   color: inherit;
 }
 
-.post-comments-container{
+.post-comment-container {
   width: 100%;
 }
 
+.update-post {
+  width: 100%;
+  @include updatePost;
+}

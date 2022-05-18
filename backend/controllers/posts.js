@@ -1,7 +1,6 @@
-const { PrismaClient, Prisma } = require("@prisma/client");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const multer = require("multer");
 const fs = require("fs");
 
 const dotenv = require("dotenv");
@@ -21,6 +20,15 @@ const getAllPosts = async (req, res) => {
     const post = await prisma.post.findMany({
       include: {
         author: true,
+        comments: {
+          select: {
+            id: true,
+            author: true,
+            textContent: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
       },
     });
     res.status(200).json(post);
@@ -43,6 +51,13 @@ const getPostsById = async (req, res) => {
       },
       include: {
         author: true,
+        comments: {
+          select: {
+            id: true,
+            author: true,
+            textContent: true,
+          },
+        },
       },
     });
     res.status(200).json(post);
@@ -79,10 +94,7 @@ const createPost = async (req, res) => {
     });
     res.status(201).json(userPost);
   } catch (error) {
-    if (error instanceof multer.MulterError) {
-      console.log("erreur de multer");
-      res.status(401).json({ message: "erreur de multer" });
-    } else if (error.name)
+    if (error.name)
       return res.status(401).json({ message: console.log(error.message) });
     res.status(400).json({ error });
   }
@@ -113,7 +125,7 @@ const updatePost = async (req, res) => {
         }
       : {
           textContent: req.body.textContent,
-          imageUrl: null,
+          imageUrl: post.imageUrl,
         };
 
     const postUpdate = await prisma.post.update({

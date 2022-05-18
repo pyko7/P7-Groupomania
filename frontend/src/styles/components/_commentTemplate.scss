@@ -83,6 +83,10 @@
     line-height: 1.25;
   }
 
+  .more-options {
+    @include moreOptionsModal;
+  }
+
   .comment-details {
     width: 100%;
     height: auto;
@@ -150,5 +154,4 @@
       }
     }
   }
-  }
-
+}

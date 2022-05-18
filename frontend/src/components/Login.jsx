@@ -12,7 +12,7 @@ import { useState } from "react";
 const Login = () => {
     const navigate = useNavigate();
     const [existEmail, setExistEmail] = useState(null);
-    const [wrongPassword, setWrongPassword] = useState(null);
+    const [logError, setLogError] = useState(null);
 
     /*
        *register: allows to register an input or select element and apply validation,
@@ -42,15 +42,11 @@ const Login = () => {
             const res = await fetch('http://localhost:3000/api/auth/login', settings)
             const data = await res.json();
             if (!res.ok) {
-                if (data.message === "Utilisateur non trouvé") {
-                    setExistEmail(data.message);
-                    setWrongPassword(null)
+                if (data.message) {
+                    return setLogError("Adresse email ou mot de passe incorrect");
+                } else {
+                    return setLogError(null)
                 }
-                if (data.message === "Mot de passe incorrect") {
-                    setWrongPassword(data.message);
-                    setExistEmail(null);
-                }
-                return
             };
             console.log(data)
             localStorage.setItem("user", JSON.stringify(data));
@@ -72,10 +68,9 @@ const Login = () => {
                 <form onSubmit={handleSubmit(logUser)}>
                     <input type="email" name="email" placeholder="Adresse email" {...register("email")} />
                     <p className="invalid-message">{errors.email?.message}</p>
-                    {existEmail && <p className="invalid-message">{existEmail}</p>}
                     <input type="password" name="password" autoComplete="off" placeholder="Mot de passe" {...register("password")} />
                     <p className="invalid-message">{errors.password?.message}</p>
-                    {wrongPassword && <p className="invalid-message">{wrongPassword}</p>}
+                    {logError && <p className="invalid-message">{logError}</p>}
                     <input type="submit" name="submitButton" value="Se connecter" />
                 </form>
                 <Link to="/auth/signup">
