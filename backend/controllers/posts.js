@@ -10,6 +10,23 @@ const jwt = require("jsonwebtoken");
 
 const Posts = require("../models/Posts");
 
+const getPostsAndShared = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const activty = await prisma.activity.findMany({
+      select: {
+        post: true, // Returns all fields for all posts
+        sharedPost: true, // Returns all Profile fields
+      },
+    });
+    res.status(200).json(activty);
+  } catch (error) {
+    if (error.name)
+      return res.status(401).json({ message: console.log(error.message) });
+    res.status(400).json({ error });
+  }
+};
+
 /**
  *   Get all posts
  * where: search user ID in DB with params
@@ -23,6 +40,7 @@ const getAllPosts = async (req, res) => {
         sharedPost: {
           include: {
             author: true,
+            post: true,
           },
         },
         comments: {
@@ -33,14 +51,6 @@ const getAllPosts = async (req, res) => {
             createdAt: true,
             updatedAt: true,
           },
-          // sharedPost: {
-          //   select: {
-          //     id: true,
-          //     author: true,
-          //     post: true,
-          //     createdAt: true,
-          //     updatedAt: true,
-          //   },
         },
       },
     });
@@ -64,6 +74,12 @@ const getPostsById = async (req, res) => {
       },
       include: {
         author: true,
+        sharedPost: {
+          include: {
+            author: true,
+            post: true,
+          },
+        },
         comments: {
           select: {
             id: true,
@@ -74,34 +90,6 @@ const getPostsById = async (req, res) => {
       },
     });
     res.status(200).json(post);
-  } catch (error) {
-    if (error.name) return res.status(400).json({ message: error.message });
-    res.status(400).json({ error });
-  }
-};
-
-const getAllSharedPosts = async (req, res) => {
-  try {
-    const sharedPost = await prisma.sharedPost.findMany({
-      include: {
-        author: true,
-      },
-    });
-    res.status(200).json(sharedPost);
-  } catch (error) {
-    if (error.name) return res.status(400).json({ message: error.message });
-    res.status(400).json({ error });
-  }
-};
-
-const getSharedPostById = async (req, res) => {
-  try {
-    const sharedPost = await prisma.sharedPost.findUnique({
-      where: {
-        id: Number(req.params.id),
-      },
-    });
-    res.status(200).json(sharedPost);
   } catch (error) {
     if (error.name) return res.status(400).json({ message: error.message });
     res.status(400).json({ error });
@@ -241,10 +229,9 @@ const deletePost = async (req, res) => {
 module.exports = {
   getAllPosts,
   getPostsById,
-  getSharedPostById,
-  getAllSharedPosts,
   createPost,
   sharePost,
+  getPostsAndShared,
   updatePost,
   deletePost,
 };

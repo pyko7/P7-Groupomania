@@ -8,8 +8,7 @@ const multer = require("../middleware/multer");
 //get posts
 router.get("/posts", auth, multer, postCtrl.getAllPosts);
 router.get("/posts/:id", auth, multer, postCtrl.getPostsById);
-router.get("/posts/shared", auth, multer, postCtrl.getAllSharedPosts);
-router.get("/posts/shared/:id", auth, multer, postCtrl.getSharedPostById);
+router.get("/posts/shared", auth, multer, postCtrl.getPostsAndShared);
 //create, update, delete posts routes
 router.post("/posts", auth, multer, postCtrl.createPost);
 router.post("/posts/:id", auth, multer, postCtrl.sharePost);

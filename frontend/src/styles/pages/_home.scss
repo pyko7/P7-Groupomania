@@ -68,4 +68,18 @@ a {
 .update-post {
   width: 100%;
   @include updatePost;
+
+  /*update post text area*/
+  textarea{
+    width: 95%;
+    height: fit-content;
+    padding: $post-padding;
+    border: none;
+    border-bottom: 1px solid $main-bg-color;
+    resize: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
 }

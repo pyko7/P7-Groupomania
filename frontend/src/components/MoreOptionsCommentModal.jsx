@@ -10,7 +10,7 @@ const MoreOptionsModal = ({ showModal, commentId }) => {
 
     return (
         <div className='more-options-modal' onClick={e => e.stopPropagation()}>
-            <FontAwesomeIcon icon={faXmark} className="remove-modal-icon" onClick={() => showModal(null)}/>
+            <FontAwesomeIcon icon={faXmark} aria-label='Fermer' className="remove-modal-icon" onClick={() => showModal(null)}/>
             <p id='update-post' onClick={() => setUpdateModal(true)}>Modifier</p>
             {updateModal && <UpdateCommentModal showModal={setUpdateModal} commentId={commentId} />}
             <p onClick={() => setDeleteModal(true)}>Supprimer</p>

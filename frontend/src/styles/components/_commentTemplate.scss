@@ -102,19 +102,11 @@
   .post-icons-container {
     width: 100%;
     height: auto;
-    @extend %flex-center-between;
+    display: flex;
+    justify-content: space-around;
 
     .post-icons {
       @include postIcons;
-    }
-  }
-
-  .like-dislike-icons {
-    @include postIcons;
-    &:hover {
-      font-weight: $weight-bold;
-      background: transparent;
-      color: $main-color;
     }
   }
 

@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { set } from 'react-hook-form';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import Spinner from './Spinner';
 import useFetch from '../hooks/useFetch';
 import useDelete from '../hooks/useDelete';
-/*update profile picture*/
+
 const DeleteAccountModal = ({ showModal }) => {
     const { id } = useParams()
     const navigate = useNavigate();
-    const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
+    const { data: user } = useFetch("http://localhost:3000/api/users/" + id);
     const [deleteMessage, setDeleteMessage] = useState("groupomania.com/suppression");
     const [deleteAccount, setDeleteAccount] = useState(null);
     const [errorMessage, setErrorMessage] = useState(false)
@@ -40,7 +38,7 @@ const DeleteAccountModal = ({ showModal }) => {
         <div className="profile-modal" onClick={() => showModal(false)}>
             {user && <div className="update-modale" onClick={e => e.stopPropagation()}>
 
-                <div className="profile-header">
+                <div className="profile-header-update">
                     <h1>Suppression du compte</h1>
                 </div>
                 <div className="profile-body">

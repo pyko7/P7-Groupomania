@@ -8,7 +8,7 @@ import useFetch from '../hooks/useFetch';
 const Home = () => {
     const userAuth = JSON.parse(localStorage.getItem("user"));
     const id = userAuth.userId;
-    /*get datas named as posts and pending status from API- it shows every posts*/
+    /*get datas and pending status from API- it shows every posts*/
     const { data: posts, isPending } = useFetch("http://localhost:3000/api/posts")
     const { data: user } = useFetch(`http://localhost:3000/api/users/${id}`)
 
@@ -18,7 +18,7 @@ const Home = () => {
             < Header />
             <main>
                 <div className="main-container">
-                    < CreatePost user={user}/>
+                    < CreatePost user={user} />
                     {isPending && <Spinner />}
                     {posts && < PostList posts={posts} user={user} />}
                 </div>

@@ -28,16 +28,16 @@ const Header = () => {
                 <ul>
                     <li>
                         <Link to="/">
-                            <FontAwesomeIcon id="homeIcon" icon={faHome} />
+                            <FontAwesomeIcon icon={faHome} id="homeIcon" aria-label='Accueil'  />
                         </Link>
                     </li>
                     <li>
                         <Link to={`/users/${id}`}>
-                            <FontAwesomeIcon icon={faUser} />
+                            <FontAwesomeIcon icon={faUser} aria-label='Profil' />
                         </Link>
                     </li>
                     <li>
-                        <FontAwesomeIcon icon={faArrowRightFromBracket} onClick={() => setLogOut(true)} alt="Se déconnecter" />
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} aria-label='Se déconnecter' onClick={() => setLogOut(true)} alt="Se déconnecter" />
                     </li>
                     {logOut && <LogOutModal showModal={setLogOut} />}
                 </ul>

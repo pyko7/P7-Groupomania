@@ -4,7 +4,6 @@ import { faTrashCan, faMessage, faCircle } from '@fortawesome/free-solid-svg-ico
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import LikeDislike from './LikeDislike';
 import CreateCommentModal from './CreateCommentModal';
 import MoreOptionsCommentModal from './MoreOptionsCommentModal';
 import DeleteComment from './DeleteComment';
@@ -19,6 +18,8 @@ Moment.globalLocale = 'fr';
 
 /*function gets all comments of the post*/
 const CommentTemplate = ({ postId, comment }) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user.userId;
     const [deleteModal, setDeleteModal] = useState(null);
     const [commentModal, setCommentModal] = useState(null);
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
@@ -30,11 +31,11 @@ const CommentTemplate = ({ postId, comment }) => {
                     <img src={comment.author.profilePicture} alt='photo de profil' />
                 </div>
                 <div className='comment-content'>
-                    <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
-                        <FontAwesomeIcon icon={faCircle} className="more-dots" />
-                        <FontAwesomeIcon icon={faCircle} className="more-dots" />
-                        <FontAwesomeIcon icon={faCircle} className="more-dots" />
-                    </div>
+                    {userId === comment.authorId ? <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
+                        <FontAwesomeIcon icon={faCircle} aria-label='ouvrir options' className="more-dots" />
+                        <FontAwesomeIcon icon={faCircle} aria-label='ouvrir options' className="more-dots" />
+                        <FontAwesomeIcon icon={faCircle} aria-label='ouvrir options' className="more-dots" />
+                    </div> : null}
                     {moreOptionsModal && <MoreOptionsCommentModal showModal={setMoreOptionsModal} commentId={comment.id} />}
                     <div className='comment-details'>
                         <h1>{comment.author.firstName} {comment.author.lastName}</h1>
@@ -46,13 +47,15 @@ const CommentTemplate = ({ postId, comment }) => {
 
                     </div>
                     <div className="post-icons-container">
-                        <LikeDislike />
-                        {/* Link to post page + opening modal */}
-                        <FontAwesomeIcon icon={faMessage} className="post-icons" onClick={() => setCommentModal(true)} />
+                        <FontAwesomeIcon icon={faMessage} className="post-icons" aria-label='Commenter' onClick={() => setCommentModal(true)} />
                         {commentModal && <CreateCommentModal showModal={setCommentModal} postId={postId} />}
-                        <FontAwesomeIcon icon={faTrashCan} className="post-icons"
-                            onClick={() => { setDeleteModal(true); setPostId(comment.id) }} />
-                        {deleteModal && <DeleteComment showModal={setDeleteModal} commentId={comment.id} />}
+                        {userId === comment.author.id ?
+                            <>
+                                <FontAwesomeIcon icon={faTrashCan} aria-label='Supprimer' className="post-icons"
+                                    onClick={() => { setDeleteModal(true); setPostId(comment.id) }} />
+                                {deleteModal && <DeleteComment showModal={setDeleteModal} commentId={comment.id} />}
+                            </>
+                            : null}
                     </div>
                 </div>
             </article>

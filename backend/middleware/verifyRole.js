@@ -35,11 +35,11 @@ module.exports = async (req, res, next) => {
     if (role && role !== 1) {
       return res.status(403).json({ message: "Action interdite" });
     } else {
-      console.log("verifyRole fonctionne");
       next();
     }
   } catch (error) {
-    if (error.name) return res.status(401).json({ message: error.message + " verify role" });
+    if (error.name)
+      return res.status(401).json({ message: error.message + " verify role" });
     res.status(403).json({ error: "Action interdite" });
   }
 };

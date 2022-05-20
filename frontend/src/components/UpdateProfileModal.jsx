@@ -38,8 +38,6 @@ const UpdateProfileModal = ({ showModal }) => {
 
     const handleInput = async () => {
         const user = getValues();
-        const userData = JSON.parse(localStorage.getItem("user"));
-        const token = userData.token;
         let settings = {};
         /*If the user keep his profile picture*/
         if (profilePicture === null) {
@@ -81,22 +79,22 @@ const UpdateProfileModal = ({ showModal }) => {
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
             <div className="update-modale" onClick={e => e.stopPropagation()}>
-                <form onSubmit={handleSubmit(handleInput)}>
-                    {isPending && <Spinner />}
-                    <div className="profile-header">
+                {isPending && <Spinner />}
+                {user && <form onSubmit={handleSubmit(handleInput)}>
+                    <div className="profile-header-update">
                         <h1>Modification du profil</h1>
                         <input accept='image/jpeg,image/png' type='file' name="profilePicture" id="profilePicture" onChange={(e) => handlePicture(e)} />
                         {!imageUrl && !profilePicture && user && (<img src={user.profilePicture} alt="photo de profil" />)}
                         {imageUrl && profilePicture && (<img src={imageUrl} alt="photo de profil" />)}
                         <label htmlFor="profilePicture">
-                            <FontAwesomeIcon icon={faPen} className="edit-profile" />
+                            <FontAwesomeIcon icon={faPen} aria-label='Modifier image de profil' className="edit-profile" />
                         </label>
                     </div>
 
                     <div className="profile-body">
-                        <input type="text" name="firstName" minLength={2} maxLength={35} placeholder="Prénom" {...register("firstName")} />
+                        <input type="text" name="firstName" minLength={2} maxLength={35} placeholder="Prénom" defaultValue={user.firstName} {...register("firstName")} />
                         <p className="invalid-message">{errors.firstName?.message}</p>
-                        <input type="text" name="lastName" minLength={2} maxLength={35} placeholder="Nom"{...register("lastName")} />
+                        <input type="text" name="lastName" minLength={2} maxLength={35} placeholder="Nom" defaultValue={user.lastName} {...register("lastName")} />
                         <p className="invalid-message">{errors.lastName?.message}</p>
                     </div>
 
@@ -104,7 +102,7 @@ const UpdateProfileModal = ({ showModal }) => {
                         <button type='button' className='footer-buttons' onClick={() => showModal(false)}> Annuler</button>
                         <button type="submit" className='footer-buttons' name="submitButton">Enregistrer</button>
                     </div>
-                </form>
+                </form>}
             </div>
         </div >
     );

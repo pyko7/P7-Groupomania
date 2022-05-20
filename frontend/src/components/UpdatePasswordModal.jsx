@@ -51,7 +51,7 @@ const UpdatePasswordModal = ({ showModal }) => {
         <div className="profile-modal" onClick={() => showModal(false)}>
             <div className="update-modale" onClick={e => e.stopPropagation()}>
                 <form onSubmit={handleSubmit(handleInput)}>
-                    <div className="profile-header">
+                    <div className="profile-header-update">
                         <h1>Changement de mot de passe</h1>
                     </div>
                     <div className="profile-body">

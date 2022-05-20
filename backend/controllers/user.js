@@ -88,8 +88,11 @@ const logUser = async (req, res) => {
       res.status(401).json({ error: "erreur de token" });
     }
 
-    res.cookie("token", token, { httpOnly: true });
-    res.status(200).json({ userId: user.id, role: user.role, token });
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "strict",
+    });
+    res.status(200).json({ userId: user.id, token });
   } catch (error) {
     if (error.name) return res.status(401).json({ message: error.message });
     res.status(400).json({ error });
@@ -123,11 +126,6 @@ const getUserById = async (req, res) => {
     const user = await prisma.user.findUnique({
       where: {
         id: Number(req.params.id),
-      },
-      select: {
-        firstName: true,
-        lastName: true,
-        profilePicture: true,
       },
     });
     res.status(200).json(user);

@@ -2,18 +2,14 @@ import React, { useState } from 'react';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMessage, faShare, faCircle } from '@fortawesome/free-solid-svg-icons';
 import CommentTemplate from './CommentTemplate'
 import CreateCommentModal from './CreateCommentModal';
-import DeletePost from './DeletePost';
-import LikeDislike from './LikeDislike';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMessage } from '@fortawesome/free-solid-svg-icons';
-import { faShare } from '@fortawesome/free-solid-svg-icons';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import MoreOptionsPostModal from './MoreOptionsPostModal';
-import useFetch from '../hooks/useFetch';
 import { Link } from 'react-router-dom';
-import SharedPostTemplate from './SharedPostTemplate';
+import SharePostModal from './SharePostModal';
+
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -24,25 +20,26 @@ Moment.globalLocale = 'fr';
 
 
 const PostTemplate = ({ post }) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user.userId;
     const [commentModal, setCommentModal] = useState(null);
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
+    const [sharePostModal, setSharePostModal] = useState(null);
     const comments = post.comments;
-    const sharedPost = post.sharedPost;
     return (
-        <div className='post-comment-container'>
-        {sharedPost.length > 0 ? <SharedPostTemplate post={post} sharedPost={post} /> : null}
 
+        <div className='post-comment-container'>
             <article className='user-post'>
                 <div className="post-profile-picture">
                     <img src={post.author.profilePicture} alt='photo de profil' />
                 </div>
                 <div className='user-content'>
-                    <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
-                        <FontAwesomeIcon icon={faCircle} className="more-dots" />
-                        <FontAwesomeIcon icon={faCircle} className="more-dots" />
-                        <FontAwesomeIcon icon={faCircle} className="more-dots" />
-                    </div>
-                    {moreOptionsModal && <MoreOptionsPostModal showModal={setMoreOptionsModal} postId={post.id} />}
+                    {userId === post.authorId ? <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
+                        <FontAwesomeIcon icon={faCircle} aria-label='Ouvrir options' className="more-dots" />
+                        <FontAwesomeIcon icon={faCircle} aria-label='Ouvrir options' className="more-dots" />
+                        <FontAwesomeIcon icon={faCircle} aria-label='Ouvrir options' className="more-dots" />
+                    </div> : null}
+                    {moreOptionsModal && <MoreOptionsPostModal showModal={setMoreOptionsModal} post={post} />}
                     <Link to={`/posts/${post.id}`} >
                         <div className='post-details'>
                             <h1>{post.author.firstName} {post.author.lastName}</h1>
@@ -59,12 +56,11 @@ const PostTemplate = ({ post }) => {
                         </div>
                     </Link>
                     <div className="post-icons-container">
-                        <LikeDislike />
-                        {/* Link to post page + opening modal */}
-                        <FontAwesomeIcon icon={faMessage} className="post-icons" onClick={() => setCommentModal(true)} />
+                        <FontAwesomeIcon icon={faMessage} aria-label='Commenter' className="post-icons" onClick={() => setCommentModal(true)} />
                         {commentModal && <CreateCommentModal showModal={setCommentModal} postId={post.id} />}
+                        <FontAwesomeIcon icon={faShare} aria-label='Partager' className="post-icons" onClick={() => setSharePostModal(true)} />
+                        {sharePostModal && <SharePostModal showModal={setSharePostModal} post={post} />}
 
-                        <FontAwesomeIcon icon={faShare} className="post-icons" />
                     </div>
                 </div>
             </article>

@@ -46,7 +46,7 @@
       padding: 15px 10px;
     }
 
-    #sharedBy{
+    #sharedBy {
       margin-bottom: 15px;
       font-style: italic;
       font-size: 14px;
@@ -83,7 +83,8 @@
   .post-icons-container {
     width: 100%;
     height: auto;
-    @extend %flex-center-between;
+    display: flex;
+    justify-content: space-around;
 
     @include medium-screen {
       padding: 0 25px;
@@ -94,15 +95,6 @@
 
     .post-icons {
       @include postIcons;
-    }
-  }
-
-  .like-dislike-icons {
-    @include postIcons;
-    &:hover {
-      font-weight: $weight-bold;
-      background: transparent;
-      color: $main-color;
     }
   }
 

@@ -3,7 +3,7 @@ import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import PostTemplate from './PostTemplate';
-import SharedPostTemplate from './SharedPostTemplate'
+import SharedPostTemplate from './SharedPostTemplate';
 
 
 // instances every 30 seconds.
@@ -15,10 +15,16 @@ Moment.globalLocale = 'fr';
 
 
 const PostList = ({ posts }) => {
+
     return (
         <div className='posts-container'>
             {posts.map((post) => (
-                <PostTemplate post={post} key={post.id} />
+                <>
+                    <PostTemplate post={post} key={post.id} />
+                    {post.sharedPost.map((sharedPost => (
+                        <SharedPostTemplate post={post} sharedPost={sharedPost} key={sharedPost.id} />
+                    )))}
+                </>
             ))}
         </div>
     );

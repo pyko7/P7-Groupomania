@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useFetch from '../hooks/useFetch';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,7 +11,6 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 const CreatePost = () => {
     const userAuth = JSON.parse(localStorage.getItem("user"));
     const id = userAuth.userId;
-    const token = userAuth.token;
     const { data: user } = useFetch(`http://localhost:3000/api/users/${id}`);
     const [imageUrl, setImageUrl] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
@@ -97,13 +96,13 @@ const CreatePost = () => {
                     {imagePreview && imageUrl && (
                         <div className='image-preview-container'>
                             <img src={imagePreview} alt={imageUrl.name} />
-                            <FontAwesomeIcon icon={faXmark} className="remove-preview-icon" onClick={removePreview} />
+                            <FontAwesomeIcon icon={faXmark} aria-label='fermer' className="remove-preview-icon" onClick={removePreview} />
                         </div>
                     )}
                     <div className="new-post-icons-container">
                         <input accept='image/jpeg,image/png' type='file' name="imageUrl" id="imageUrl" onChange={(e) => handlePicture(e)} />
                         <label htmlFor="imageUrl">
-                            <FontAwesomeIcon icon={faFileImage} className='add-file-icon' />
+                            <FontAwesomeIcon icon={faFileImage} aria-label='Ajouter une image' className='add-file-icon' />
                         </label>
                         <input type="submit" className='send-post-button' value="Envoyer" />
                     </div>

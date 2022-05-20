@@ -9,6 +9,7 @@ const LogOutModal = ({ showModal }) => {
         const res = await fetch(`http://localhost:3000/api/auth/logout`, settings)
         const data = await res.json();
         if (!res.ok) return;
+        localStorage.clear();
         alert("Vous êtes déconnecté")
         navigate('/auth/login');
         return data;
@@ -19,7 +20,7 @@ const LogOutModal = ({ showModal }) => {
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
             <div className="update-modale" onClick={e => e.stopPropagation()}>
-                <div className="profile-header">
+                <div className="profile-header-update">
                     <h1>Voulez-vous vous déconnecter ?</h1>
                 </div>
                 <div className="profile-body">

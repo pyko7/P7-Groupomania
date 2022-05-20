@@ -12,6 +12,7 @@ datasource db {
 
 model User {
   id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
   firstName      String       @db.VarChar(50)
   lastName       String       @db.VarChar(50)
   email          String       @unique @db.VarChar(100)
@@ -33,6 +34,8 @@ model Post {
   authorId    Int
   comments    Comment[]
   sharedPost  SharedPost[]
+  activity    Activity?    @relation(fields: [activityId], references: [id])
+  activityId  Int?
 }
 
 model Comment {
@@ -47,10 +50,18 @@ model Comment {
 }
 
 model SharedPost {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  authorId  Int
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  postId    Int
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  author     User      @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId   Int
+  post       Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId     Int
+  activity   Activity? @relation(fields: [activityId], references: [id])
+  activityId Int?
+}
+
+model Activity {
+  id         Int          @id @default(autoincrement())
+  post       Post[]
+  sharedPost SharedPost[]
 }

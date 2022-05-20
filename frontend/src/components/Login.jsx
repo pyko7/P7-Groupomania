@@ -1,17 +1,19 @@
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from "../validations/UserValidation";
 import { Link } from "react-router-dom";
 import logo from '../assets/images/icon-above-font-nobg.png';
-import { useState } from "react";
+import { useContext, useState } from "react";
+import LoginContext from "../context/logContext";
+
 
 
 /*function to login to the website*/
 
 const Login = () => {
     const navigate = useNavigate();
-    const [existEmail, setExistEmail] = useState(null);
+    const { setIsLogged } = useContext(LoginContext);
     const [logError, setLogError] = useState(null);
 
     /*
@@ -48,8 +50,8 @@ const Login = () => {
                     return setLogError(null)
                 }
             };
-            console.log(data)
             localStorage.setItem("user", JSON.stringify(data));
+            setIsLogged(true);
             navigate("/");
             return data;
         } catch (error) {

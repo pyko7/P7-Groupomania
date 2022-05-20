@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useFetch from '../hooks/useFetch';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { postSchema } from '../validations/PostValidation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileImage } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const UpdatePostModal = ({showModal, postId}) => {
-    const id = postId;
+const UpdatePostModal = ({ showModal, post }) => {
+    const id = post.id;
     const [updateImageUrl, setUpdateImageUrl] = useState(null);
     const [updateImagePreview, setUpdateImagePreview] = useState(null);
 
@@ -24,7 +23,6 @@ const UpdatePostModal = ({showModal, postId}) => {
         mode: 'onSubmit',
         resolver: yupResolver(postSchema)
     });
-
 
     /*selects image with label and displays preview of image*/
     const handlePicture = (e) => {
@@ -71,7 +69,7 @@ const UpdatePostModal = ({showModal, postId}) => {
         try {
             const res = await fetch(`http://localhost:3000/api/posts/${id}`, settings)
             const data = await res.json();
-            if (!res.ok) return;
+            if (!res.ok) return alert("Vous n'êtes pas autorisé à effectuer cette action !");
             alert("Votre post a été modifié")
             window.location.reload();
             return data;
@@ -83,24 +81,24 @@ const UpdatePostModal = ({showModal, postId}) => {
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
             <div className="update-modale" onClick={e => e.stopPropagation()}>
-                <div className="update-post">
+                <div className="update-post"onLoad={loadPicture}>
                     <div className='user-content'>
                         <form onSubmit={handleSubmit(handleInput)}>
-                            <textarea minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" required {...register("textContent")} />
+                            <textarea id="update-textarea" minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" defaultValue={post.textContent} required {...register("textContent")} />
                             {updateImagePreview && updateImageUrl && (
                                 <div className='image-preview-container'>
                                     <img src={updateImagePreview} alt={updateImageUrl.name} />
-                                    <FontAwesomeIcon icon={faXmark} className="remove-preview-icon" onClick={removePreview} />
+                                    <FontAwesomeIcon icon={faXmark} aria-label='Fermer' className="remove-preview-icon" onClick={removePreview} />
                                 </div>
                             )}
                             <div className="new-post-icons-container">
                                 <input accept='image/jpeg,image/png' type='file' name="updateImageUrl" id="updateImageUrl" onChange={(e) => handlePicture(e)} />
                                 <label htmlFor="updateImageUrl">
-                                    <FontAwesomeIcon icon={faFileImage} className='add-file-icon' />
+                                    <FontAwesomeIcon icon={faFileImage} aria-label='Ajouter une image' className='add-file-icon' />
                                 </label>
                                 <input type="submit" className='send-post-button' value="Envoyer" />
                             </div>
-                            <p className="invalid-message">{errors.textContent?.message}</p>
+                            <i className="invalid-message">{errors.textContent?.message}</i>
                         </form>
 
                     </div>

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { postSchema } from '../validations/PostValidation';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
-import { useNavigate } from 'react-router-dom';
+
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -62,7 +62,7 @@ const CreateCommentModal = ({ showModal, postId }) => {
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
             <div className="update-modale" onClick={e => e.stopPropagation()}>
-                <div className="profile-header">
+                <div className="profile-header-update">
                     <h1>Commentaire</h1>
                 </div>
                 <div className="profile-body">

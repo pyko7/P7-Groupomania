@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import useFetch from '../hooks/useFetch';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { postSchema } from '../validations/PostValidation';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileImage } from '@fortawesome/free-solid-svg-icons';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const UpdatePostModal = ({ showModal, commentId }) => {
-    const id = commentId;
 
+const UpdatePostModal = ({ showModal, comment }) => {
+    const id = comment.id;
     /*
     *register: allows to register an input or select element and apply validation,
     handleSubmit: This function receives the form data if form validation is successful,
@@ -38,7 +34,7 @@ const UpdatePostModal = ({ showModal, commentId }) => {
         try {
             const res = await fetch(`http://localhost:3000/api/comments/${id}`, settings)
             const data = await res.json();
-            if (!res.ok) return;
+            if (!res.ok) return alert("Vous n'êtes pas autorisé à effectuer cette action !");
             alert("Votre commentaire a été modifié")
             window.location.reload();
             return data;
@@ -53,7 +49,7 @@ const UpdatePostModal = ({ showModal, commentId }) => {
                 <div className="update-post">
                     <div className='user-content'>
                         <form onSubmit={handleSubmit(handleInput)}>
-                            <textarea minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" required {...register("textContent")} />
+                            <textarea minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" defaultValue={comment.textContent} required {...register("textContent")} />
                             <div className="new-post-icons-container">
                                 <input type="submit" className='send-post-button' value="Envoyer" />
                             </div>

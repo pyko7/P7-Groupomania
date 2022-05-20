@@ -5,13 +5,13 @@ layout
 pages*/
 /*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
-.profile-modal, .profile-footer .footer-buttons, .profile-footer, .profile-body_buttons .body-buttons, .profile-body_buttons, .profile-body, .profile-header, .update-post .image-preview-container, .post-comments-container, .new-user-post .image-preview-container, .main-container .spinner, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container {
+.profile-modal, .profile-footer .footer-buttons, .profile-footer, .profile-body_buttons .body-buttons, .profile-body_buttons, .profile-body, .profile-header-update, .update-post .image-preview-container, .new-user-post .image-preview-container, .posts-container, .main-container .spinner, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.user-post .like-dislike-icons-container, .user-post .post-icons-container, .user-post .more-options, .comments-container .like-dislike-icons-container, .comments-container .post-icons-container {
+.user-post .like-dislike-icons-container, .user-post .more-options, .comments-container .like-dislike-icons-container, .comments-container .more-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -546,6 +546,84 @@ li {
   padding: 25px;
   line-height: 1.25;
 }
+.comments-container .more-options {
+  position: absolute;
+  top: 35px;
+  right: 20px;
+  width: 30px;
+  cursor: pointer;
+}
+@media screen and (max-width: 768px) {
+  .comments-container .more-options {
+    top: 20px;
+    right: 15px;
+    width: 25px;
+  }
+}
+.comments-container .more-options .more-dots {
+  color: #fd2d01;
+  font-size: 8px;
+}
+@media screen and (max-width: 768px) {
+  .comments-container .more-options .more-dots {
+    font-size: 6px;
+  }
+}
+.comments-container .more-options-modal {
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  width: 33%;
+  background-color: #6ab4dc;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 10px 13px -7px #000;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .comments-container .more-options-modal {
+    max-width: 350px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .comments-container .more-options-modal {
+    top: 35px;
+    width: 80%;
+    max-width: 250px;
+  }
+}
+.comments-container .more-options-modal #update-post {
+  border-bottom: 1px solid #000;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.comments-container .more-options-modal p {
+  width: 100%;
+  padding: 10px 0;
+  font-weight: 800;
+  cursor: pointer;
+}
+.comments-container .more-options-modal p:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.comments-container .more-options-modal p:hover {
+  background-color: #93c9e6;
+}
+.comments-container .more-options-modal .remove-modal-icon {
+  position: absolute;
+  top: -25px;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 100px;
+  vertical-align: middle;
+  padding: 5px;
+  background-color: #517c96;
+  color: #fd2d01;
+  cursor: pointer;
+}
 .comments-container .comment-details {
   width: 100%;
   height: auto;
@@ -574,8 +652,13 @@ li {
 .comments-container .post-icons-container {
   width: 100%;
   height: auto;
+  display: flex;
+  justify-content: space-around;
 }
 .comments-container .post-icons-container .post-icons {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -583,20 +666,10 @@ li {
 .comments-container .post-icons-container .post-icons:hover {
   color: #fe5633;
 }
-.comments-container .like-dislike-icons {
-  color: #fd2d01;
-  cursor: pointer;
-  font-size: 22px;
-}
-.comments-container .like-dislike-icons:hover {
-  color: #fe5633;
-}
-.comments-container .like-dislike-icons:hover {
-  font-weight: 800;
-  background: transparent;
-  color: #6ab4dc;
-}
 .comments-container .active-icon {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -987,6 +1060,7 @@ body {
 /*container for all posts*/
 .posts-container {
   width: 100%;
+  flex-direction: column-reverse;
 }
 
 /*Post creation section*/
@@ -1094,6 +1168,9 @@ body {
   }
 }
 .new-user-post .new-post-icons-container .add-file-icon {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1113,6 +1190,9 @@ body {
   }
 }
 .new-user-post .new-post-icons-container label i {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1261,6 +1341,12 @@ body {
     padding: 15px 10px;
   }
 }
+.user-post .user-content #sharedBy {
+  margin-bottom: 15px;
+  font-style: italic;
+  font-size: 14px;
+  color: #517c96;
+}
 .user-post .user-content .post-details {
   width: 100%;
   height: auto;
@@ -1339,7 +1425,7 @@ body {
     max-width: 250px;
   }
 }
-.user-post .more-options-modal #update-profile {
+.user-post .more-options-modal #update-post {
   border-bottom: 1px solid #000;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -1375,6 +1461,8 @@ body {
 .user-post .post-icons-container {
   width: 100%;
   height: auto;
+  display: flex;
+  justify-content: space-around;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .user-post .post-icons-container {
@@ -1387,6 +1475,9 @@ body {
   }
 }
 .user-post .post-icons-container .post-icons {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1394,20 +1485,10 @@ body {
 .user-post .post-icons-container .post-icons:hover {
   color: #fe5633;
 }
-.user-post .like-dislike-icons {
-  color: #fd2d01;
-  cursor: pointer;
-  font-size: 22px;
-}
-.user-post .like-dislike-icons:hover {
-  color: #fe5633;
-}
-.user-post .like-dislike-icons:hover {
-  font-weight: 800;
-  background: transparent;
-  color: #6ab4dc;
-}
 .user-post .active-icon {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1450,14 +1531,19 @@ body {
     transform: rotate(3deg);
   }
 }
+.user-post-shared {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #517c96;
+  border-radius: 20px;
+}
 
 a {
   color: inherit;
 }
 
-.post-comments-container {
+.post-comment-container {
   width: 100%;
-  flex-direction: column-reverse;
 }
 
 .update-post {
@@ -1465,6 +1551,7 @@ a {
   /*text area, icons & buttons container*/
   /*icons container*/
   /*container of image preview*/
+  /*update post text area*/
 }
 .update-post .user-content {
   width: 100%;
@@ -1532,6 +1619,9 @@ a {
   }
 }
 .update-post .new-post-icons-container .add-file-icon {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1551,6 +1641,9 @@ a {
   }
 }
 .update-post .new-post-icons-container label i {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1637,6 +1730,19 @@ a {
     width: 95%;
   }
 }
+.update-post textarea {
+  width: 95%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 25px;
+  border: none;
+  border-bottom: 1px solid #517c96;
+  resize: none;
+}
+.update-post textarea:focus {
+  outline: none;
+}
 
 .profile-container {
   position: relative;
@@ -1662,6 +1768,25 @@ a {
   }
 }
 .profile-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5%;
+  align-items: center;
+  margin-top: 25px;
+  color: #fd2d01;
+}
+.profile-header div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.profile-header div span {
+  font-size: 15px;
+  font-style: italic;
+}
+.profile-header-update {
   position: relative;
   flex-direction: column;
   width: 100%;
@@ -1669,6 +1794,45 @@ a {
   justify-content: center;
   margin-top: 25px;
   color: #fd2d01;
+}
+.profile-header-update input {
+  display: none;
+}
+.profile-header-update img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.profile-header-update .edit-profile {
+  position: absolute;
+  bottom: 0;
+  right: 40%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+  color: #ccc;
+  padding: 7px;
+  background-color: #6ab4dc;
+  border-radius: 50%;
+  font-size: 18px;
+}
+.profile-header-update .edit-profile:hover {
+  color: #fe5633;
+}
+@media screen and (max-width: 768px) {
+  .profile-header-update .edit-profile {
+    right: 35%;
+  }
+}
+.profile-header h1 {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 @media screen and (max-width: 768px) {
   .profile-header h1 {
@@ -1680,37 +1844,12 @@ a {
     font-size: 30px;
   }
 }
-.profile-header input {
-  display: none;
-}
 .profile-header img {
   width: 100px;
   height: 100px;
-  margin: 10px auto;
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
-}
-.profile-header .edit-profile {
-  position: absolute;
-  bottom: 0;
-  right: 40%;
-  color: #fd2d01;
-  cursor: pointer;
-  font-size: 22px;
-  color: #ccc;
-  padding: 7px;
-  background-color: #6ab4dc;
-  border-radius: 50%;
-  font-size: 18px;
-}
-.profile-header .edit-profile:hover {
-  color: #fe5633;
-}
-@media screen and (max-width: 768px) {
-  .profile-header .edit-profile {
-    right: 35%;
-  }
 }
 .profile-body {
   position: relative;

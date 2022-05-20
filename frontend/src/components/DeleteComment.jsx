@@ -1,10 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import useDelete from '../hooks/useDelete';
 
 
-const DeletePost = ({ showModal, commentId },) => {
-    const navigate = useNavigate();
+const DeletePost = ({ showModal, commentId }) => {
     /*function delete a post*/
     const confirmDelete = async () => {
         try {
@@ -22,7 +20,7 @@ const DeletePost = ({ showModal, commentId },) => {
     return (
         <div className="profile-modal" onClick={() => showModal(null)}>
             <div className="update-modale" onClick={e => e.stopPropagation()}>
-                <div className="profile-header">
+                <div className="profile-header-update">
                     <h1>Confirmer la suppresion ?</h1>
                     <br />
                     <br />
