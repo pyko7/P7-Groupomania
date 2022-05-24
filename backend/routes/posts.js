@@ -14,6 +14,6 @@ router.post("/posts", auth, multer, postCtrl.createPost);
 router.post("/posts/:id", auth, multer, postCtrl.sharePost);
 router.put("/posts/:id", auth, verifyAuthor, multer, postCtrl.updatePost);
 router.delete("/posts/:id", auth, verifyAuthor, multer, postCtrl.deletePost);
-router.delete("/posts/shared/:id", auth, verifySharedPost, multer, postCtrl.deletePost);
+router.delete("/posts/shared/:id", auth, verifyAuthor, postCtrl.deleteSharedPost);
 
 module.exports = router;

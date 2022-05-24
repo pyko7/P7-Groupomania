@@ -48,7 +48,6 @@ const CreatePost = () => {
 
     }
 
-
     const handleInput = async () => {
         const post = getValues();
         let settings = {};

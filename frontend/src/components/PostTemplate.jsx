@@ -24,14 +24,14 @@ const PostTemplate = ({ post }) => {
     const userId = user.userId;
     const [commentModal, setCommentModal] = useState(null);
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
-
     const [sharePostModal, setSharePostModal] = useState(null);
-    const sharedBy = post.sharedBy
+    const originalPostId = post.originalPostId
     const comments = post.comments;
-    return (
 
+    console.log(post);
+    return (
         <div className='post-comment-container'>
-            {sharedBy ? <SharedPostTemplate post={post} sharedBy={sharedBy} /> :
+            {originalPostId ? <SharedPostTemplate post={post} /> :
                 <>
                     <article className='user-post'>
                         <div className="post-profile-picture">

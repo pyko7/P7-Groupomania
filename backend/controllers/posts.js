@@ -22,12 +22,8 @@ const getAllPosts = async (req, res) => {
         author: true,
         sharedBy: true,
         comments: {
-          select: {
-            id: true,
+          include: {
             author: true,
-            textContent: true,
-            createdAt: true,
-            updatedAt: true,
           },
         },
       },
@@ -54,10 +50,8 @@ const getPostsById = async (req, res) => {
         author: true,
         sharedBy: true,
         comments: {
-          select: {
-            id: true,
+          include: {
             author: true,
-            textContent: true,
           },
         },
       },
@@ -115,7 +109,7 @@ const createPost = async (req, res) => {
  * get the userId with the token
  * find the post with the params id
  * create a new post with the exact same datas
- * sharedBy property is the user that shares the psot 
+ * sharedBy property is the user that shares the psot
  * this new post is stored in the post table
  */
 
@@ -125,6 +119,18 @@ const sharePost = async (req, res) => {
   const userId = decodedToken.userId;
 
   try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        writtenPosts: {
+          select: {
+            originalPostId: true,
+          },
+        },
+      },
+    });
     const post = await prisma.post.findUnique({
       where: {
         id: Number(req.params.id),
@@ -134,18 +140,22 @@ const sharePost = async (req, res) => {
       },
     });
 
+    user.writtenPosts.forEach((element) => {
+      if (element.originalPostId === post.id)
+        throw new Error("Le post a déjà été partagé");
+    });
+
     await prisma.post.create({
       data: {
-        author: { connect: { id: post.author.id } },
+        author: { connect: { id: userId } },
+        originalPostId: post.id,
         textContent: post.textContent,
         imageUrl: post.imageUrl,
-        sharedBy: { connect: { id: userId } },
       },
     });
     res.status(201).json(post);
   } catch (error) {
-    if (error.name) return res.status(401)
-    .json( console.log(error.message));
+    if (error.name) return res.status(401).json(console.log(error.message));
     res.status(400).json({ error });
   }
 };
@@ -212,20 +222,45 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   try {
-    const post = await prisma.post.delete({
+    const post = await prisma.post.findUnique({
       where: {
         id: Number(req.params.id),
       },
-      select: {
-        imageUrl: true,
+    });
+
+    await prisma.post.deleteMany({
+      where: {
+        OR: [
+          {
+            originalPostId: post.id,
+          },
+          {
+            id: post.id,
+          },
+        ],
       },
     });
+
     if (post.imageUrl) {
       const filename = post.imageUrl.split("/images/posts/")[1];
       fs.unlink(`images/posts/${filename}`, (err) => {
         if (err) return err;
       });
     }
+
+    res.status(200).json({ message: "Post supprimé" });
+  } catch (error) {
+    if (error.name) return res.status(401).json({ message: error.message });
+    res.status(401).json({ error });
+  }
+};
+const deleteSharedPost = async (req, res) => {
+  try {
+    const post = await prisma.post.delete({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
     res.status(200).json({ message: "Post supprimé" });
   } catch (error) {
     if (error.name) return res.status(401).json({ message: error.message });
@@ -240,4 +275,5 @@ module.exports = {
   sharePost,
   updatePost,
   deletePost,
+  deleteSharedPost,
 };
