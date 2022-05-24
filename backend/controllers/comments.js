@@ -8,11 +8,14 @@ const jwt = require("jsonwebtoken");
 
 const Posts = require("../models/Posts");
 
-// const getComment = async (req,res) =>{
-
-// }
-
-
+/**
+ *   Create a comment
+ * get the post ID
+ * wait for validation of inputs
+ * to get author datas, we use connect to connect user with the id contained in the token
+ * to get post datas, we use connect to connect with post table (see relation in Prisma Schema)
+ * create the comment in the comment table
+ */
 const createComment = async (req, res) => {
   const token = req.cookies.token;
   const decodedToken = jwt.verify(token, `${USER_TOKEN}`);
@@ -43,6 +46,14 @@ const createComment = async (req, res) => {
   }
 };
 
+/**
+ *   Update a comment
+ * get the post ID
+ * wait for inputs validation
+ * change textContent with req.body
+ * comment is updated in comment table
+ */
+
 const updateComment = async (req, res) => {
   try {
     await Posts.postSchema.validate(req.body);
@@ -62,9 +73,15 @@ const updateComment = async (req, res) => {
     res.status(400).json({ error });
   }
 };
+
+/**
+ *   Delete a comment
+ * get the post ID
+ * comment is removed from comment table
+ */
 const deleteComment = async (req, res) => {
   try {
-    const comment = await prisma.comment.delete({
+    await prisma.comment.delete({
       where: {
         id: Number(req.params.id),
       },

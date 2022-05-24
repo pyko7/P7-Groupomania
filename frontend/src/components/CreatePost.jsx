@@ -31,17 +31,18 @@ const CreatePost = () => {
 
     /*selects image with label and displays preview of image*/
     const handlePicture = (e) => {
+        console.log(e.target.files[0]);
         if (imageUrl || imagePreview === null) {
-            setImagePreview(URL.createObjectURL(e.target.files[0]))
             setImageUrl(e.target.files[0])
+            setImagePreview(URL.createObjectURL(e.target.files[0]))
         }
         return
     }
 
     const removePreview = () => {
         if (imageUrl && imagePreview !== null) {
-            setImagePreview(null)
             setImageUrl(null)
+            setImagePreview(null)
         }
         return
 

@@ -2,11 +2,12 @@ import React from 'react';
 import useDelete from '../hooks/useDelete';
 
 
-const DeletePost = ({ showModal, commentId }) => {
-    /*function delete a post*/
+/*function delete a comment*/
+const DeletePost = ({ showModal, comment }) => {
+    const id = comment.id;
     const confirmDelete = async () => {
         try {
-            const res = await useDelete(`http://localhost:3000/api/comments/${commentId}`);
+            const res = await useDelete(`http://localhost:3000/api/comments/${id}`);
             if (!res) return console.log("error");
             showModal(null);
             alert("Le commentaire a été supprimé");

@@ -23,7 +23,6 @@ const CommentTemplate = ({ postId, comment }) => {
     const [deleteModal, setDeleteModal] = useState(null);
     const [commentModal, setCommentModal] = useState(null);
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
-
     return (
         <>
             <article className="user-comment">
@@ -31,12 +30,12 @@ const CommentTemplate = ({ postId, comment }) => {
                     <img src={comment.author.profilePicture} alt='photo de profil' />
                 </div>
                 <div className='comment-content'>
-                    {userId === comment.authorId ? <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
+                    {userId === comment.author.id ? <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
                         <FontAwesomeIcon icon={faCircle} aria-label='ouvrir options' className="more-dots" />
                         <FontAwesomeIcon icon={faCircle} aria-label='ouvrir options' className="more-dots" />
                         <FontAwesomeIcon icon={faCircle} aria-label='ouvrir options' className="more-dots" />
                     </div> : null}
-                    {moreOptionsModal && <MoreOptionsCommentModal showModal={setMoreOptionsModal} commentId={comment.id} />}
+                    {moreOptionsModal && <MoreOptionsCommentModal showModal={setMoreOptionsModal} comment={comment} />}
                     <div className='comment-details'>
                         <h1>{comment.author.firstName} {comment.author.lastName}</h1>
                         <p>{comment.textContent}</p>
@@ -53,7 +52,7 @@ const CommentTemplate = ({ postId, comment }) => {
                             <>
                                 <FontAwesomeIcon icon={faTrashCan} aria-label='Supprimer' className="post-icons"
                                     onClick={() => { setDeleteModal(true); setPostId(comment.id) }} />
-                                {deleteModal && <DeleteComment showModal={setDeleteModal} commentId={comment.id} />}
+                                {deleteModal && <DeleteComment showModal={setDeleteModal} comment={comment} />}
                             </>
                             : null}
                     </div>

@@ -9,8 +9,9 @@ const USER_TOKEN = process.env.USER_TOKEN;
 /**
  * get the token, if it doesn't exists return 401 status
  * get select userId & role in DB
- * Decode the token to get encrypted userId & role when user logged in
- * Compare userId of author in DB and userId inside the token, compare if role value
+ * decode the token to get encrypted userId & role when user logged in
+ * compare userId of user who shared the post in DB and userId inside the token,
+ * compare if role value
  * if one of those is true, next() to the following middleware
  * if it's not equal any action is prevented
  */
@@ -29,7 +30,7 @@ module.exports = async (req, res, next) => {
         id: Number(req.params.id),
       },
     });
-    if ((post.authorId && post.authorId === userId) || role === 1) {
+    if ((post.sharedById && post.sharedById === userId) || role === 1) {
       next();
     } else {
       res.status(403).json({ message: "Action interdite" });

@@ -21,7 +21,12 @@
     }
   }
 
+  &-icons {
+    margin-right: 7px;
+  }
+
   &-header {
+    position: relative;
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -31,14 +36,25 @@
     margin-top: 25px;
     color: $secondary-color;
 
-    div {
+    @include small-screen{
+      align-items: flex-start;
+    }
+
+    ul {
+      position: absolute;
+      width: fit-content;
+      right: 15px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
 
-      span {
-        font-size: 15px;
-        font-style: italic;
+      @include small-screen {
+        right: 0;
+        bottom: 0;
+      }
+
+      li {
+        margin-bottom: 7px;
       }
     }
 
@@ -107,6 +123,21 @@
 
     h1 {
       color: $secondary-color;
+    }
+
+    label {
+      @extend %flex-center;
+      font-weight: $weight-semi-bold;
+      margin-bottom: 8px;
+      cursor: pointer;
+
+      .add-icon {
+        font-size: 18px;
+        margin-left: 15px;
+        padding: 4px;
+        border: 2px solid $main-color;
+        border-radius: 50%;
+      }
     }
 
     textarea {
@@ -213,7 +244,6 @@
   position: relative;
   margin: 0 auto;
   width: 35%;
-  margin-top: 100px;
   padding: $post-padding;
   background-color: #fff;
   border-radius: $post-border-radius;

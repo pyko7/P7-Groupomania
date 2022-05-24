@@ -8,8 +8,12 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const UpdatePostModal = ({ showModal, post }) => {
     const id = post.id;
+    //new image
     const [updateImageUrl, setUpdateImageUrl] = useState(null);
+    //preview of image
     const [updateImagePreview, setUpdateImagePreview] = useState(null);
+    //existing image 
+    const [postImageUrl, setPostImageUrl] = useState(post.imageUrl)
 
     /*
     *register: allows to register an input or select element and apply validation,
@@ -34,12 +38,13 @@ const UpdatePostModal = ({ showModal, post }) => {
     }
 
     const removePreview = () => {
-        if (updateImageUrl && updateImagePreview !== null) {
-            setUpdateImagePreview(null)
-            setUpdateImageUrl(null)
-        }
+        setUpdateImagePreview(null)
+        setUpdateImageUrl(null)
+        setPostImageUrl(null)
+        console.log(updateImageUrl);
         return
     }
+
 
     const handleInput = async () => {
         const post = getValues();
@@ -53,6 +58,7 @@ const UpdatePostModal = ({ showModal, post }) => {
                 },
                 body: JSON.stringify({
                     textContent: post.textContent,
+                    imageUrl: null
                 }),
             }
         } else {
@@ -81,14 +87,24 @@ const UpdatePostModal = ({ showModal, post }) => {
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
             <div className="update-modale" onClick={e => e.stopPropagation()}>
-                <div className="update-post"onLoad={loadPicture}>
+                <div className="update-post">
                     <div className='user-content'>
                         <form onSubmit={handleSubmit(handleInput)}>
                             <textarea id="update-textarea" minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" defaultValue={post.textContent} required {...register("textContent")} />
+                            {postImageUrl ?
+                                <>
+                                    <br /><br />
+                                    <div className='image-preview-container'>
+                                        <FontAwesomeIcon icon={faXmark} aria-label='Fermer' className="remove-preview-icon" onClick={() => removePreview()} />
+                                        <img src={postImageUrl} alt={postImageUrl.name} />
+                                    </div>
+                                </>
+                                : null}
+
                             {updateImagePreview && updateImageUrl && (
                                 <div className='image-preview-container'>
-                                    <img src={updateImagePreview} alt={updateImageUrl.name} />
                                     <FontAwesomeIcon icon={faXmark} aria-label='Fermer' className="remove-preview-icon" onClick={removePreview} />
+                                    <img src={updateImagePreview} alt={updateImageUrl.name} />
                                 </div>
                             )}
                             <div className="new-post-icons-container">

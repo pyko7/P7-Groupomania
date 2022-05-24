@@ -10,39 +10,17 @@ const jwt = require("jsonwebtoken");
 
 const Posts = require("../models/Posts");
 
-const getPostsAndShared = async (req, res) => {
-  const id = req.params.id;
-  try {
-    const activty = await prisma.activity.findMany({
-      select: {
-        post: true, // Returns all fields for all posts
-        sharedPost: true, // Returns all Profile fields
-      },
-    });
-    res.status(200).json(activty);
-  } catch (error) {
-    if (error.name)
-      return res.status(401).json({ message: console.log(error.message) });
-    res.status(400).json({ error });
-  }
-};
-
 /**
  *   Get all posts
  * where: search user ID in DB with params
- * include: get author(user) datas
+ * include: get author (=user) datas, look for users who shared the post & every comment of each post
  */
 const getAllPosts = async (req, res) => {
   try {
     const post = await prisma.post.findMany({
       include: {
         author: true,
-        sharedPost: {
-          include: {
-            author: true,
-            post: true,
-          },
-        },
+        sharedBy: true,
         comments: {
           select: {
             id: true,
@@ -64,7 +42,7 @@ const getAllPosts = async (req, res) => {
 /**
  *   Get post details by ID
  * where: search user ID in DB with params
- * include: get author(user) datas
+ * include: get author (=user) datas & every comment the post
  */
 const getPostsById = async (req, res) => {
   try {
@@ -74,12 +52,7 @@ const getPostsById = async (req, res) => {
       },
       include: {
         author: true,
-        sharedPost: {
-          include: {
-            author: true,
-            post: true,
-          },
-        },
+        sharedBy: true,
         comments: {
           select: {
             id: true,
@@ -95,6 +68,15 @@ const getPostsById = async (req, res) => {
     res.status(400).json({ error });
   }
 };
+
+/**
+ *   Create a post
+ * get the userId with the token
+ * check if there's an image in the post or not
+ * to get author datas, we use connect to connect with user table (see relation in Prisma Schema)
+ * if there's a file, it get a new filename, if not its value is null
+ * create the post in the post table
+ */
 
 const createPost = async (req, res) => {
   const token = req.cookies.token;
@@ -123,11 +105,19 @@ const createPost = async (req, res) => {
     });
     res.status(201).json(userPost);
   } catch (error) {
-    if (error.name)
-      return res.status(401).json({ message: console.log(error.message) });
+    if (error.name) return res.status(401).json({ message: error.message });
     res.status(400).json({ error });
   }
 };
+
+/**
+ *   Share a post
+ * get the userId with the token
+ * find the post with the params id
+ * create a new post with the exact same datas
+ * sharedBy property is the user that shares the psot 
+ * this new post is stored in the post table
+ */
 
 const sharePost = async (req, res) => {
   const token = req.cookies.token;
@@ -144,19 +134,30 @@ const sharePost = async (req, res) => {
       },
     });
 
-    await prisma.sharedPost.create({
+    await prisma.post.create({
       data: {
-        author: { connect: { id: userId } },
-        post: { connect: { id: post.id } },
+        author: { connect: { id: post.author.id } },
+        textContent: post.textContent,
+        imageUrl: post.imageUrl,
+        sharedBy: { connect: { id: userId } },
       },
     });
     res.status(201).json(post);
   } catch (error) {
-    if (error.name)
-      return res.status(401).json({ message: console.log(error.message) });
+    if (error.name) return res.status(401)
+    .json( console.log(error.message));
     res.status(400).json({ error });
   }
 };
+
+/**
+ *   Update a post
+ * find the post with the params id
+ * check if there's an image in the post or not
+ * if there's a file and the post already has an image, the previous one is deleted
+ * if there's a file, it get a new filename, if not its value doesn't change
+ * the post is updated & saved in post table
+ */
 
 const updatePost = async (req, res) => {
   try {
@@ -165,7 +166,6 @@ const updatePost = async (req, res) => {
         id: Number(req.params.id),
       },
     });
-    await Posts.postSchema.validate(req.body);
 
     if (req.file && post.imageUrl) {
       const filename = post.imageUrl.split("/images/posts/")[1];
@@ -186,7 +186,9 @@ const updatePost = async (req, res) => {
           imageUrl: post.imageUrl,
         };
 
-    const postUpdate = await prisma.post.update({
+    await Posts.postSchema.validate(req.body);
+
+    await prisma.post.update({
       where: {
         id: Number(req.params.id),
       },
@@ -196,11 +198,17 @@ const updatePost = async (req, res) => {
     });
     res.status(201).json(userPost);
   } catch (error) {
-    if (error.name)
-      return res.status(401).json({ message: console.log(error.message) });
+    if (error.name) return res.status(401).json({ message: error.message });
     res.status(400).json({ error });
   }
 };
+
+/**
+ *   Delete a post
+ * find the post with the params id
+ * if it contains an image, this one is deleted
+ * the post is delete from the post table
+ */
 
 const deletePost = async (req, res) => {
   try {
@@ -218,7 +226,6 @@ const deletePost = async (req, res) => {
         if (err) return err;
       });
     }
-
     res.status(200).json({ message: "Post supprimé" });
   } catch (error) {
     if (error.name) return res.status(401).json({ message: error.message });
@@ -231,7 +238,6 @@ module.exports = {
   getPostsById,
   createPost,
   sharePost,
-  getPostsAndShared,
   updatePost,
   deletePost,
 };

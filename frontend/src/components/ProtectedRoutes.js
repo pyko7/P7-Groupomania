@@ -4,9 +4,7 @@ import LoginContext from "../context/logContext";
 
 const ProtectedRoutes = () => {
   const { isLogged } = useContext(LoginContext);
-
-  /* si isLogged est null on retourne null, si il est false, on redirige vers /login si c'est true
-  on donne accès aux routes protégées */
+  /*if isLogged is null, return null but if it false the user is redirect to the login page*/
 
   return isLogged === null ? null : isLogged === false ? (
     <Navigate to="/auth/login" />

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import useFetch from '../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { updateUserProfile } from '../validations/UserValidation';
-import Spinner from "../components/Spinner";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+
+import useFetch from '../hooks/useFetch';
+import Spinner from "../components/Spinner";
 
 /*update profile picture*/
 const UpdateProfileModal = ({ showModal }) => {
@@ -14,6 +15,8 @@ const UpdateProfileModal = ({ showModal }) => {
     const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
     const [profilePicture, setProfilePicture] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
+    const [cityInput, setCityInput] = useState(null);
+
 
 
     /*
@@ -35,7 +38,6 @@ const UpdateProfileModal = ({ showModal }) => {
         setProfilePicture(e.target.files[0])
     }
 
-
     const handleInput = async () => {
         const user = getValues();
         let settings = {};
@@ -48,14 +50,14 @@ const UpdateProfileModal = ({ showModal }) => {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
                 body: JSON.stringify({
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    ...user,
                 }),
             }
         } else {
             const formData = new FormData();
             formData.append("firstName", user.firstName);
             formData.append("lastName", user.lastName);
+            formData.append("city", user.city);
             formData.append("images", profilePicture);
 
             settings = {
@@ -75,7 +77,6 @@ const UpdateProfileModal = ({ showModal }) => {
             return console.log(error);
         }
     }
-
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>
             <div className="update-modale" onClick={e => e.stopPropagation()}>
@@ -96,6 +97,9 @@ const UpdateProfileModal = ({ showModal }) => {
                         <p className="invalid-message">{errors.firstName?.message}</p>
                         <input type="text" name="lastName" minLength={2} maxLength={35} placeholder="Nom" defaultValue={user.lastName} {...register("lastName")} />
                         <p className="invalid-message">{errors.lastName?.message}</p>
+                        <label htmlFor="city" onClick={() => setCityInput(true)}>Ajouter une ville <i>(optionnel)</i><FontAwesomeIcon icon={faPlus} className="add-icon" /></label>
+                        {cityInput && <input type="text" name="city" maxLength={50} placeholder="Ville" defaultValue={user.city} {...register("city")} />}
+                        <p className="invalid-message">{errors.city?.message}</p>
                     </div>
 
                     <div className="profile-footer">

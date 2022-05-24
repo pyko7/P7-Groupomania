@@ -5,7 +5,7 @@ layout
 pages*/
 /*center item horizontally and vertically*/
 @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;800&display=swap");
-.profile-modal, .profile-footer .footer-buttons, .profile-footer, .profile-body_buttons .body-buttons, .profile-body_buttons, .profile-body, .profile-header-update, .update-post .image-preview-container, .new-user-post .image-preview-container, .posts-container, .main-container .spinner, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container {
+.profile-modal, .profile-footer .footer-buttons, .profile-footer, .profile-body_buttons .body-buttons, .profile-body_buttons, .profile-body label, .profile-body, .profile-header-update, .update-post .image-preview-container, .new-user-post .image-preview-container, .posts-container, .main-container .spinner, .connect-container form, .connect-container .logo-container, .connect-modal, .not-found-container, header .logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -578,6 +578,7 @@ li {
   border-radius: 10px;
   text-align: center;
   box-shadow: 0px 10px 13px -7px #000;
+  z-index: 1000;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .comments-container .more-options-modal {
@@ -656,9 +657,6 @@ li {
   justify-content: space-around;
 }
 .comments-container .post-icons-container .post-icons {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -667,9 +665,6 @@ li {
   color: #fe5633;
 }
 .comments-container .active-icon {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1168,9 +1163,6 @@ body {
   }
 }
 .new-user-post .new-post-icons-container .add-file-icon {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1190,9 +1182,6 @@ body {
   }
 }
 .new-user-post .new-post-icons-container label i {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1412,6 +1401,7 @@ body {
   border-radius: 10px;
   text-align: center;
   box-shadow: 0px 10px 13px -7px #000;
+  z-index: 1000;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .user-post .more-options-modal {
@@ -1475,9 +1465,6 @@ body {
   }
 }
 .user-post .post-icons-container .post-icons {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1486,9 +1473,6 @@ body {
   color: #fe5633;
 }
 .user-post .active-icon {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1619,9 +1603,6 @@ a {
   }
 }
 .update-post .new-post-icons-container .add-file-icon {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1641,9 +1622,6 @@ a {
   }
 }
 .update-post .new-post-icons-container label i {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1712,7 +1690,7 @@ a {
   right: 10px;
   width: 20px;
   height: 20px;
-  z-index: 101;
+  z-index: 105;
   border-radius: 50%;
   text-align: center;
   line-height: 100px;
@@ -1767,7 +1745,11 @@ a {
     width: 100%;
   }
 }
+.profile-icons {
+  margin-right: 7px;
+}
 .profile-header {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -1777,14 +1759,29 @@ a {
   margin-top: 25px;
   color: #fd2d01;
 }
-.profile-header div {
+@media screen and (max-width: 768px) {
+  .profile-header {
+    align-items: flex-start;
+  }
+}
+.profile-header ul {
+  position: absolute;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  right: 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-.profile-header div span {
-  font-size: 15px;
-  font-style: italic;
+@media screen and (max-width: 768px) {
+  .profile-header ul {
+    right: 0;
+    bottom: 0;
+  }
+}
+.profile-header ul li {
+  margin-bottom: 7px;
 }
 .profile-header-update {
   position: relative;
@@ -1809,9 +1806,6 @@ a {
   position: absolute;
   bottom: 0;
   right: 40%;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   color: #fd2d01;
   cursor: pointer;
   font-size: 22px;
@@ -1859,6 +1853,18 @@ a {
 }
 .profile-body h1 {
   color: #fd2d01;
+}
+.profile-body label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.profile-body label .add-icon {
+  font-size: 18px;
+  margin-left: 15px;
+  padding: 4px;
+  border: 2px solid #6ab4dc;
+  border-radius: 50%;
 }
 .profile-body textarea {
   position: relative;
@@ -1979,7 +1985,6 @@ a {
   position: relative;
   margin: 0 auto;
   width: 35%;
-  margin-top: 100px;
   padding: 25px;
   background-color: #fff;
   border-radius: 20px;

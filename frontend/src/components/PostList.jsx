@@ -19,12 +19,7 @@ const PostList = ({ posts }) => {
     return (
         <div className='posts-container'>
             {posts.map((post) => (
-                <>
-                    <PostTemplate post={post} key={post.id} />
-                    {post.sharedPost.map((sharedPost => (
-                        <SharedPostTemplate post={post} sharedPost={sharedPost} key={sharedPost.id} />
-                    )))}
-                </>
+                <PostTemplate post={post} key={post.id} />
             ))}
         </div>
     );

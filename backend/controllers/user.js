@@ -55,7 +55,7 @@ const createUser = async (req, res) => {
  * check input validity with a yup's schema
  * check authenticity of email, if value is null, email is invalid
  * compare hashed password & request password, if value is false, password is wrong
- * set the token into a htppOnly cookie
+ * set the token into a htppOnly cookie (expires when the browser is closed)
  * Return a JSON Object with a userId and the token
  */
 const logUser = async (req, res) => {
@@ -99,12 +99,17 @@ const logUser = async (req, res) => {
   }
 };
 
+/**
+ * Logout function
+ * Remove the token from the cookies
+ */
 const logOut = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Utilisateur déconnecté" });
   res.end();
 };
 
+/* Get each user from DB */
 const getAllUsers = async (req, res) => {
   try {
     const user = await prisma.user.findMany({});
@@ -142,7 +147,7 @@ const getUserById = async (req, res) => {
  * check if user's profile picture is the default one or not
  * if it was a custom profile picture, this one is deleted and the new one is stored
  * gets datas & rename file url
- * if there's no file, gets datas & keep the same image
+ * if there's no file, gets datas & keep the same image (if the image doesn't exist, it's still null)
  * check inputs validity
  */
 const updateProfile = async (req, res) => {
@@ -170,11 +175,15 @@ const updateProfile = async (req, res) => {
           profilePicture: `${req.protocol}://${req.get("host")}/images/users/${
             req.file.filename
           }`,
+          dob: req.body.dob,
+          city: req.body.city,
         }
       : {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           profilePicture: user.profilePicture,
+          dob: req.body.dob,
+          city: req.body.city,
         };
 
     await User.updateUserProfile.validate(req.body);
@@ -186,6 +195,8 @@ const updateProfile = async (req, res) => {
         firstName: userUpdates.firstName,
         lastName: userUpdates.lastName,
         profilePicture: userUpdates.profilePicture,
+        dob: userUpdates.dob,
+        city: userUpdates.city,
       },
     });
     res.status(200).json({ message: "Informations modifiées" });
@@ -221,7 +232,7 @@ const updatePassword = async (req, res) => {
     if (!isValid)
       return res.status(400).json({ message: "Mot de passe invalide" });
     const hash = await bcrypt.hash(password, 10);
-    const user = await prisma.user.update({
+    await prisma.user.update({
       where: {
         id: id,
       },

@@ -10,6 +10,8 @@ import LogOutModal from '../components/LogOutModal';
 import useFetch from '../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 import Spinner from "../components/Spinner";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRightToBracket, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -39,11 +41,20 @@ const Profile = () => {
                     {user && <div className="profile-container">
                         <div className="profile-header">
                             <img src={user.profilePicture} alt="photo de profil" />
-                            <div>
-                                <h1>{user.firstName} {user.lastName}</h1>
-                                <span>Inscrit <Moment fromNow>{user.createdAt}</Moment> </span>
+                            <h1 id='profile-name'>{user.firstName} {user.lastName}</h1>
+                            <br />
+                            <ul>
+                                {user.city && <li>
+                                    <FontAwesomeIcon icon={faLocationDot} className="profile-icons"/>
+                                    Localisation: {user.city}
+                                </li>}
+                                <li>
+                                    <FontAwesomeIcon icon={faArrowRightToBracket} className="profile-icons" />
+                                    Inscrit <Moment fromNow>{user.createdAt}</Moment>
 
-                            </div>
+                                </li>
+
+                            </ul>
                         </div>
                         <div className="profile-body">
                             <div className="profile-body_buttons">

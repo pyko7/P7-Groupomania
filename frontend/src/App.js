@@ -35,7 +35,7 @@ const App = () => {
      * localStorage is clear then
      */
     if (!decodedToken || expiredToken) {
-      setIsLogged(null);
+      setIsLogged(false);
       setToken(null);
       localStorage.clear();
       return;
