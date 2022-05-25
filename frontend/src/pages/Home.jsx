@@ -1,10 +1,13 @@
 import React from 'react';
 import Spinner from '../components/Spinner';
-import CreatePost from '../components/CreatePost';
+import CreatePost from '../components/post/CreatePost';
 import Header from '../components/Header';
-import PostList from '../components/PostList';
+import PostList from '../components/post/PostList';
 import useFetch from '../hooks/useFetch';
 
+/* on this page we fetch all the posts to pass them through the posts props
+   the user's datas are also fetch to pass them through the user props
+*/
 const Home = () => {
     const userAuth = JSON.parse(localStorage.getItem("user"));
     const id = userAuth.userId;

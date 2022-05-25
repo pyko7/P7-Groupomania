@@ -10,6 +10,7 @@ import { useState } from "react";
 /*function to register to the website*/
 const Register = () => {
     const navigate = useNavigate();
+    /*used to check if the email already exists in DB*/
     const [existEmail, setExistEmail] = useState(null);
     /*
      *register: allows to register an input or select element and apply validation,
@@ -41,6 +42,7 @@ const Register = () => {
                 if (data.message === "Email déjà utilisé") return setExistEmail(data.message)
             }
             alert("Inscription confirmée, veuillez vous connecter")
+            /*redirect user to the login page*/
             navigate("/auth/login");
             return data;
         } catch (error) {

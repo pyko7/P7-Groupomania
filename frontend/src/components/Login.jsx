@@ -13,6 +13,7 @@ import LoginContext from "../context/logContext";
 
 const Login = () => {
     const navigate = useNavigate();
+    //used to allow user to access to protected routes
     const { setIsLogged } = useContext(LoginContext);
     const [logError, setLogError] = useState(null);
 

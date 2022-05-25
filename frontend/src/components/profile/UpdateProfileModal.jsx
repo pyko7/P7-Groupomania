@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { updateUserProfile } from '../validations/UserValidation';
+import { updateUserProfile } from '../../validations/UserValidation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import useFetch from '../../hooks/useFetch';
+import Spinner from "../Spinner";
 
-import useFetch from '../hooks/useFetch';
-import Spinner from "../components/Spinner";
-
-/*update profile picture*/
+/* this modal appears when we click on the "Modifier le profil" button in the profile page,
+ * it allows users to update their profile picture, first name & last name
+ * the modal state is handle in the Profile page thanks to the showModal props
+*/
 const UpdateProfileModal = ({ showModal }) => {
     const { id } = useParams();
     const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
@@ -29,7 +31,10 @@ const UpdateProfileModal = ({ showModal }) => {
         resolver: yupResolver(updateUserProfile)
     });
 
-    /*selects image with label and displays preview of image*/
+    /* setImageUrl create a blob url, it allows the user to see a preview of his future profile picture
+     * setProfilepicture get the value of the image
+     * if the user cancel the update, profilePicture get his previous value back (=user.profilePicture)
+    */
     const handlePicture = (e) => {
         setImageUrl(URL.createObjectURL(e.target.files[0]))
         setProfilePicture(e.target.files[0])
@@ -84,7 +89,7 @@ const UpdateProfileModal = ({ showModal }) => {
                         {!imageUrl && !profilePicture && user && (<img src={user.profilePicture} alt="photo de profil" />)}
                         {imageUrl && profilePicture && (<img src={imageUrl} alt="photo de profil" />)}
                         <label htmlFor="profilePicture">
-                            <FontAwesomeIcon icon={faPen} aria-label='Modifier image de profil' className="edit-profile" />
+                            <FontAwesomeIcon icon={faPen} aria-label='Modifier image de profil' className="edit-profile-icon" />
                         </label>
                     </div>
 

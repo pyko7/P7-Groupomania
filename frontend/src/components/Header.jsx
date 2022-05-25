@@ -19,7 +19,7 @@ const Header = () => {
     return (
         <header>
             <Link to="/" className="logo-container">
-                {/* change logo according to screen size */}
+                {/* change logo source according to screen size */}
                 <img src={window.innerWidth <= 768 ? small : large} alt='Logo' />
 
             </Link>
@@ -28,16 +28,16 @@ const Header = () => {
                 <ul>
                     <li>
                         <Link to="/">
-                            <FontAwesomeIcon icon={faHome} id="homeIcon" aria-label='Accueil'  />
+                            <FontAwesomeIcon icon={faHome}  id="homeIcon" className='header-icons' aria-label='Accueil'  />
                         </Link>
                     </li>
                     <li>
                         <Link to={`/users/${id}`}>
-                            <FontAwesomeIcon icon={faUser} aria-label='Profil' />
+                            <FontAwesomeIcon icon={faUser} className='header-icons' aria-label='Profil' />
                         </Link>
                     </li>
                     <li>
-                        <FontAwesomeIcon icon={faArrowRightFromBracket} aria-label='Se déconnecter' onClick={() => setLogOut(true)} alt="Se déconnecter" />
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} className='header-icons' aria-label='Se déconnecter' onClick={() => setLogOut(true)} alt="Se déconnecter" />
                     </li>
                     {logOut && <LogOutModal showModal={setLogOut} />}
                 </ul>

@@ -58,7 +58,6 @@
       height: auto;
       margin-bottom: 25px;
       white-space: pre-line;
-      
 
       h1 {
         margin-bottom: 15px;
@@ -73,6 +72,20 @@
         img {
           width: 100%;
           height: auto;
+        }
+      }
+    }
+    .update-post {
+      @include small-screen {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        input{
+          width: 80%;
+          max-width: 150px;
+          padding: 10px;
+          margin: 5px auto;
         }
       }
     }

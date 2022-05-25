@@ -491,6 +491,11 @@ li {
   height: 2px;
   background-color: #fd2d01;
 }
+@media screen and (max-width: 768px) {
+  .comments-container .user-comment::before {
+    top: 55%;
+  }
+}
 .comments-container .user-comment::after {
   content: "";
   position: absolute;
@@ -500,6 +505,11 @@ li {
   height: 150%;
   background-color: #fd2d01;
   z-index: -1;
+}
+@media screen and (max-width: 768px) {
+  .comments-container .user-comment::after {
+    bottom: 45%;
+  }
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .comments-container .user-comment {
@@ -652,6 +662,7 @@ li {
 @media screen and (max-width: 768px) {
   .comments-container .comment-details span {
     margin-top: 10px;
+    font-size: 13px;
   }
 }
 .comments-container .post-icons-container {
@@ -798,7 +809,7 @@ header nav ul {
   }
 }
 header nav ul li {
-  font-size: 28px;
+  font-size: 24px;
   color: #fd2d01;
   cursor: pointer;
 }
@@ -1220,7 +1231,6 @@ body {
 }
 @media screen and (max-width: 768px) {
   .new-user-post .new-post-icons-container .send-post-button {
-    width: 80px;
     padding: 7px 10px;
     margin-left: 30px;
     font-size: 14px;
@@ -1365,6 +1375,7 @@ body {
 @media screen and (max-width: 768px) {
   .user-post .user-content .post-details span {
     margin-top: 10px;
+    font-size: 13px;
   }
 }
 .user-post .user-content .post-details .image-container {
@@ -1374,6 +1385,19 @@ body {
 .user-post .user-content .post-details .image-container img {
   width: 100%;
   height: auto;
+}
+@media screen and (max-width: 768px) {
+  .user-post .user-content .update-post {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .user-post .user-content .update-post input {
+    width: 80%;
+    max-width: 150px;
+    padding: 10px;
+    margin: 5px auto;
+  }
 }
 .user-post .more-options {
   position: absolute;
@@ -1664,7 +1688,6 @@ a {
 }
 @media screen and (max-width: 768px) {
   .update-post .new-post-icons-container .send-post-button {
-    width: 80px;
     padding: 7px 10px;
     margin-left: 30px;
     font-size: 14px;
@@ -1768,13 +1791,19 @@ a {
   margin-top: 25px;
   color: #fd2d01;
 }
-@media screen and (max-width: 768px) {
-  .profile-header {
-    align-items: flex-start;
-  }
-}
 .profile-header .user-infos {
   width: 100%;
+}
+@media screen and (max-width: 768px) {
+  .profile-header .user-infos {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+@media screen and (max-width: 768px) {
+  .profile-header .user-infos #profile-name {
+    margin-bottom: 15px;
+  }
 }
 .profile-header-update {
   position: relative;
@@ -1795,7 +1824,7 @@ a {
   -o-object-fit: cover;
      object-fit: cover;
 }
-.profile-header-update .edit-profile {
+.profile-header-update .edit-profile-icon {
   position: absolute;
   bottom: 0;
   right: 40%;
@@ -1808,11 +1837,11 @@ a {
   border-radius: 50%;
   font-size: 18px;
 }
-.profile-header-update .edit-profile:hover {
+.profile-header-update .edit-profile-icon:hover {
   color: #fe5633;
 }
 @media screen and (max-width: 768px) {
-  .profile-header-update .edit-profile {
+  .profile-header-update .edit-profile-icon {
     right: 35%;
   }
 }

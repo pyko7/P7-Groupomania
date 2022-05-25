@@ -7,12 +7,13 @@ dotenv.config();
 const USER_TOKEN = process.env.USER_TOKEN;
 
 /**
+ *      Verify if user is allowed to update or delete his comment
  * get the token, if it doesn't exists return 401 status
  * get select userId & role in DB
  * Decode the token to get encrypted userId & role when user logged in
- * Compare userId of author in DB and userId inside the token, compare if role value
+ * Compare userId of author in DB and userId inside the token, compare role value
  * if one of those is true, next() to the following middleware
- * if it's not equal any action is prevented
+ * if it's not equal any action is forbidden
  */
 
 module.exports = async (req, res, next) => {
@@ -29,8 +30,8 @@ module.exports = async (req, res, next) => {
         id: Number(req.params.id),
       },
       select: {
-          author: true
-      }
+        author: true,
+      },
     });
     if ((comment.author.id && comment.author.id === userId) || role === 1) {
       next();
@@ -39,7 +40,7 @@ module.exports = async (req, res, next) => {
       return;
     }
   } catch (error) {
-    if (error.name) return res.status(401).json({ message: error.message});
+    if (error.name) return res.status(401).json({ message: error.message });
     res.status(403).json({ error: "Action interdite" });
   }
 };

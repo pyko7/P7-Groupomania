@@ -1,11 +1,10 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { postSchema } from '../validations/PostValidation';
+import { postSchema } from '../../validations/PostValidation';
 import moment from 'moment/min/moment-with-locales';
 import Moment from 'react-moment';
 import 'moment-timezone';
-
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -15,6 +14,11 @@ Moment.globalMoment = moment;
 Moment.globalLocale = 'fr';
 
 
+/* this modal appears when we click on the comment icon on a post or on a comment,
+ * it allows user to comment a post
+ * the postId props refers to the id of the concerned post
+ * it state is handle in the PostTemplate component or SharedPostTemplate component thanks to the showModal props
+*/
 const CreateCommentModal = ({ showModal, postId }) => {
     /*
      *register: allows to register an input or select element and apply validation,
@@ -28,7 +32,7 @@ const CreateCommentModal = ({ showModal, postId }) => {
         mode: 'onSubmit',
         resolver: yupResolver(postSchema)
     });
-    const id = postId;
+
     /*function to comment a post*/
     const createComment = async () => {
         const values = getValues();
@@ -44,7 +48,7 @@ const CreateCommentModal = ({ showModal, postId }) => {
         };
         try {
             const res = await fetch(
-                `http://localhost:3000/api/posts/${id}/comments`,
+                `http://localhost:3000/api/posts/${postId}/comments`,
                 settings
             );
             const data = await res.json();
@@ -52,12 +56,8 @@ const CreateCommentModal = ({ showModal, postId }) => {
             showModal(false);
             window.location.reload();
             return data;
-        } catch (error) {
-
-            return error;
-        }
+        } catch (error) { return error }
     };
-
 
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>

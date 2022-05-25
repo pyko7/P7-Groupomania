@@ -1,6 +1,3 @@
-const { PrismaClient, Prisma } = require("@prisma/client");
-const prisma = new PrismaClient();
-
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -8,8 +5,8 @@ const USER_TOKEN = process.env.USER_TOKEN;
 
 /**
  * get the token, if it doesn't exists return 401 status
- * Decode the token to get encrypted userID when user logged in
- * Compare req.id & token ID, if they are different it means that the user isn't log
+ * decode the token to get encrypted userID when user logged in
+ * compare req.id & token ID, if they are different it means that the user isn't log
  */
 module.exports = async (req, res, next) => {
   const token = req.cookies.token;

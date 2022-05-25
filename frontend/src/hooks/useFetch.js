@@ -1,44 +1,42 @@
 import { useState, useEffect } from "react";
 
-/*Custom hook to fetch data*/
+/* this custom hook represents a fetch with the GET method
+   the url parameter will be replaced by the API URL 
+  the useEffect hook contains the fetch function
+  with the dependecy, it will fetch every time the url changes
+*/
 const useFetch = (url) => {
+  //it represents the fetched datas
   const [data, setData] = useState(null);
+  //it represents the state of the loading spinner
   const [isPending, setIsPending] = useState(true);
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = user.token;
   const settings = {
-    method: 'GET',
+    method: "GET",
     credentials: "include",
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-}
-  const headers = {
-    Authorization: "Bearer " + token,
-    "Content-Type": "application/json",
   };
-
   useEffect(() => {
     const getPosts = async () => {
       try {
         const res = await fetch(url, settings);
         const data = await res.json();
-        /*change state to get datas*/
+        //change state to get datas
         setData(data);
-        /*remove loader*/
+        //remove loader
         setIsPending(false);
-        return data
+        return data;
       } catch (error) {
         console.log(error);
         return;
       }
     };
-
     getPosts();
   }, [url]);
 
-  /*allows to get data and pending status in other components*/
+  //allows to get data and pending status in other components
   return { data, isPending };
 };
 

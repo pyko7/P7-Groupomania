@@ -8,6 +8,7 @@ const MIME_TYPES = {
 };
 
 const storage = multer.diskStorage({
+  //according to the request, the image will be stored in different folders
   destination: (req, file, callback) => {
     if (req.route.path === "/users/:id") callback(null, "images/users");
     if (req.route.path === "/posts") callback(null, "images/posts");
@@ -22,11 +23,16 @@ const storage = multer.diskStorage({
   },
 });
 
+//defines the number of file when uploading as well as the size of the file
 const limits = {
   files: 1,
   fileSize: 3145728, //3mb limit
 };
 
+/**
+ * check the extension of the file
+ * if it's not an acceptable extension it returns an error
+ */
 const fileFilter = (req, file, callback) => {
   const extension = path.extname(file.originalname);
   if (extension !== ".png" && extension !== ".jpg" && extension !== ".jpeg") {

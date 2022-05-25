@@ -7,7 +7,7 @@ import LoginContext from "./context/logContext";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
-import PostDetails from "./components/PostDetails";
+import PostDetails from "./components/post/PostDetails";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import ProtectedRoutes from "./components/ProtectedRoutes";

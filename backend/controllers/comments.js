@@ -12,7 +12,7 @@ const Posts = require("../models/Posts");
  *   Create a comment
  * get the post ID
  * wait for validation of inputs
- * to get author datas, we use connect to connect user with the id contained in the token
+ * to get author datas, we use connect to connect user with the id contained in the token (see relation in Prisma Schema)
  * to get post datas, we use connect to connect with post table (see relation in Prisma Schema)
  * create the comment in the comment table
  */

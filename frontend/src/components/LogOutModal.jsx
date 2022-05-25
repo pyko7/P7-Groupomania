@@ -1,7 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-/*update profile picture*/
+/* this modal appears when we click on the logout icon in the header,
+ * it allows users to log out of the website
+ * the modal state is handle in the Header component thanks to the showModal props
+ * while logging out, the cookie will be cleared as well as the localStorage
+*/
 const LogOutModal = ({ showModal }) => {
     const navigate = useNavigate()
     const settings = { method: 'GET', credentials: 'include' };
@@ -14,8 +18,6 @@ const LogOutModal = ({ showModal }) => {
         navigate('/auth/login');
         return data;
     }
-
-
 
     return (
         <div className="profile-modal" onClick={() => showModal(false)}>

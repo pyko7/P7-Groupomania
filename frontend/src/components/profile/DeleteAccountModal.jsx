@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
-import useDelete from '../hooks/useDelete';
+import useFetch from '../../hooks/useFetch';
+import useDelete from '../../hooks/useDelete';
 
+/* this modal appears when we click on the "supprimer le compte" button in the profile page,
+ * it allows users to delete their account
+ * the modal state is handle in the Profile page thanks to the showModal props
+*/
 const DeleteAccountModal = ({ showModal }) => {
     const { id } = useParams()
     const navigate = useNavigate();
@@ -15,7 +19,7 @@ const DeleteAccountModal = ({ showModal }) => {
     const confirmDelete = async () => {
         try {
             const deletePost = await useDelete(`http://localhost:3000/api/users/${id}`);
-            if (!deletePost) return console.log("error");
+            if (!deletePost) return;
             showModal(false);
             alert("Votre compte a bien été supprimé")
             navigate("/auth/login");
@@ -25,6 +29,10 @@ const DeleteAccountModal = ({ showModal }) => {
         }
     }
 
+    /* check if the input value is equal to the delete message
+     * if it's equal the account, we call the confirmDelete function
+     * if it's not equal, we set errorMessage state to true and an error message is displayed
+     */
     const submitDeletion = async () => {
         if (deleteAccount !== deleteMessage) {
             setErrorMessage(true);

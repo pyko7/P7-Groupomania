@@ -16,8 +16,7 @@ const User = require("../models/User");
  * check input validity with a yup's schema
  * hash the password, 10 is the number of round for salt
  * get the data from req and send them to DB
- * return a httpOnly cookie for authentification, it expires after 24 hours
- * if email already exists, an error code 2002 is send with an error message
+ * if email already exists, a prisma error code 2002 is send with an error message
  */
 const createUser = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -150,6 +149,7 @@ const getUserById = async (req, res) => {
  * check if user's profile picture is the default one or not
  * if it was a custom profile picture, this one is deleted and the new one is stored
  * gets datas & rename file url
+ * if it's the default profile picture, the new one is stored and no images are deleted
  * if there's no file, gets datas & keep the same image (if the image doesn't exist, it's still null)
  * check inputs validity
  */
@@ -178,15 +178,11 @@ const updateProfile = async (req, res) => {
           profilePicture: `${req.protocol}://${req.get("host")}/images/users/${
             req.file.filename
           }`,
-          dob: req.body.dob,
-          city: req.body.city,
         }
       : {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           profilePicture: user.profilePicture,
-          dob: req.body.dob,
-          city: req.body.city,
         };
 
     await User.updateUserProfile.validate(req.body);
@@ -195,11 +191,7 @@ const updateProfile = async (req, res) => {
         id: Number(req.params.id),
       },
       data: {
-        firstName: userUpdates.firstName,
-        lastName: userUpdates.lastName,
-        profilePicture: userUpdates.profilePicture,
-        dob: userUpdates.dob,
-        city: userUpdates.city,
+        ...userUpdates,
       },
     });
     res.status(200).json({ message: "Informations modifiées" });
@@ -254,6 +246,7 @@ const updatePassword = async (req, res) => {
  *   Delete account
  * where: target the right user with its ID
  * check if user's profile picture is the default profile picture
+ * if it's the default profile picture, the image isn't deleted
  * if it is not, the profile picture is deleted
  * delete account from DB
  *

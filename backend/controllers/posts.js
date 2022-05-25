@@ -13,7 +13,8 @@ const Posts = require("../models/Posts");
 /**
  *   Get all posts
  * where: search user ID in DB with params
- * include: get author (=user) datas, look for users who shared the post & every comment of each post
+ * include: author: look for users who wrote the post
+ * include: comments: look for every comment of each post including their author
  */
 const getAllPosts = async (req, res) => {
   try {
@@ -37,7 +38,8 @@ const getAllPosts = async (req, res) => {
 /**
  *   Get post details by ID
  * where: search user ID in DB with params
- * include: get author (=user) datas & every comment the post
+ * include: author: look for users who wrote the post
+ * include: comments: look for every comment of the post including their author
  */
 const getPostsById = async (req, res) => {
   try {
@@ -104,10 +106,13 @@ const createPost = async (req, res) => {
 
 /**
  *   Share a post
- * get the userId with the token
- * find the post with the params id
- * create a new post with the exact same datas
- * sharedBy property is the user that shares the psot
+ * verify if the user has already shared the post or not
+ * to do that, we check in the array of user written posts, if some posts contains an existing value in the column originalPostId
+ * if it does, it means that it's a shared post
+ * find the post that the user wants to share with the params id
+ * in the loop we check if the post id is equal to an id in the column of originalPostId of the user
+ * if it does we throw a new error
+ * if it doesn't exist we create a new post with the exact same datas
  * this new post is stored in the post table
  */
 
@@ -161,38 +166,18 @@ const sharePost = async (req, res) => {
 /**
  *   Update a post
  * find the post with the params id
- * check if there's an image in the post or not
- * if there's a file and the post already has an image, the previous one is deleted
- * if there's a file, it get a new filename, if not its value doesn't change
+ * check the textContent validity
  * the post is updated & saved in post table
  */
 
 const updatePost = async (req, res) => {
+  const { textContent } = req.body;
   try {
     const post = await prisma.post.findUnique({
       where: {
         id: Number(req.params.id),
       },
     });
-
-    if (req.file && post.imageUrl) {
-      const filename = post.imageUrl.split("/images/posts/")[1];
-      fs.unlink(`images/posts/${filename}`, (err) => {
-        if (err) return err;
-      });
-    }
-
-    const userPost = req.file
-      ? {
-          textContent: req.body.textContent,
-          imageUrl: `${req.protocol}://${req.get("host")}/images/posts/${
-            req.file.filename
-          }`,
-        }
-      : {
-          textContent: req.body.textContent,
-          imageUrl: post.imageUrl,
-        };
 
     await Posts.postSchema.validate(req.body);
 
@@ -201,10 +186,10 @@ const updatePost = async (req, res) => {
         id: Number(req.params.id),
       },
       data: {
-        ...userPost,
+        textContent: textContent,
       },
     });
-    res.status(201).json(userPost);
+    res.status(201).json({ message: "Le post a été modifié" });
   } catch (error) {
     if (error.name) return res.status(401).json({ message: error.message });
     res.status(400).json({ error });
@@ -214,6 +199,7 @@ const updatePost = async (req, res) => {
 /**
  *   Delete a post
  * find the post with the params id
+ * deleteMany with OR operator allows to delete the post as well as every post that shares the original post
  * if it contains an image, this one is deleted
  * the post is delete from the post table
  */
@@ -245,6 +231,12 @@ const deletePost = async (req, res) => {
     res.status(401).json({ error });
   }
 };
+
+/**
+ *   Delete a shared post
+ * find the post with the params id
+ * the post is delete from the post table
+ */
 
 const deleteSharedPost = async (req, res) => {
   try {

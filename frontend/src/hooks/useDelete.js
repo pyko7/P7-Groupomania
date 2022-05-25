@@ -1,13 +1,10 @@
-/*Function to delete datas*/
+/* this custom hook represents a fetch with the DELETE method
+   the url parameter will be replaced by the API URL 
+*/
 const useDelete = async (url) => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = user.token;
   const settings = {
     method: "DELETE",
     credentials: "include",
-    headers: {
-      Authorization: "Bearer " + token,
-    },
   };
   try {
     const res = await fetch(url, settings);

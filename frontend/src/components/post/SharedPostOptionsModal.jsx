@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import UpdatePostModal from './UpdatePostModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import DeleteSharedPost from './DeleteSharedPost';
 
+/* this modal appears when we click on the "supprimer" in the post option modal,
+ * the post props allows users to delete the right post
+ * the modal state is handle in the SharedPostTemplate component thanks to the showModal props 
+*/
 const SharedPostOptionsModal = ({ showModal, post }) => {
+    //deleteModal state defines if the modal for shared post deletion is visible or not
     const [deleteModal, setDeleteModal] = useState(null);
 
     return (

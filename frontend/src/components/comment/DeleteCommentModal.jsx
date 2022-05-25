@@ -1,19 +1,20 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import useDelete from '../hooks/useDelete';
+import useDelete from '../../hooks/useDelete';
 
 
-const DeletePost = ({ showModal, post }) => {
-    const navigate = useNavigate();
-    const id = post.id
-    /*function delete a post*/
+/* this modal appears when we click on the "supprimer" in the comment option modal,
+ * it allows users to delete their comment
+ * the comment props refers to the concerned comment
+ * it state is handle in the MoreOptionsCommentModal component thanks to the showModal props
+*/
+const DeletePost = ({ showModal, comment }) => {
+    const id = comment.id;
     const confirmDelete = async () => {
         try {
-            const res = await useDelete(`http://localhost:3000/api/posts/${id}`);
-            if (!res) return;
+            const res = await useDelete(`http://localhost:3000/api/comments/${id}`);
+            if (!res) return console.log("error");
             showModal(null);
-            alert("Le poste a été supprimé");
-            navigate("/");
+            alert("Le commentaire a été supprimé");
             window.location.reload();
             return data;
         } catch (error) {

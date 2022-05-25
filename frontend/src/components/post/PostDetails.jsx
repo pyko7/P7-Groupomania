@@ -1,20 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import PostTemplate from './PostTemplate';
-import moment from 'moment/min/moment-with-locales';
-import Moment from 'react-moment';
-import 'moment-timezone';
-import Header from './Header';
-import useFetch from '../hooks/useFetch';
+import Header from '../Header';
+import useFetch from '../../hooks/useFetch';
 
-// instances every 30 seconds.
-Moment.startPooledTimer(30000);
-// Sets the moment instance to use.
-Moment.globalMoment = moment;
-// Set the locale for every react-moment instance to French.
-Moment.globalLocale = 'fr';
-
-
+/*this component defines the template of the page of a single post*/
 const PostDetails = () => {
     const { id } = useParams()
     const { data: post } = useFetch(`http://localhost:3000/api/posts/${id}`)

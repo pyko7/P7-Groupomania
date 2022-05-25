@@ -7,12 +7,13 @@ dotenv.config();
 const USER_TOKEN = process.env.USER_TOKEN;
 
 /**
+ *      Verify if user is allowed to update or delete his post
  * get the token, if it doesn't exists return 401 status
  * get select userId & role in DB
  * Decode the token to get encrypted userId & role when user logged in
- * Compare userId of author in DB and userId inside the token, compare if role value
+ * Compare userId of author in DB and userId inside the token, compare role value
  * if one of those is true, next() to the following middleware
- * if it's not equal any action is prevented
+ * if it's not equal any action is forbidden
  */
 
 module.exports = async (req, res, next) => {

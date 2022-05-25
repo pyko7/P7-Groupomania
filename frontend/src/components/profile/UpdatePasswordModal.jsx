@@ -2,13 +2,14 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { updatePasswordSchema } from '../validations/UserValidation';
-import { useNavigate } from 'react-router-dom';
+import { updatePasswordSchema } from '../../validations/UserValidation';
 
-/*update profile picture*/
+/* this modal appears when we click on the "Modifier le mot de passe" button in the profile page,
+ * it allows users to update their password
+ * the modal state is handle in the Profile page thanks to the showModal props
+*/
 const UpdatePasswordModal = ({ showModal }) => {
     const { id } = useParams()
-    const navigate = useNavigate()
     /*
         *register: allows to register an input or select element and apply validation,
         handleSubmit: This function receives the form data if form validation is successful,
@@ -24,14 +25,14 @@ const UpdatePasswordModal = ({ showModal }) => {
     });
 
     const handleInput = async () => {
-        const user = getValues()
+        const password = getValues()
         const settings = {
             method: 'PUT',
             credentials: 'include',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
-            body: JSON.stringify({ ...user }),
+            body: JSON.stringify({ ...password }),
         };
         try {
             const res = await fetch(`http://localhost:3000/api/users/${id}/password`, settings)

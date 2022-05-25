@@ -1,5 +1,6 @@
 const yup = require("yup");
 
+/* Schema for validation of text for posts & comments */
 const postSchema = yup
   .object({
     textContent: yup

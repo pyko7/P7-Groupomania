@@ -1,5 +1,6 @@
 import React from 'react';
 
+/*page displayed when the url searched is wrong*/
 const NotFound = () => {
     return (
         <main className="not-found-page">

@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { postSchema } from '../validations/PostValidation';
+import { postSchema } from '../../validations/PostValidation';
 
+/* this modal appears when we click on the "modifier" in the post option modal,
+ * it only allows users to update the text of their post
+ * the post props refers to the concerned post
+ * the modal state is handle in the MoreOptionsPostModal component thanks to the showModal props
+*/
+const UpdatePostModal = ({ showModal, post }) => {
+    const id = post.id;
+    //existing image 
+    const [postImageUrl, setPostImageUrl] = useState(post.imageUrl)
 
-const UpdatePostModal = ({ showModal, comment }) => {
-    const id = comment.id;
     /*
     *register: allows to register an input or select element and apply validation,
     handleSubmit: This function receives the form data if form validation is successful,
@@ -20,22 +27,22 @@ const UpdatePostModal = ({ showModal, comment }) => {
     });
 
     const handleInput = async () => {
-        const comment = getValues();
-        let settings = {
+        const post = getValues();
+        const settings = {
             method: 'PUT',
             credentials: "include",
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
             body: JSON.stringify({
-                textContent: comment.textContent,
+                textContent: post.textContent,
             }),
         }
         try {
-            const res = await fetch(`http://localhost:3000/api/comments/${id}`, settings)
+            const res = await fetch(`http://localhost:3000/api/posts/${id}`, settings)
             const data = await res.json();
             if (!res.ok) return alert("Vous n'êtes pas autorisé à effectuer cette action !");
-            alert("Votre commentaire a été modifié")
+            alert("Votre post a été modifié")
             window.location.reload();
             return data;
         } catch (error) {
@@ -48,8 +55,16 @@ const UpdatePostModal = ({ showModal, comment }) => {
             <div className="update-modale" onClick={e => e.stopPropagation()}>
                 <div className="update-post">
                     <div className='user-content'>
-                        <form onSubmit={handleSubmit(handleInput)}>
-                            <textarea minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" defaultValue={comment.textContent} required {...register("textContent")} />
+                        <form onSubmit={handleSubmit(handleInput)} className="update-post">
+                            <textarea id="update-textarea" minLength='2' maxLength='280' placeholder="Ecrivez quelque chose..." name="textContent" defaultValue={post.textContent} required {...register("textContent")} />
+                            {postImageUrl ?
+                                <>
+                                    <br /><br />
+                                    <div className='image-preview-container'>
+                                        <img src={postImageUrl} alt={postImageUrl.name} />
+                                    </div>
+                                </>
+                                : null}
                             <div className="new-post-icons-container">
                                 <input type="submit" className='send-post-button' value="Envoyer" />
                             </div>

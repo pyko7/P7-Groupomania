@@ -28,7 +28,12 @@
       width: 7%;
       height: 2px;
       background-color: $secondary-color;
+    
+      @include small-screen {
+        top: 55%;
+      }
     }
+
     &::after {
       content: "";
       position: absolute;
@@ -38,6 +43,10 @@
       height: 150%;
       background-color: $secondary-color;
       z-index: -1;
+      
+      @include small-screen {
+        bottom: 45%;
+      }
     }
 
     @include medium-screen {
@@ -92,7 +101,7 @@
     height: auto;
     margin-bottom: 25px;
     white-space: pre-line;
-    
+
     h1 {
       margin-bottom: 15px;
     }

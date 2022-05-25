@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import { decodeToken } from "react-jwt";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage, faShare, faCircle } from '@fortawesome/free-solid-svg-icons';
-import CommentTemplate from './CommentTemplate'
-import CreateCommentModal from './CreateCommentModal';
+import CommentTemplate from '../comment/CommentTemplate'
+import CreateCommentModal from '../comment/CreateCommentModal';
 import MoreOptionsPostModal from './MoreOptionsPostModal';
 import SharePostModal from './SharePostModal';
 import SharedPostTemplate from './SharedPostTemplate';
@@ -19,16 +19,22 @@ Moment.globalMoment = moment;
 // Set the locale for every react-moment instance to French.
 Moment.globalLocale = 'fr';
 
-
+/* this component defines the template of a post displayed in the post list 
+ * as well as a post displayed in it's own page (/posts/:id)
+ * the post props is used to display datas, it refers to a single post
+*/
 const PostTemplate = ({ post }) => {
+    /*user datas*/
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user.userId;
     const token = user.token
     const decodedToken = decodeToken(token)
     const userRole = decodedToken.role
+    /*modals states*/
     const [commentModal, setCommentModal] = useState(null);
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
     const [sharePostModal, setSharePostModal] = useState(null);
+    /*post details*/
     const originalPostId = post.originalPostId
     const comments = post.comments;
 
@@ -40,7 +46,9 @@ const PostTemplate = ({ post }) => {
                         <div className="post-profile-picture">
                             <img src={post.author.profilePicture} alt='photo de profil' />
                         </div>
+
                         <div className='user-content'>
+                            {/* if user isn't the author of the post or isn't admin, he can't access to option modal*/}
                             {(userId === post.authorId) || (userRole === 1) ? <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
                                 <FontAwesomeIcon icon={faCircle} aria-label='Ouvrir options' className="more-dots" />
                                 <FontAwesomeIcon icon={faCircle} aria-label='Ouvrir options' className="more-dots" />
@@ -71,6 +79,10 @@ const PostTemplate = ({ post }) => {
                             </div>
                         </div>
                     </article>
+                    {/* this div represents the comment section of a post
+                        each comment is mapped and displayed within this div
+                        the comment props refers to a single comment
+                    */}
                     <div className="comments-container">
                         {comments.map((comment) => (
                             <CommentTemplate postId={post.id} comment={comment} key={comment.id} />

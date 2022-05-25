@@ -1,8 +1,10 @@
 import React from 'react';
 
-/*update profile picture*/
+/* this modal appears when we click on the share icon in a post or in the post viewed as a shared post,
+ * the post props allows users to share the right post
+ * the modal state is handle in the PostTemplate component thanks to the showModal props
+*/
 const SharePostModal = ({ showModal, post }) => {
-
     const confirmShare = async () => {
         const id = post.id
         const settings = {

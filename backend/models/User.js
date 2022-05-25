@@ -67,6 +67,7 @@ const loginSchema = yup
   })
   .required();
 
+/* Schema for validation of profile update on profile page */
 const updateUserProfile = yup
   .object({
     firstName: yup
@@ -86,6 +87,7 @@ const updateUserProfile = yup
   })
   .required();
 
+/* Schema for validation of password update on profile page */
 const updatePasswordSchema = yup
   .object({
     password: yup

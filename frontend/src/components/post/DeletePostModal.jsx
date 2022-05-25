@@ -1,16 +1,24 @@
 import React from 'react';
-import useDelete from '../hooks/useDelete';
+import { useNavigate } from 'react-router-dom';
+import useDelete from '../../hooks/useDelete';
 
-
-const DeleteSharedPost = ({ showModal, post }) => {
+/* this modal appears when we click on the "supprimer" in the post option modal,
+ * it allows users to delete their post
+ * the post props refers to the concerned post
+ * the modal state is handle in the MoreOptionsPostModal component thanks to the showModal props
+*/
+const DeletePost = ({ showModal, post }) => {
+    const navigate = useNavigate();
     const id = post.id
+
     /*function delete a post*/
     const confirmDelete = async () => {
         try {
-            const res = await useDelete(`http://localhost:3000/api/posts/shared/${id}`);
+            const res = await useDelete(`http://localhost:3000/api/posts/${id}`);
             if (!res) return;
             showModal(null);
-            alert("Le partage a été annulé");
+            alert("Le poste a été supprimé");
+            navigate("/");
             window.location.reload();
             return data;
         } catch (error) {
@@ -22,7 +30,7 @@ const DeleteSharedPost = ({ showModal, post }) => {
         <div className="profile-modal" onClick={() => showModal(null)}>
             <div className="update-modale" onClick={e => e.stopPropagation()}>
                 <div className="profile-header-update">
-                    <h1>Confirmer l'annulation ?</h1>
+                    <h1>Confirmer la suppresion ?</h1>
                     <br />
                     <br />
                     <br />
@@ -36,4 +44,4 @@ const DeleteSharedPost = ({ showModal, post }) => {
     );
 };
 
-export default DeleteSharedPost;
+export default DeletePost;
