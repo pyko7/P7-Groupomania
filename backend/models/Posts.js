@@ -6,7 +6,7 @@ const postSchema = yup
       .string()
       .min(2)
       .max(280)
-      .matches(/^(?!\s*$).+$/)
+      .matches(/^(?!\s*$).+$/gm)
       .required("Veuillez saisir au minimum 2 caractères"),
   })
   .required();

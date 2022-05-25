@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { updateUserProfile } from '../validations/UserValidation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 import useFetch from '../hooks/useFetch';
 import Spinner from "../components/Spinner";
@@ -15,9 +15,6 @@ const UpdateProfileModal = ({ showModal }) => {
     const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
     const [profilePicture, setProfilePicture] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
-    const [cityInput, setCityInput] = useState(null);
-
-
 
     /*
         *register: allows to register an input or select element and apply validation,
@@ -57,7 +54,6 @@ const UpdateProfileModal = ({ showModal }) => {
             const formData = new FormData();
             formData.append("firstName", user.firstName);
             formData.append("lastName", user.lastName);
-            formData.append("city", user.city);
             formData.append("images", profilePicture);
 
             settings = {
@@ -97,9 +93,6 @@ const UpdateProfileModal = ({ showModal }) => {
                         <p className="invalid-message">{errors.firstName?.message}</p>
                         <input type="text" name="lastName" minLength={2} maxLength={35} placeholder="Nom" defaultValue={user.lastName} {...register("lastName")} />
                         <p className="invalid-message">{errors.lastName?.message}</p>
-                        <label htmlFor="city" onClick={() => setCityInput(true)}>Ajouter une ville <i>(optionnel)</i><FontAwesomeIcon icon={faPlus} className="add-icon" /></label>
-                        {cityInput && <input type="text" name="city" maxLength={50} placeholder="Ville" defaultValue={user.city} {...register("city")} />}
-                        <p className="invalid-message">{errors.city?.message}</p>
                     </div>
 
                     <div className="profile-footer">

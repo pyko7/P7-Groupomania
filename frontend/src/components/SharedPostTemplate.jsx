@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import { Link } from 'react-router-dom';
+import { decodeToken } from "react-jwt";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage, faShare, faCircle } from '@fortawesome/free-solid-svg-icons';
 import CreateCommentModal from './CreateCommentModal';
 import MoreOptionsPostModal from './MoreOptionsPostModal';
-import { Link } from 'react-router-dom';
 import SharedPostOptionsModal from './SharedPostOptionsModal';
 import useFetch from '../hooks/useFetch';
 import SharePostModal from './SharePostModal';
@@ -13,6 +14,9 @@ import SharePostModal from './SharePostModal';
 const SharedPostTemplate = ({ post }) => {
     const userData = JSON.parse(localStorage.getItem('user'));
     const userId = userData.userId;
+    const token = userData.token
+    const decodedToken = decodeToken(token)
+    const userRole = decodedToken.role
     const originalPostId = post.originalPostId
     const user = post.author
     const { data: originalPost } = useFetch(`http://localhost:3000/api/posts/${originalPostId}`)
@@ -32,7 +36,7 @@ const SharedPostTemplate = ({ post }) => {
                     </div>
                     <div className='user-content'>
                         <span id="sharedBy"> Partagé par {user.firstName} {user.lastName}</span>
-                        {userId === user.id ?
+                        {(userId === user.id) || (userRole === 1) ?
                             <div className="more-options" onClick={() => setSharedPostOptions(true)} >
                                 <FontAwesomeIcon icon={faCircle} aria-label='Ouvrir options' className="more-dots" />
                                 <FontAwesomeIcon icon={faCircle} aria-label='Ouvrir options' className="more-dots" />
@@ -55,21 +59,21 @@ const SharedPostTemplate = ({ post }) => {
                                     </div>
                                     : null}
                                 {moreOptionsModal && <MoreOptionsPostModal showModal={setMoreOptionsModal} post={post} />}
-                                <Link to={`/posts/${originalPostId}`} >
-                                    <div className='post-details'>
-                                        <h1>{originalPost.author.firstName} {originalPost.author.lastName}</h1>
+                                <div className='post-details'>
+                                    <h1>{originalPost.author.firstName} {originalPost.author.lastName}</h1>
+                                    <Link to={`/posts/${originalPostId}`} >
                                         <p>{originalPost.textContent}</p>
-                                        {post.imageUrl && <div className="image-container">
-                                            <img src={post.imageUrl}
+                                        {originalPost.imageUrl && <div className="image-container">
+                                            <img src={originalPost.imageUrl}
                                                 alt={`posté par ${originalPost.author.firstName} ${originalPost.author.lastName} `} />
                                         </div>}
-                                        <br />
-                                        <span>Posté <Moment fromNow>{originalPost.createdAt}</Moment> </span>
-                                        <br />
-                                        {originalPost.updatedAt !== originalPost.createdAt ? <span>Modifié <Moment fromNow>{originalPost.updatedAt}</Moment> </span> : null}
+                                    </Link>
+                                    <br />
+                                    <span>Posté <Moment fromNow>{originalPost.createdAt}</Moment> </span>
+                                    <br />
+                                    {originalPost.updatedAt !== originalPost.createdAt ? <span>Modifié <Moment fromNow>{originalPost.updatedAt}</Moment> </span> : null}
 
-                                    </div>
-                                </Link>
+                                </div>
                                 <div className="post-icons-container">
                                     <FontAwesomeIcon icon={faMessage} aria-label='Commenter' className="post-icons" onClick={() => setCommentModal(true)} />
                                     {commentModal && <CreateCommentModal showModal={setCommentModal} postId={originalPost.id} />}

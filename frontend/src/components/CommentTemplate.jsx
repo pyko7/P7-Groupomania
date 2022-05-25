@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { decodeToken } from "react-jwt";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan, faMessage, faCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment/min/moment-with-locales';
@@ -20,6 +21,9 @@ Moment.globalLocale = 'fr';
 const CommentTemplate = ({ postId, comment }) => {
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user.userId;
+    const token = user.token
+    const decodedToken = decodeToken(token)
+    const userRole = decodedToken.role
     const [deleteModal, setDeleteModal] = useState(null);
     const [commentModal, setCommentModal] = useState(null);
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
@@ -30,7 +34,7 @@ const CommentTemplate = ({ postId, comment }) => {
                     <img src={comment.author.profilePicture} alt='photo de profil' />
                 </div>
                 <div className='comment-content'>
-                    {userId === comment.author.id ? <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
+                    {(userId === comment.author.id) || (userRole === 1) ? <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
                         <FontAwesomeIcon icon={faCircle} aria-label='ouvrir options' className="more-dots" />
                         <FontAwesomeIcon icon={faCircle} aria-label='ouvrir options' className="more-dots" />
                         <FontAwesomeIcon icon={faCircle} aria-label='ouvrir options' className="more-dots" />

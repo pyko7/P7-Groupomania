@@ -19,24 +19,20 @@ model User {
   password       String
   profilePicture String
   role           Int       @db.TinyInt
-  city           String?   @db.VarChar(50)
   writtenPosts   Post[]    @relation("WrittenPosts")
-  sharedPost     Post?     @relation("SharedPost")
   comments       Comment[]
 }
 
 model Post {
-  id          Int       @id @default(autoincrement())
-  originalPostId  Int?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now()) @updatedAt
-  textContent String    @db.VarChar(280)
-  imageUrl    String?
-  author      User      @relation("WrittenPosts", fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  authorId    Int
-  sharedBy    User?     @relation(name: "SharedPost", fields: [sharedById], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  sharedById  Int?      
-  comments    Comment[]
+  id             Int       @id @default(autoincrement())
+  originalPostId Int?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  textContent    String    @db.VarChar(280)
+  imageUrl       String?
+  author         User      @relation("WrittenPosts", fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId       Int
+  comments       Comment[]
 }
 
 model Comment {

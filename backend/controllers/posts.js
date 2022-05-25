@@ -20,7 +20,6 @@ const getAllPosts = async (req, res) => {
     const post = await prisma.post.findMany({
       include: {
         author: true,
-        sharedBy: true,
         comments: {
           include: {
             author: true,
@@ -48,7 +47,6 @@ const getPostsById = async (req, res) => {
       },
       include: {
         author: true,
-        sharedBy: true,
         comments: {
           include: {
             author: true,
@@ -230,14 +228,7 @@ const deletePost = async (req, res) => {
 
     await prisma.post.deleteMany({
       where: {
-        OR: [
-          {
-            originalPostId: post.id,
-          },
-          {
-            id: post.id,
-          },
-        ],
+        OR: [{ originalPostId: post.id }, { id: post.id }],
       },
     });
 
@@ -254,6 +245,7 @@ const deletePost = async (req, res) => {
     res.status(401).json({ error });
   }
 };
+
 const deleteSharedPost = async (req, res) => {
   try {
     const post = await prisma.post.delete({

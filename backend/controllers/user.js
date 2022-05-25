@@ -7,7 +7,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 const USER_TOKEN = process.env.USER_TOKEN;
 const jwt = require("jsonwebtoken");
-const cookie = require("cookie");
 
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
@@ -55,7 +54,7 @@ const createUser = async (req, res) => {
  * check input validity with a yup's schema
  * check authenticity of email, if value is null, email is invalid
  * compare hashed password & request password, if value is false, password is wrong
- * set the token into a htppOnly cookie (expires when the browser is closed)
+ * set the token into a htppOnly cookie (expires after 24h)
  * Return a JSON Object with a userId and the token
  */
 const logUser = async (req, res) => {
@@ -69,12 +68,15 @@ const logUser = async (req, res) => {
       },
     });
     if (user === null) {
-      return res.status(401).json({ message: "Utilisateur non trouvé" });
+      return res
+        .status(401)
+        .json({ message: "Adresse email ou mot de passe incorrect" });
     }
-
     const compare = await bcrypt.compare(password, user.password);
     if (!compare) {
-      return res.status(401).json({ message: "Mot de passe incorrect" });
+      return res
+        .status(401)
+        .json({ message: "Adresse email ou mot de passe incorrect" });
     }
 
     const token = jwt.sign(
@@ -85,12 +87,13 @@ const logUser = async (req, res) => {
       }
     );
     if (!token) {
-      res.status(401).json({ error: "erreur de token" });
+      res.status(401).json({ error: "token invalide" });
     }
 
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "strict",
+      maxAge: 86400000,
     });
     res.status(200).json({ userId: user.id, token });
   } catch (error) {

@@ -83,11 +83,6 @@ const updateUserProfile = yup
         message: "Veuillez vérifier la validité du champ de texte",
         excludeEmptyString: true,
       }),
-      city: yup
-      .string()
-      .matches(/^([A-Za-z]+[-'\s]?){0,50}$/, {
-        message: "Seuls les caractères spéciaux - et ' sont acceptés",
-      }),
   })
   .required();
 
@@ -104,7 +99,7 @@ const updatePasswordSchema = yup
         }
       )
       .min(6, "Le mot de passe doit contenir au moins 6 caractères"),
-      confirmPassword: yup
+    confirmPassword: yup
       .string()
       .oneOf(
         [yup.ref("password"), null],

@@ -79,5 +79,9 @@
       color: $secondary-color;
       cursor: pointer;
     }
+
+    #close-sharedModal:hover{
+      border-radius: 10px;
+    }
   }
 }

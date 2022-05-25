@@ -4,14 +4,17 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const app = express();
+const dotenv = require("dotenv");
+dotenv.config();
+const CLIENT_URL = process.env.CLIENT_URL;
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
 
 /**
- * adding of header -avoid 'ERR_BLOCKED_BY_RESPONSE.NotSameOrigin 200' error for profile picture
- * allow users to read the resources only when the browser recognizes their requests from the same site
+ * adding of header - avoid 'ERR_BLOCKED_BY_RESPONSE.NotSameOrigin 200' error for profile picture
+ * adding of header - allow users to read the resources only when the browser recognizes their requests from the same site
  * adding of header - can access to cookies
  * adding of header - everybody can access to API
  * adding of header - can use these headers
@@ -20,7 +23,7 @@ app.use(helmet());
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Resource-Policy", "same-site");
   res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8000");
+  res.setHeader("Access-Control-Allow-Origin", CLIENT_URL);
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"

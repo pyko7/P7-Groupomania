@@ -53,7 +53,7 @@ const UpdatePostModal = ({ showModal, comment }) => {
                             <div className="new-post-icons-container">
                                 <input type="submit" className='send-post-button' value="Envoyer" />
                             </div>
-                            <p className="invalid-message">{errors.textContent?.message}</p>
+                            <i className="invalid-message">{errors.textContent?.message}</i>
                         </form>
                     </div>
                 </div>

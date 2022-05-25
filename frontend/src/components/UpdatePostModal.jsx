@@ -33,6 +33,7 @@ const UpdatePostModal = ({ showModal, post }) => {
         if (updateImageUrl || updateImagePreview === null) {
             setUpdateImagePreview(URL.createObjectURL(e.target.files[0]))
             setUpdateImageUrl(e.target.files[0])
+            setPostImageUrl(null)
         }
         return
     }
@@ -40,8 +41,7 @@ const UpdatePostModal = ({ showModal, post }) => {
     const removePreview = () => {
         setUpdateImagePreview(null)
         setUpdateImageUrl(null)
-        setPostImageUrl(null)
-        console.log(updateImageUrl);
+        setPostImageUrl(post.imageUrl)
         return
     }
 
@@ -95,7 +95,6 @@ const UpdatePostModal = ({ showModal, post }) => {
                                 <>
                                     <br /><br />
                                     <div className='image-preview-container'>
-                                        <FontAwesomeIcon icon={faXmark} aria-label='Fermer' className="remove-preview-icon" onClick={() => removePreview()} />
                                         <img src={postImageUrl} alt={postImageUrl.name} />
                                     </div>
                                 </>

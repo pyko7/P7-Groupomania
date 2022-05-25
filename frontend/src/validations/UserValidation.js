@@ -90,11 +90,6 @@ export const updateUserProfile = yup
         message: "Veuillez vérifier la validité du champ de texte",
         excludeEmptyString: true,
       }),
-      city: yup
-      .string()
-      .matches(/^([A-Za-z]+[-'\s]?){0,50}$/, {
-        message: "Seuls les caractères spéciaux - et ' sont acceptés",
-      }),
   })
   .required();
 

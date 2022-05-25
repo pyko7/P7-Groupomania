@@ -3,7 +3,6 @@ const router = express.Router();
 const postCtrl = require("../controllers/posts");
 const auth = require("../middleware/auth");
 const verifyAuthor = require("../middleware/verifyAuthor");
-const verifySharedPost = require("../middleware/verifySharedPost");
 const multer = require("../middleware/multer");
 
 //get posts

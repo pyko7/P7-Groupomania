@@ -9,8 +9,8 @@ const SharedPostOptionsModal = ({ showModal, post }) => {
 
     return (
         <div className='more-options-modal' onClick={e => e.stopPropagation()}>
-            <FontAwesomeIcon icon={faXmark} aria-label='Fermer' className="remove-modal-icon" onClick={() => showModal(null)} />
-            <p onClick={() => setDeleteModal(true)}>Supprimer</p>
+            <FontAwesomeIcon  icon={faXmark} aria-label='Fermer' className="remove-modal-icon" onClick={() => showModal(null)} />
+            <p id='close-sharedModal' onClick={() => setDeleteModal(true)}>Supprimer</p>
             {deleteModal && <DeleteSharedPost showModal={setDeleteModal} post={post} />}
 
         </div>

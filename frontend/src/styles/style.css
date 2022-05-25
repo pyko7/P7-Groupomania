@@ -11,7 +11,7 @@ pages*/
   align-items: center;
 }
 
-.user-post .like-dislike-icons-container, .user-post .more-options, .comments-container .like-dislike-icons-container, .comments-container .more-options {
+.profile-header .user-infos, .user-post .like-dislike-icons-container, .user-post .more-options, .comments-container .like-dislike-icons-container, .comments-container .more-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -625,10 +625,14 @@ li {
   color: #fd2d01;
   cursor: pointer;
 }
+.comments-container .more-options-modal #close-sharedModal:hover {
+  border-radius: 10px;
+}
 .comments-container .comment-details {
   width: 100%;
   height: auto;
   margin-bottom: 25px;
+  white-space: pre-line;
 }
 .comments-container .comment-details h1 {
   margin-bottom: 15px;
@@ -1129,6 +1133,7 @@ body {
   border-top-right-radius: 20px;
   resize: none;
   overflow: auto;
+  white-space: pre-line;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .new-user-post textarea {
@@ -1340,6 +1345,7 @@ body {
   width: 100%;
   height: auto;
   margin-bottom: 25px;
+  white-space: pre-line;
 }
 .user-post .user-content .post-details h1 {
   margin-bottom: 15px;
@@ -1447,6 +1453,9 @@ body {
   background-color: #517c96;
   color: #fd2d01;
   cursor: pointer;
+}
+.user-post .more-options-modal #close-sharedModal:hover {
+  border-radius: 10px;
 }
 .user-post .post-icons-container {
   width: 100%;
@@ -1764,24 +1773,8 @@ a {
     align-items: flex-start;
   }
 }
-.profile-header ul {
-  position: absolute;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  right: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-@media screen and (max-width: 768px) {
-  .profile-header ul {
-    right: 0;
-    bottom: 0;
-  }
-}
-.profile-header ul li {
-  margin-bottom: 7px;
+.profile-header .user-infos {
+  width: 100%;
 }
 .profile-header-update {
   position: relative;
