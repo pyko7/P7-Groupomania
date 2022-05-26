@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 
 /* this custom hook represents a fetch with the GET method
    the url parameter will be replaced by the API URL 
-  the useEffect hook contains the fetch function
-  with the dependecy, it will fetch every time the url changes
+  the useEffect hook param is the getPost function
+  with the dependecy, it will fetch only if the url changes
 */
 const useFetch = (url) => {
   //it represents the fetched datas
