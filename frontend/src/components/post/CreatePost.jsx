@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useFetch from '../../hooks/useFetch';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { postSchema } from '../../validations/PostValidation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,11 +7,7 @@ import { faFileImage } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 /*this component defines the section of the creation of a post*/
-const CreatePost = () => {
-    /*user datas*/
-    const userAuth = JSON.parse(localStorage.getItem("user"));
-    const id = userAuth.userId;
-    const { data: user } = useFetch(`http://localhost:3000/api/users/${id}`);
+const CreatePost = ({user}) => {
     /*modals states*/
     const [imageUrl, setImageUrl] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);

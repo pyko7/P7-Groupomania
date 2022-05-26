@@ -23,7 +23,7 @@ const Home = () => {
                 <div className="main-container">
                     < CreatePost user={user} />
                     {isPending && <Spinner />}
-                    {posts && < PostList posts={posts} user={user} />}
+                    {posts && < PostList posts={posts} />}
                 </div>
             </main>
         </div>
