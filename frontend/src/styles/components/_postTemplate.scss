@@ -81,7 +81,7 @@
         align-items: center;
         flex-direction: column;
 
-        input{
+        input {
           width: 80%;
           max-width: 150px;
           padding: 10px;
@@ -110,29 +110,6 @@
 
     .post-icons {
       @include postIcons;
-    }
-  }
-
-  /*active state for like/dislike icons*/
-  .active-icon {
-    @include postIcons;
-    color: $main-color;
-  }
-
-  .like-dislike-icons-container {
-    width: 12%;
-    max-width: 80px;
-    @extend %flex-center-between;
-
-    @include medium-screen {
-      width: 20%;
-      min-width: 60px;
-      max-width: 80px;
-    }
-    @include small-screen {
-      width: 25%;
-      min-width: 75px;
-      max-width: 80px;
     }
   }
 
