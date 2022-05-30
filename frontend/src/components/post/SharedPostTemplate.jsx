@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Moment from 'react-moment';
 import 'moment-timezone';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,7 @@ import MoreOptionsPostModal from './MoreOptionsPostModal';
 import SharedPostOptionsModal from './SharedPostOptionsModal';
 import useFetch from '../../hooks/useFetch';
 import SharePostModal from './SharePostModal';
+import Like from '../like/Like';
 
 
 /* this component defines the template of a shared post displayed in the post list 
@@ -33,6 +34,7 @@ const SharedPostTemplate = ({ post }) => {
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
     const [sharedPostOptions, setSharedPostOptions] = useState(null);
     const [sharePostModal, setSharePostModal] = useState(null);
+    const [likesCount, setLikesCount] = useState()
 
     return (
         <>
@@ -59,8 +61,8 @@ const SharedPostTemplate = ({ post }) => {
                                 <img src={originalPost.author.profilePicture} alt='photo de profil' />
                             </div>
                             <div className='user-content'>
-                            {/* if user isn't the author of the shared post or isn't admin, he can't access to option modal*/}
-                                {userId === originalPost.author.id  || (userRole === 1) ?
+                                {/* if user isn't the author of the shared post or isn't admin, he can't access to option modal*/}
+                                {userId === originalPost.author.id || (userRole === 1) ?
                                     <div className="more-options" onClick={() => setMoreOptionsModal(true)} >
                                         <FontAwesomeIcon icon={faCircle} aria-label='Ouvrir options' className="more-dots" />
                                         <FontAwesomeIcon icon={faCircle} aria-label='Ouvrir options' className="more-dots" />
@@ -84,6 +86,8 @@ const SharedPostTemplate = ({ post }) => {
 
                                 </div>
                                 <div className="post-icons-container">
+                                    <Like post={originalPost} userId={userId} />
+
                                     <FontAwesomeIcon icon={faMessage} aria-label='Commenter' className="post-icons" onClick={() => setCommentModal(true)} />
                                     {commentModal && <CreateCommentModal showModal={setCommentModal} postId={originalPost.id} />}
 

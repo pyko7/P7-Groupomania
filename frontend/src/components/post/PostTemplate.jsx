@@ -11,6 +11,7 @@ import CreateCommentModal from '../comment/CreateCommentModal';
 import MoreOptionsPostModal from './MoreOptionsPostModal';
 import SharePostModal from './SharePostModal';
 import SharedPostTemplate from './SharedPostTemplate';
+import Like from '../like/Like';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -34,6 +35,8 @@ const PostTemplate = ({ post }) => {
     const [commentModal, setCommentModal] = useState(null);
     const [moreOptionsModal, setMoreOptionsModal] = useState(null);
     const [sharePostModal, setSharePostModal] = useState(null);
+
+
     /*post details*/
     const originalPostId = post.originalPostId
     const comments = post.comments;
@@ -71,6 +74,7 @@ const PostTemplate = ({ post }) => {
 
                             </div>
                             <div className="post-icons-container">
+                                <Like post={post} userId={userId} />
                                 <FontAwesomeIcon icon={faMessage} aria-label='Commenter' className="post-icons" onClick={() => setCommentModal(true)} />
                                 {commentModal && <CreateCommentModal showModal={setCommentModal} postId={post.id} />}
                                 <FontAwesomeIcon icon={faShare} aria-label='Partager' className="post-icons" onClick={() => setSharePostModal(true)} />

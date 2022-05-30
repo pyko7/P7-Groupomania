@@ -11,7 +11,7 @@ pages*/
   align-items: center;
 }
 
-.profile-header .user-infos, .user-post .more-options, .comments-container .more-options {
+.profile-header .user-infos, .user-post .like-icon-container, .user-post .more-options, .comments-container .more-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1264,6 +1264,7 @@ body {
   display: flex;
   justify-content: space-between;
   /*user profile picture container*/
+  /*active state for like/dislike icons*/
   border-radius: 20px;
   background-color: #fff;
 }
@@ -1453,10 +1454,11 @@ body {
   border-radius: 10px;
 }
 .user-post .post-icons-container {
-  width: 100%;
+  width: 90%;
   height: auto;
+  margin: 0 auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .user-post .post-icons-container {
@@ -1475,6 +1477,34 @@ body {
 }
 .user-post .post-icons-container .post-icons:hover {
   color: #fe5633;
+}
+.user-post .like-icon-container {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .user-post .like-icon-container {
+    width: 20%;
+    min-width: 60px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-post .like-icon-container {
+    width: 25%;
+  }
+}
+.user-post .like-icon-container .active-icon {
+  color: #fd2d01;
+  cursor: pointer;
+  font-size: 22px;
+  color: #9b9eb2;
+}
+.user-post .like-icon-container .active-icon:hover {
+  color: #fe5633;
+}
+.user-post .like-icon-container p {
+  margin-left: 8px;
 }
 .user-post .fa-trash-can:hover {
   -webkit-animation-name: wiggle;

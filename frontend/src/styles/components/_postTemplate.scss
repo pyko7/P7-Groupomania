@@ -96,10 +96,11 @@
   }
 
   .post-icons-container {
-    width: 100%;
+    width: 90%;
     height: auto;
+    margin: 0 auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 
     @include medium-screen {
       padding: 0 25px;
@@ -110,6 +111,22 @@
 
     .post-icons {
       @include postIcons;
+    }
+  }
+
+  /*active state for like/dislike icons*/
+
+  .like-icon-container {
+    width: fit-content;
+    @extend %flex-center-between;
+
+    .active-icon {
+      @include postIcons;
+      color: lighten($main-bg-color, 30%);
+    }
+
+    p {
+      margin-left: 8px;
     }
   }
 

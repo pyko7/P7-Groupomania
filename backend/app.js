@@ -39,10 +39,12 @@ app.use((req, res, next) => {
 const userRoutes = require("./routes/user");
 const postRoutes = require("./routes/posts");
 const commentRoutes = require("./routes/comments");
+const likeRoutes = require("./routes/likes");
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api", userRoutes);
 app.use("/api", postRoutes);
 app.use("/api", commentRoutes);
+app.use("/api", likeRoutes);
 
 module.exports = app;

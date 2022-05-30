@@ -21,6 +21,7 @@ model User {
   role           Int       @db.TinyInt
   writtenPosts   Post[]    @relation("WrittenPosts")
   comments       Comment[]
+  like           Like[]
 }
 
 model Post {
@@ -33,6 +34,7 @@ model Post {
   author         User      @relation("WrittenPosts", fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   authorId       Int
   comments       Comment[]
+  like           Like[]
 }
 
 model Comment {
@@ -44,4 +46,13 @@ model Comment {
   authorId    Int
   post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId      Int
+}
+
+model Like {
+  id       Int      @id @default(autoincrement())
+  author   User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId Int
+  post     Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId   Int
+  isLike   Boolean?
 }
