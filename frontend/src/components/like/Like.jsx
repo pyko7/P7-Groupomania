@@ -33,7 +33,6 @@ const Like = ({ post, userId }) => {
                 const data = await res.json();
                 if (!res.ok) return;
                 const isLiked = checkLikes(data.like, userId);
-                console.log(isLiked);
                 setUserLiked(isLiked);
                 setLikesCount(data.like.length);
                 return data

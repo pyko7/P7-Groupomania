@@ -18,6 +18,8 @@ model User {
   email          String    @unique @db.VarChar(100)
   password       String
   profilePicture String
+  bannerPicture  String
+  bio            String?   @db.VarChar(160)
   role           Int       @db.TinyInt
   writtenPosts   Post[]    @relation("WrittenPosts")
   comments       Comment[]

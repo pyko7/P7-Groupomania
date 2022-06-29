@@ -81,3 +81,22 @@
     }
   }
 }
+
+/*______________________________/
+/           PROFILE            /
+/______________________________*/
+
+.profile__body--informations{
+  h1{
+    font-size: 24px;
+    font-weight: $weight-bold;
+  }
+}
+
+.profile__modal--update-header{
+  h1{
+    font-size: 24px;
+    font-weight: $weight-bold;
+    letter-spacing: 0.15px;
+  }
+}

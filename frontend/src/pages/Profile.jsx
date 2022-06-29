@@ -11,7 +11,7 @@ import DeleteAccountModal from '../components/profile/DeleteAccountModal';
 import useFetch from '../hooks/useFetch';
 import Spinner from "../components/Spinner";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
 // instances every 30 seconds.
 Moment.startPooledTimer(30000);
@@ -32,9 +32,10 @@ const Profile = () => {
     const { id } = useParams();
     const { data: user, isPending } = useFetch(`http://localhost:3000/api/users/${id}`);
     /*modals state*/
-    const [updateProfile, setupdateProfile] = useState(false);
+    const [updateProfile, setUpdateProfile] = useState(false);
     const [updatePassword, setupdatePassword] = useState(false);
     const [deleteAccount, setdeleteAccount] = useState(false);
+
 
     return (
         <div>
@@ -42,33 +43,45 @@ const Profile = () => {
             <main>
                 <div className="main-container">
                     {isPending && <Spinner />}
-                    {user && <div className="profile-container">
-                        <div className="profile-header">
-                            <img src={user.profilePicture} alt="photo de profil" />
-                            <div className='user-infos'>
-                                <h1 id='profile-name'>{user.firstName} {user.lastName}</h1>
-                                <i> <FontAwesomeIcon icon={faArrowRightToBracket} className="profile-icons" />
-                                    Inscrit <Moment fromNow>{user.createdAt}</Moment></i>
+                    {user &&
+                        <div className="profile__container">
+                            <div className="profile__header">
+                                <div className='profile__header--banner'>
+                                    <img src={user.bannerPicture} alt="banner picture" />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="profile-body">
-                            {(user.id === userId) || (userRole === 1) ?
-                                <div className="profile-body_buttons">
-                                    {/* showModal control the state of modal */}
-                                    <button className="body-buttons" onClick={() => setupdateProfile(true)}>Modifier le profil</button>
-                                    {updateProfile && <UpdateProfileModal showModal={setupdateProfile} />}
+                            <div className="profile__body">
+                                <div className='profile__body--profile-picture'>
+                                    <img src={user.profilePicture} alt="profile picture" />
+                                </div>
+                                {(user.id === userId) || (userRole === 1) ?
+                                    <div className='profile__body--update'>
+                                        <button onClick={() => setUpdateProfile(true)}>Modifier le profil</button>
+                                    </div>
+                                    : null}
+                                {updateProfile && <UpdateProfileModal showModal={setUpdateProfile} />}
+                                <div className='profile__body--informations'>
+                                    <h1 className='profile__body--informations-username'>{user.firstName} {user.lastName}</h1>
+                                    <p className='profile__body--informations-bio'>Voici la bio d'un utlisateur normal</p>
+                                    <i><FontAwesomeIcon icon={faCalendarDays} className='profile__body--informations-icons' />
+                                        Inscrit <Moment fromNow>{user.createdAt}</Moment></i>
+                                </div>
+                            </div>
+
+
+                            {/* <div className="profile-body_buttons">
                                     {updatePassword && <UpdatePasswordModal showModal={setupdateProfile} />}
-                                    <button className="body-buttons" onClick={() => setupdatePassword(true)}>Modifier le mot de passe</button>
+                                    <button className="profile__container--buttons" onClick={() => setupdatePassword(true)}>Modifier le mot de passe</button>
                                     {updatePassword && <UpdatePasswordModal showModal={setupdatePassword} />}
-                                    <button className="body-buttons" onClick={() => setdeleteAccount(true)}>Supprimer le compte</button>
+                                    <button className="profile__container--buttons" onClick={() => setdeleteAccount(true)}>Supprimer le compte</button>
                                     {deleteAccount && <DeleteAccountModal showModal={setdeleteAccount} />}
-                                </div> : null}
+                                </div> */}
                         </div>
-                    </div>
-                    }</div>
-            </main>
-        </div>
+                    }
+                </div>
+            </main >
+        </div >
     );
 };
 

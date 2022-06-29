@@ -1,239 +1,254 @@
-.profile {
-  &-container {
-    position: relative;
-    margin: 0 auto;
-    width: 100%;
-    margin-top: 100px;
-    padding: $post-padding;
-    background-color: #fff;
-    border-radius: $post-border-radius;
-    text-align: center;
-
-    @include medium-screen {
-      max-width: 700px;
-      width: 100%;
-    }
-
-    @include small-screen {
-      margin-top: 20px;
-      max-width: 475px;
-      width: 100%;
-    }
-  }
-
-  &-icons {
-    margin-right: 7px;
-  }
-
-  &-header {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 5%;
-    align-items: center;
-    margin-top: 25px;
-    color: $secondary-color;
-
-    .user-infos {
-      width: 100%;
-      @extend %flex-center-between;
-
-      @include small-screen {
-        flex-direction: column;
-        align-items: flex-end;
-      }
-      #profile-name {
-        @include small-screen {
-          margin-bottom: 15px;
-        }
-      }
-    }
-
-    &-update {
-      position: relative;
-      @extend %flex-center;
-      flex-direction: column;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 25px;
-      color: $secondary-color;
-
-      input {
-        display: none;
-      }
-
-      img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-
-      .edit-profile-icon {
-        position: absolute;
-        bottom: 0;
-        right: 40%;
-        @include postIcons;
-        padding: 7px;
-        background-color: $main-bg-color;
-        border-radius: 50%;
-        font-size: 18px;
-
-        @include small-screen {
-          right: 35%;
-        }
-      }
-    }
-
-    h1 {
-      width: fit-content;
-      @include small-screen {
-        font-size: 24px;
-      }
-      @include medium-screen {
-        font-size: 30px;
-      }
-    }
-
-    img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-  }
-
-  &-body {
-    position: relative;
-    width: 100%;
-    margin: 60px auto;
-    @extend %flex-center;
-    flex-direction: column;
-
-    h1 {
-      color: $secondary-color;
-    }
-
-    textarea {
-      position: relative;
-      width: 95%;
-      height: fit-content;
-      padding: $post-padding;
-      border: none;
-      border-bottom: 1px solid $main-bg-color;
-      resize: none;
-
-      &:focus {
-        outline: none;
-      }
-    }
-
-    &_buttons {
-      width: 100%;
-      height: 50px;
-      margin-top: 50px;
-      @extend %flex-center;
-      flex-wrap: wrap;
-      flex: 1;
-
-      .body-buttons {
-        @include profileButton;
-        @extend %flex-center;
-        line-height: 1;
-      }
-    }
-    .invalid-message {
-      width: 60%;
-      font-size: 14px;
-
-      &.deletion {
-        text-align: center;
-        font-style: 18px;
-      }
-    }
-
-    .deletion-message {
-      width: 90%;
-      margin-bottom: 25px;
-      text-align: center;
-      line-height: 1.5;
-    }
-    input {
-      min-width: 250px;
-      width: 60%;
-      margin-bottom: 25px;
-      border: 2px solid #000;
-      padding: 10px;
-      border-radius: 5px;
-      resize: none;
-      outline: none;
-
-      @include small-screen {
-        min-width: auto;
-        width: 95%;
-      }
-
-      &:focus {
-        border-color: $main-bg-color;
-      }
-    }
-  }
-  &-footer {
-    width: 100%;
-    margin: 0 auto;
-    @extend %flex-center;
-    .footer-buttons {
-      @include profileButton;
-      @extend %flex-center;
-      min-width: 150px;
-      width: fit-content;
-      margin-left: 25px;
-      margin-right: 25px;
-
-      @include small-screen {
-        min-width: auto;
-        font-size: 14px;
-      }
-    }
-  }
-}
-
-.hidden-buttons {
-  display: none;
-}
-
-/*modale for editing profile/password, delete account*/
-.profile-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  @extend %flex-center;
-  z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.update-modale {
+.profile__container {
   position: relative;
   margin: 0 auto;
-  width: 35%;
-  padding: $post-padding;
+  width: 100%;
+  margin-top: 100px;
   background-color: #fff;
   border-radius: $post-border-radius;
   text-align: center;
 
   @include medium-screen {
     max-width: 700px;
-    width: 95%;
+    width: 100%;
   }
 
   @include small-screen {
     margin-top: 20px;
     max-width: 475px;
-    width: 95%;
+    width: 100%;
   }
 }
+
+.profile__header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5%;
+  align-items: center;
+  color: $secondary-color;
+
+  &--banner {
+    width: 100%;
+    height: 250px;
+    background-color: darken($main-bg-color, 15%);
+    border-top-left-radius: $post-border-radius;
+    border-top-right-radius: $post-border-radius;
+    overflow: hidden;
+    object-fit: cover;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.profile__body {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &--profile-picture {
+    position: absolute;
+    background: #000;
+    top: -60px;
+    left: 20px;
+    width: 117px;
+    height: 117px;
+    border: 2px solid $tertiary-color;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 120;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &--update {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    padding: $post-padding;
+
+    button {
+      @include profileButton;
+      position: absolute;
+      top: 0;
+      right: 0;
+      @extend %flex-center;
+    }
+  }
+
+  &--informations {
+    width: 100%;
+    padding: $post-padding 15px;
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-top: 50px;
+
+    @include small-screen {
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    &-icons {
+      margin-right: 7px;
+    }
+  }
+}
+
+.profile__modal {
+  @include updateProfileModal;
+}
+
+
+
+// img {
+//   width: 100px;
+//   height: 100px;
+//   border-radius: 50%;
+//   object-fit: cover;
+// }
+
+// .edit-profile-icon {
+//   position: absolute;
+//   bottom: 0;
+//   right: 40%;
+//   @include postIcons;
+//   padding: 7px;
+//   background-color: $main-bg-color;
+//   border-radius: 50%;
+//   font-size: 18px;
+
+//   @include small-screen {
+//     right: 35%;
+//   }
+// }
+
+// // h1 {
+// //   width: fit-content;
+// //   @include small-screen {
+// //     font-size: 24px;
+// //   }
+// //   @include medium-screen {
+// //     font-size: 30px;
+// //   }
+// // }
+
+// // h1 {
+// //   color: $secondary-color;
+// // }
+
+// textarea {
+//   position: relative;
+//   width: 95%;
+//   height: fit-content;
+//   padding: $post-padding;
+//   border: none;
+//   border-bottom: 1px solid $main-bg-color;
+//   resize: none;
+
+//   &:focus {
+//     outline: none;
+//   }
+// }
+
+// &_buttons {
+//   width: 100%;
+//   height: 50px;
+//   margin-top: 50px;
+//   @extend %flex-center;
+//   flex-wrap: wrap;
+//   flex: 1;
+
+//   .body-buttons {
+//     @include profileButton;
+//     @extend %flex-center;
+//     line-height: 1;
+//   }
+// }
+// .invalid-message {
+//   width: 60%;
+//   font-size: 14px;
+
+//   &.deletion {
+//     text-align: center;
+//     font-style: 18px;
+//   }
+// }
+
+// .deletion-message {
+//   width: 90%;
+//   margin-bottom: 25px;
+//   text-align: center;
+//   line-height: 1.5;
+// }
+// input {
+//   min-width: 250px;
+//   width: 60%;
+//   margin-bottom: 25px;
+//   border: 2px solid #000;
+//   padding: 10px;
+//   border-radius: 5px;
+//   resize: none;
+//   outline: none;
+
+//   @include small-screen {
+//     min-width: auto;
+//     width: 95%;
+//   }
+
+//   &:focus {
+//     border-color: $main-bg-color;
+//   }
+// }
+
+// &-footer {
+//   width: 100%;
+//   margin: 0 auto;
+//   @extend %flex-center;
+//   .footer-buttons {
+//     @include profileButton;
+//     @extend %flex-center;
+//     min-width: 150px;
+//     width: fit-content;
+//     margin-left: 25px;
+//     margin-right: 25px;
+
+//     @include small-screen {
+//       min-width: auto;
+//       font-size: 14px;
+//     }
+//   }
+// }
+
+// .hidden-buttons {
+//   display: none;
+// }
+
+// .update-modale {
+//   position: relative;
+//   margin: 0 auto;
+//   width: 35%;
+//   padding: $post-padding;
+//   background-color: #fff;
+//   border-radius: $post-border-radius;
+//   text-align: center;
+
+//   @include medium-screen {
+//     max-width: 700px;
+//     width: 95%;
+//   }
+
+//   @include small-screen {
+//     margin-top: 20px;
+//     max-width: 475px;
+//     width: 95%;
+//   }
+// }

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { updateUserProfile } from '../../validations/UserValidation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import useFetch from '../../hooks/useFetch';
 import Spinner from "../Spinner";
 
@@ -15,8 +16,10 @@ import Spinner from "../Spinner";
 const UpdateProfileModal = ({ showModal }) => {
     const { id } = useParams();
     const { data: user, isPending } = useFetch("http://localhost:3000/api/users/" + id);
-    const [profilePicture, setProfilePicture] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
+    const [updateProfilePicture, setUpdateProfilePicture] = useState(null);
+    const [profilePictureUrl, setProfilePictureUrl] = useState(null);
+    const [updateBannerPicture, setUpdateBannerPicture] = useState(null);
+    const [bannerPictureUrl, setBannerPictureUrl] = useState(null);
 
     /*
         *register: allows to register an input or select element and apply validation,
@@ -35,7 +38,11 @@ const UpdateProfileModal = ({ showModal }) => {
      * setProfilepicture get the value of the image
      * if the user cancel the update, profilePicture get his previous value back (=user.profilePicture)
     */
-    const handlePicture = (e) => {
+    const handleProfilePicture = (e) => {
+        setImageUrl(URL.createObjectURL(e.target.files[0]))
+        setProfilePicture(e.target.files[0])
+    }
+    const handleBannerPicture = (e) => {
         setImageUrl(URL.createObjectURL(e.target.files[0]))
         setProfilePicture(e.target.files[0])
     }
@@ -79,32 +86,61 @@ const UpdateProfileModal = ({ showModal }) => {
         }
     }
     return (
-        <div className="profile-modal" onClick={() => showModal(false)}>
-            <div className="update-modale" onClick={e => e.stopPropagation()}>
+        <div className="profile__modal" onClick={() => showModal(false)}>
+            <div className="profile__modal--update" onClick={e => e.stopPropagation()}>
                 {isPending && <Spinner />}
-                {user && <form onSubmit={handleSubmit(handleInput)}>
-                    <div className="profile-header-update">
-                        <h1>Modification du profil</h1>
-                        <input accept='image/jpeg,image/png' type='file' name="profilePicture" id="profilePicture" onChange={(e) => handlePicture(e)} />
-                        {!imageUrl && !profilePicture && user && (<img src={user.profilePicture} alt="photo de profil" />)}
-                        {imageUrl && profilePicture && (<img src={imageUrl} alt="photo de profil" />)}
-                        <label htmlFor="profilePicture">
-                            <FontAwesomeIcon icon={faPen} aria-label='Modifier image de profil' className="edit-profile-icon" />
-                        </label>
-                    </div>
+                {user &&
+                    <form onSubmit={handleSubmit(handleInput)}>
+                        <div className="profile__modal--update-header">
+                            <span><FontAwesomeIcon icon={faXmark} aria-label='Close modal' onClick={() => showModal(false)} /></span>
+                            <div>
+                                <h1>Modification du profil</h1>
+                                <input type="submit" className='footer-buttons' value="Submit" />
+                            </div>
+                        </div>
 
-                    <div className="profile-body">
-                        <input type="text" name="firstName" minLength={2} maxLength={35} placeholder="Prénom" defaultValue={user.firstName} {...register("firstName")} />
-                        <p className="invalid-message">{errors.firstName?.message}</p>
-                        <input type="text" name="lastName" minLength={2} maxLength={35} placeholder="Nom" defaultValue={user.lastName} {...register("lastName")} />
-                        <p className="invalid-message">{errors.lastName?.message}</p>
-                    </div>
+                        <div className="profile__modal--update-body">
+                            <div className="profile__modal--update-body-banner">
+                                <input accept='image/jpeg,image/png' type='file' name="bannerPicture" id="bannerPicture" onChange={(e) => handleBannerPicture(e)} />
+                                {!bannerPictureUrl && !updateBannerPicture && user && (<img src={user.bannerPicture} alt="Banner picture" />)}
+                                {bannerPictureUrl && updateBannerPicture && (<img src={bannerPictureUrl} alt="photo de profil" />)}
+                                {/* <label htmlFor="bannerPicture">
+                                    <FontAwesomeIcon icon={faPen} aria-label='Update banner picture' className="edit-profile-icon" />
+                                </label> */}
+                            </div>
 
-                    <div className="profile-footer">
-                        <button type='button' className='footer-buttons' onClick={() => showModal(false)}> Annuler</button>
-                        <button type="submit" className='footer-buttons' name="submitButton">Enregistrer</button>
-                    </div>
-                </form>}
+                            <div className="profile__modal--update-body-profile-picture">
+                                <input accept='image/jpeg,image/png' type='file' name="profilePicture" id="profilePicture" onChange={(e) => handleProfilePicture(e)} />
+                                {!profilePictureUrl && !updateProfilePicture && user && (<img src={user.profilePicture} alt="Profile picture" />)}
+                                {profilePictureUrl && updateProfilePicture && (<img src={profilePictureUrl} alt="photo de profil" />)}
+                                {/* <label htmlFor="profilePicture">
+                                    <FontAwesomeIcon icon={faPen} aria-label='Update profile picture' className="edit-profile-icon" />
+                                </label> */}
+                            </div>
+
+                            <div className="profile__modal--update-body-user">
+                                <div className="profile__modal--update-body-input">
+                                    <label></label>
+                                    <input type="text" name="firstName" minLength={2} maxLength={35} placeholder="First name" defaultValue={user.firstName} {...register("firstName")} />
+                                    <p className="invalid-message">{errors.firstName?.message}</p>
+                                </div>
+                                <div className="profile__modal--update-body-input">
+                                    <label></label>
+                                    <input type="text" name="lastName" minLength={2} maxLength={35} placeholder="Last name" defaultValue={user.lastName} {...register("lastName")} />
+                                    <p className="invalid-message">{errors.lastName?.message}</p>
+                                </div>
+                                
+                                {/* CHANGE INPUT TO TEXTAREA */}
+                                <div className="profile__modal--update-body-input">
+                                    <label></label>
+                                    <input type="text" name="bio" minLength={2} maxLength={35} placeholder="Bio" defaultValue={user.bio} {...register("bio")} />
+                                    <p className="invalid-message">{errors.bio?.message}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                }
             </div>
         </div >
     );

@@ -32,6 +32,8 @@ const createUser = async (req, res) => {
         email: email,
         password: hash,
         profilePicture: "http://localhost:3000/images/users/logo.png",
+        bannerPicture:
+          "http://localhost:3000/images/users/icon-left-font-monochrome-white.png",
         role: 2,
       },
     });
@@ -175,6 +177,7 @@ const updateProfile = async (req, res) => {
       ? {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
+          bio: req.body.bio,
           profilePicture: `${req.protocol}://${req.get("host")}/images/users/${
             req.file.filename
           }`,
@@ -182,11 +185,12 @@ const updateProfile = async (req, res) => {
       : {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
+          bio: req.body.bio,
           profilePicture: user.profilePicture,
         };
 
     await User.updateUserProfile.validate(req.body);
-    const userUpdate = await prisma.user.update({
+    await prisma.user.update({
       where: {
         id: Number(req.params.id),
       },
